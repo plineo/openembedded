@@ -15,6 +15,7 @@ SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/alsa-lib-${PV}.tar.bz2 \
 	   file://fix_libmath.patch;patch=1 \
 	  "
 SRC_URI_append_opendreambox = " file://asound.conf"
+SRC_URI_append_vuplus = " file://asound.conf"
 
 inherit autotools pkgconfig
 
@@ -39,12 +40,18 @@ do_install_append_opendreambox() {
 	install -m 0644 ${WORKDIR}/asound.conf ${D}${sysconfdir}/asound.conf
 }
 
+do_install_append_vuplus() {
+	install -d ${D}${sysconfdir}
+	install -m 0644 ${WORKDIR}/asound.conf ${D}${sysconfdir}/asound.conf
+}
+
 PACKAGES =+ "alsa-server libasound alsa-conf-base alsa-conf alsa-doc alsa-dev"
 FILES_${PN}-dbg += "${libdir}/alsa-lib/*/.debu*"
 FILES_libasound = "${libdir}/libasound.so.*"
 FILES_alsa-server = "${bindir}/*"
 FILES_alsa-conf = "${datadir}/alsa/"
 FILES_alsa-conf_opendreambox = "${datadir}/alsa/ ${sysconfdir}/asound.conf"
+FILES_alsa-conf_vuplus = "${datadir}/alsa/ ${sysconfdir}/asound.conf"
 FILES_alsa-dev += "${libdir}/pkgconfig/ /usr/include/ ${datadir}/aclocal/*"
 FILES_alsa-conf-base = "\
 ${datadir}/alsa/alsa.conf \
