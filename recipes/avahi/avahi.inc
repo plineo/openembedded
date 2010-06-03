@@ -6,9 +6,11 @@ PRIORITY = "optional"
 LICENSE = "GPL"
 DEPENDS = "expat virtual/libintl libdaemon dbus glib-2.0"
 DEPENDS_append_opendreambox = " libnss-mdns"
+DEPENDS_append_vuplus = " libnss-mdns"
 
 # uclibc has no nss
 RRECOMMENDS_avahi-daemon_append_libc-glibc = " ${@base_conditional('DISTRO', 'opendreambox', 'libavahi-client zeroconf', 'libnss-mdns', d)}"
+RRECOMMENDS_avahi-daemon_append_libc-glibc_vuplus = " ${@base_conditional('DISTRO', 'vuplus', 'libavahi-client zeroconf', 'libnss-mdns', d)}"
 RDEPENDS_avahi-daemon += "sysvinit-pidof update-rc.d"
 RDEPENDS_avahi-autoipd += "update-rc.d"
 
@@ -65,9 +67,11 @@ INITSCRIPT_PACKAGES = "avahi-daemon avahi-dnsconfd"
 INITSCRIPT_NAME_avahi-daemon = "avahi-daemon"
 INITSCRIPT_PARAMS_avahi-daemon = "defaults 21 19"
 INITSCRIPT_PARAMS_avahi-daemon_opendreambox = "start 21 S 2 3 5 . stop 19 0 1 6 ."
+INITSCRIPT_PARAMS_avahi-daemon_vuplus = "start 21 S 2 3 5 . stop 19 0 1 6 ."
 INITSCRIPT_NAME_avahi-dnsconfd = "avahi-dnsconfd"
 INITSCRIPT_PARAMS_avahi-dnsconfd = "defaults 22 19"
 INITSCRIPT_PARAMS_avahi-dnsconfd_opendreambox = "start 22 S 2 3 5 . stop 19 0 1 6 ."
+INITSCRIPT_PARAMS_avahi-dnsconfd_vuplus = "start 22 S 2 3 5 . stop 19 0 1 6 ."
 
 # At the time the postinst runs, dbus might not be setup so only restart if running
 
