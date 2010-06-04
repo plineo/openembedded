@@ -11,6 +11,7 @@ PR = "r0"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI = "http://sources.dreamboxupdate.com/download/opendreambox/dreambox-blindscan-utils-${MACHINE}-${PV}.tar.bz2"
+SRC_URI_vuplus = "http://sources.dreamboxupdate.com/download/opendreambox/dreambox-blindscan-utils-dm8000-${PV}.tar.bz2"
 
 S = "${WORKDIR}/blindscan-utils"
 
