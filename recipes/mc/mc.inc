@@ -51,6 +51,10 @@ do_install_append_opendreambox() {
 	rm -R ${D}/etc/profile.d
 }
 
+do_install_append_vuplus() {
+	rm -R ${D}/etc/profile.d
+}
+
 python populate_packages_prepend () {
 	mcdir   = bb.data.expand('${datadir}/mc', d)
 	do_split_packages(d, mcdir, '^mc\.[hm][ile][npn].*\.(.*)$',
