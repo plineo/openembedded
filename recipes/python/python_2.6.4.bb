@@ -3,6 +3,7 @@ DEPENDS = "python-native db gdbm openssl readline sqlite3 tcl zlib\
            ${@base_contains('DISTRO_FEATURES', 'tk', 'tk', '', d)}"
 DEPENDS_sharprom = "python-native db readline zlib gdbm openssl"
 DEPENDS_opendreambox = "python-native db gdbm openssl readline sqlite3 zlib"
+DEPENDS_vuplus = "python-native db gdbm openssl readline sqlite3 zlib"
 # set to .0 on every increase of INC_PR
 PR = "${INC_PR}.1"
 
@@ -30,6 +31,11 @@ SRC_URI[archive.md5sum] = "fee5408634a54e721a93531aba37f8c1"
 SRC_URI[archive.sha256sum] = "dad8d5575144a210d5cc4fdbc40b8a26386e9cdb1ef58941bec0be02c7cb9d89"
 
 SRC_URI_append_opendreambox = " \
+  file://some_configure_fixes.patch;patch=1;pnum=0 \
+  file://strict_aliasing_site.patch;patch=0;pnum=0 \
+  file://fix_pthread_site.patch;patch=0;pnum=0 \
+  file://forced_largefile_support.patch;patch=1;pnum=1"
+SRC_URI_append_vuplus = " \
   file://some_configure_fixes.patch;patch=1;pnum=0 \
   file://strict_aliasing_site.patch;patch=0;pnum=0 \
   file://fix_pthread_site.patch;patch=0;pnum=0 \
