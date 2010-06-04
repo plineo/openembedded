@@ -1,0 +1,80 @@
+Index: skins/BrushedAlu-HD/skin.xml
+===================================================================
+--- skins/BrushedAlu-HD/skin.xml	(revision 2)
++++ skins/BrushedAlu-HD/skin.xml	(working copy)
+@@ -2416,7 +2416,7 @@
+ 			</convert>
+ 		</widget>
+ 		<eLabel position="479,124" zPosition="3" size="696,377" backgroundColor="#ff000000" />
+-		<widget name="Video" position="270,100" zPosition="-10" size="390,300" />
++		<widget name="Video" position="483,126" zPosition="-10" size="688,373" />
+ 		<widget source="session.CurrentService" render="Label" position="450,510" size="790,30" zPosition="3" font="Regular;24" halign="center" valign="center" backgroundColor="black" transparent="1">
+ 			<convert type="ServiceName">Name</convert>
+ 		</widget>
+@@ -4069,4 +4069,4 @@
+ 			<convert type="ConditionalShowHide">Blink</convert>
+ 		</widget>
+ 	</screen>
+-</skin>
+\ No newline at end of file
++</skin>
+Index: skins/dreamTV-HD/skin.xml
+===================================================================
+--- skins/dreamTV-HD/skin.xml	(revision 2)
++++ skins/dreamTV-HD/skin.xml	(working copy)
+@@ -743,7 +743,7 @@
+ 			</convert>
+ 		</widget>
+ 		<eLabel position="479,124" zPosition="3" size="696,377" backgroundColor="#ff000000" />
+-		<widget name="Video" position="270,100" zPosition="-10" size="390,300" />
++		<widget name="Video" position="483,126" zPosition="-10" size="688,373" />
+ 		<widget source="session.CurrentService" render="Label" position="450,510" size="790,30" zPosition="3" font="Regular;24" halign="center" valign="center" backgroundColor="black" transparent="1">
+ 			<convert type="ServiceName">Name</convert>
+ 		</widget>
+@@ -2439,4 +2439,4 @@
+ 			<convert type="ConditionalShowHide">Blink</convert>
+ 		</widget>
+ 	</screen>
+-</skin>
+\ No newline at end of file
++</skin>
+Index: skins/dTV-HD/skin.xml
+===================================================================
+--- skins/dTV-HD/skin.xml	(revision 2)
++++ skins/dTV-HD/skin.xml	(working copy)
+@@ -667,7 +667,7 @@
+ 		</widget>
+ 		<eLabel position="477,122" size="700,381" backgroundColor="darkgrey" />
+ 		<eLabel position="479,124" size="696,377" zPosition="3" backgroundColor="#ff000000" />
+-		<widget name="Video" position="270,100" zPosition="-10" size="390,300" />
++		<widget name="Video" position="483,126" zPosition="-10" size="688,373" />
+ 		<widget source="session.CurrentService" render="Label" position="450,510" size="790,30" zPosition="3" font="Regular;24" halign="center" valign="center" backgroundColor="black" transparent="1">
+ 			<convert type="ServiceName">Name</convert>
+ 		</widget>
+@@ -2591,4 +2591,4 @@
+ 			<convert type="ConditionalShowHide">Blink</convert>
+ 		</widget>
+ 	</screen>
+-</skin>
+\ No newline at end of file
++</skin>
+Index: skins/SWAIN-HD/skin.xml
+===================================================================
+--- skins/SWAIN-HD/skin.xml	(revision 2)
++++ skins/SWAIN-HD/skin.xml	(working copy)
+@@ -604,7 +604,7 @@
+ 			</convert>
+ 		</widget>
+ 		<eLabel position="479,124" zPosition="3" size="696,377" backgroundColor="#ff000000"/>
+-		<widget name="Video" position="270,100" zPosition="-10" size="390,300"/>
++		<widget name="Video" position="483,126" zPosition="-10" size="688,373" />
+ 		<widget source="session.CurrentService" render="Label" position="450,510" size="790,30" zPosition="3" font="Regular;24" halign="center" valign="center" backgroundColor="black" transparent="1">
+ 			<convert type="ServiceName">Name</convert>
+ 		</widget>
+@@ -2201,4 +2201,4 @@
+ 			<convert type="ConditionalShowHide">Blink</convert>
+ 		</widget>
+ 	</screen>
+-</skin>
+\ No newline at end of file
++</skin>

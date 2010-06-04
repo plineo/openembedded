@@ -14,6 +14,7 @@ RDEPENDS = "python-codecs python-core python-lang python-re python-threading \
 	gst-plugin-neonhttpsrc gst-plugin-mpegaudioparse gst-plugin-subparse \
 	gst-plugin-apetag gst-plugin-icydemux gst-plugin-autodetect \
 	glibc-gconv-iso8859-15 ethtool"
+RDEPENDS_append_vuplus = " python-gdata"
 
 RDEPENDS_append_dm7020 = " gst-plugin-ossaudio gst-plugin-ivorbisdec"
 RDEPENDS_append_dm7025 = " gst-plugin-alsa alsa-conf gst-plugin-ivorbisdec"
@@ -21,6 +22,10 @@ RDEPENDS_append_dm8000 = " gst-plugin-alsa alsa-conf gst-plugin-avi gst-plugin-m
 	gst-plugin-qtdemux gst-plugin-cdxaparse gst-plugin-cdio gst-plugin-vcdsrc gst-plugin-vorbis"
 RDEPENDS_append_dm800 = " gst-plugin-alsa alsa-conf gst-plugin-matroska gst-plugin-qtdemux  gst-plugin-ivorbisdec"
 RDEPENDS_append_dm500hd = " gst-plugin-alsa alsa-conf gst-plugin-avi gst-plugin-matroska \
+	gst-plugin-qtdemux gst-plugin-cdxaparse gst-plugin-cdio gst-plugin-vcdsrc gst-plugin-vorbis"
+RDEPENDS_append_vusolo = " gst-plugin-alsa alsa-conf gst-plugin-avi gst-plugin-matroska \
+	gst-plugin-qtdemux gst-plugin-cdxaparse gst-plugin-cdio gst-plugin-vcdsrc gst-plugin-vorbis"
+RDEPENDS_append_bm750 = " gst-plugin-alsa alsa-conf gst-plugin-avi gst-plugin-matroska \
 	gst-plugin-qtdemux gst-plugin-cdxaparse gst-plugin-cdio gst-plugin-vcdsrc gst-plugin-vorbis"
 
 # 'forward depends' - no two providers can have the same PACKAGES_DYNAMIC, however both
@@ -56,6 +61,7 @@ PN = "enigma2"
 PR = "r0"
 
 SRCDATE = "20100318"
+SRCDATE_vuplus = "20100512"
 #SRCDATE is NOT used by git to checkout a specific revision
 #but we need it to build a ipk package version
 #when you like to checkout a specific revision of e2 you need
@@ -83,9 +89,28 @@ SRCREV = ""
 #SRCREV = "d5a16c6e9d0ee1cc2dc0d65b4321842dea4b0891"
 ####################################################
 
+# if you want a vuplus release, use
+####################################################
+BRANCH_vuplus = "vuplus"
+PV_vuplus = "2.8git${SRCDATE}"
+SRCREV_vuplus = ""
+####################################################
+
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
 	file://new-hotplug.patch;patch=1;pnum=1 \
 	file://enigma2.sh"
+
+SRC_URI_vuplus = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+           file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
+           file://MyriadPro-Regular.otf \
+           file://MyriadPro-Semibold.otf \
+           file://MyriadPro-SemiboldIt.otf \
+           file://750S \
+           file://Vu_HD \
+           file://number_key \
+           file://enigma2.sh"
+
+SRC_URI_append_bm750 = " file://enigma2_vuplus_duo.patch;patch=1;pnum=1"
 
 S = "${WORKDIR}/git"
 
@@ -100,6 +125,25 @@ bindir = "/usr/bin"
 sbindir = "/usr/sbin"
 
 EXTRA_OECONF = "--with-target=native --with-libsdl=no"
+EXTRA_OECONF_append_vuplus = " --enable-maintainer-mode"
+
+do_compile_prepend_vuplus() {
+        install -m 0755 ${WORKDIR}/MyriadPro-Regular.otf ${S}/data/fonts/
+        install -m 0755 ${WORKDIR}/MyriadPro-Semibold.otf ${S}/data/fonts/
+        install -m 0755 ${WORKDIR}/MyriadPro-SemiboldIt.otf ${S}/data/fonts/
+        install -m 0755 ${WORKDIR}/750S/*.png ${S}/data/750S/
+        install -m 0755 ${WORKDIR}/750S/buttons/*.png ${S}/data/750S/buttons/
+        install -m 0755 ${WORKDIR}/750S/countries/*.png ${S}/data/750S/countries/
+        install -m 0755 ${WORKDIR}/750S/icons/*.png ${S}/data/750S/icons/
+        install -m 0755 ${WORKDIR}/750S/menu/*.png ${S}/data/750S/menu/
+        install -m 0755 ${WORKDIR}/750S/spinner/*.png ${S}/data/skin_default/spinner/
+        install -m 0755 ${WORKDIR}/Vu_HD/*.png ${S}/data/Vu_HD/
+        install -m 0755 ${WORKDIR}/Vu_HD/buttons/*.png ${S}/data/Vu_HD/buttons/
+        install -m 0755 ${WORKDIR}/Vu_HD/countries/*.png ${S}/data/Vu_HD/countries/
+        install -m 0755 ${WORKDIR}/Vu_HD/icons/*.png ${S}/data/Vu_HD/icons/
+        install -m 0755 ${WORKDIR}/Vu_HD/menu/*.png ${S}/data/Vu_HD/menu/
+        install -m 0755 ${WORKDIR}/number_key/*.png ${S}/data/skin_default/buttons/
+}
 
 do_install_append() {
 	install -m 0755 ${WORKDIR}/enigma2.sh ${D}/usr/bin/
@@ -110,6 +154,13 @@ python populate_packages_prepend () {
 
 	do_split_packages(d, enigma2_plugindir, '(.*?/.*?)/.*', 'enigma2-plugin-%s', '%s ', recursive=True, match_path=True, prepend=True)
 }
+
+python populate_packages_prepend_vuplus () {
+	enigma2_plugindir = bb.data.expand('${libdir}/enigma2/python/Plugins', d)
+
+	do_split_packages(d, enigma2_plugindir, '(.*?/.*?)/.*', 'enigma2-plugin-%s', '%s ', recursive=True, match_path=True, prepend=True, extra_depends="enigma2")
+}
+
 
 do_stage() {
 	install -d ${STAGING_INCDIR}/enigma2

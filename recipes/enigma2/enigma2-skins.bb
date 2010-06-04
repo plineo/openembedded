@@ -12,6 +12,7 @@ SRCDATE = "20100213"
 # if you want experimental, use:
 TAG = ""
 PV = "experimental-cvs${SRCDATE}"
+PV_vuplus = "0"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-skins;module=enigma2-skins;method=pserver${TAG};date=${SRCDATE}"
 FILES_${PN} += " /usr/share/enigma2 /usr/share/fonts "

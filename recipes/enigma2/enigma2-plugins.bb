@@ -12,6 +12,7 @@ SRCDATE = "20100213"
 # if you want experimental, use:
 TAG = ""
 PV = "experimental-cvs${SRCDATE}"
+PV_vuplus ="0"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-plugins;module=enigma2-plugins;method=pserver${TAG};date=${SRCDATE}"
 
