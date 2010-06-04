@@ -15,6 +15,9 @@ SRC_URI = "cvs://anoncvs@cvs.tuxbox.org/cvs/tuxbox;module=apps/tuxbox/plugins/tu
 	file://allow_different_demux.diff;patch=1 \
 	file://plugin.py"
 
+SRC_URI_append_vuplus = " \
+	file://tuxtxt_vuplus.patch;patch=1;pnum=1"	
+
 FILES_${PN} = "/usr/bin/tuxtxt /usr/share/fonts /usr/lib/enigma2/python/Plugins/Extensions/Tuxtxt /etc/tuxtxt"
 
 S = "${WORKDIR}/tuxtxt"
