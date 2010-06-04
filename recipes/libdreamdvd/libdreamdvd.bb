@@ -16,6 +16,8 @@ SRC_URI="cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/libdreamdvd;module
 CFLAGS_dm500hd_append = " -DHARDWARE_SUPPORT_LPCM"
 CFLAGS_dm8000_append = " -DHARDWARE_SUPPORT_LPCM"
 #CFLAGS_dm800_append = " -DHARDWARE_SUPPORT_LPCM"
+CFLAGS_vusolo_append = " -DHARDWARE_SUPPORT_LPCM"
+CFLAGS_bm750_append = " -DHARDWARE_SUPPORT_LPCM"
 
 S = "${WORKDIR}/libdreamdvd"
 
