@@ -33,7 +33,7 @@ SRC_URI_append_opendreambox = " \
 PR = "${INC_PR}"
 
 inherit update-rc.d
-inherit_vuplus pkgconfig update-rc.d
+INHERIT_append_vuplus = "pkgconfig"
 
 INITSCRIPT_PACKAGES_vuplus = "autofs"
 INITSCRIPT_NAME = "autofs"
