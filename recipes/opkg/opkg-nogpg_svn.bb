@@ -18,6 +18,8 @@ LDFLAGS_append = " -Wl,--as-needed"
 
 PV_opendreambox = "0.1.7+svnr${SRCPV}"
 SRC_URI_append_opendreambox = " file://remove_pyc_pyo_hack.patch;patch=1;pnum=1 "
+PV_vuplus = "0.1.7+svnr${SRCPV}"
+SRC_URI_append_vuplus = " file://remove_pyc_pyo_hack.patch;patch=1;pnum=1 "
 
 # The nogpg version isn't getting much love and has an unused variable which trips up -Werror
 do_configure_prepend() {
