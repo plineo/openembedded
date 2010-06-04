@@ -5,6 +5,7 @@ HOMEPAGE = "http://www.dtek.chalmers.se/groups/dvd/development.shtml"
 LICENSE = "GPL"
 DEPENDS = "libdvdcss"
 DEPENDS_opendreambox = ""
+DEPENDS_vuplus = ""
 SECTION = "libs/multimedia"
 
 PR = "r2"
@@ -18,6 +19,7 @@ EXTRA_OECONF = " --with-libdvdcss-includes=${STAGING_INCDIR} \
 "
 
 EXTRA_OECONF_opendreambox = ""
+EXTRA_OECONF_vuplus = ""
 
 do_stage() {
 	autotools_stage_all
