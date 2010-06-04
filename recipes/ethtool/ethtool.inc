@@ -6,4 +6,7 @@ LICENSE = "GPL"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/gkernel/ethtool-${PV}.tar.gz"
 
+SRC_URI_append_vuplus = " \
+		file://ethtool_vuplus.patch;patch=1"
+
 inherit autotools
