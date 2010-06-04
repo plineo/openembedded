@@ -99,6 +99,10 @@ do_install_append_opendreambox() {
 	rm -rf ${D}${datadir}/zoneinfo/*
 }
 
+do_install_append_vuplus() {
+	rm -rf ${D}${datadir}/zoneinfo/*
+}
+
 TMP_LOCALE="/tmp/locale${libdir}/locale"
 
 locale_base_postinst() {
