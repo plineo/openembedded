@@ -1,5 +1,6 @@
 require busybox.inc
 PR = "${INC_PR}.4"
+PR_vuplus = "${INC_PR}.2"
 
 SRC_URI = "\
   http://www.busybox.net/downloads/busybox-${PV}.tar.gz \
@@ -26,6 +27,12 @@ SRC_URI = "\
 "
 
 SRC_URI_append_opendreambox = "\
+  file://dhcp-hostname.patch;patch=1 \
+  file://keymap_endianess.patch;patch=1 \
+  file://nptl_task.patch;patch=1 \
+"
+SRC_URI_append_vuplus = "\
+  file://hdparm_M.patch;patch=1 \
   file://dhcp-hostname.patch;patch=1 \
   file://keymap_endianess.patch;patch=1 \
   file://nptl_task.patch;patch=1 \
