@@ -1,0 +1,6 @@
+* -fstype=auto,ro :/dev/&
+#usb             -fstype=auto                    :/dev/sdb1
+#usb2             -fstype=auto                    :/dev/sdb
+#usb3             -fstype=auto                    :/dev/sdc1
+#usb4             -fstype=auto                    :/dev/sdc
+#usb             -fstype=vfat                    :/dev/sdb1
