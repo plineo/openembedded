@@ -20,3 +20,10 @@ pkg_postinst () {
 		tar -C "$ROOT/lib/udev" -zxf "$ROOT/lib/udev/devices.tar.gz" || exit $?
 	fi
 }
+
+pkg_postinst_vuplus () {
+	ROOT="$D"
+	if [ -f "$ROOT/lib/udev/devices.tar.gz" ]; then
+		tar -C "$ROOT/lib/udev" -zxf "$ROOT/lib/udev/devices.tar.gz";rm  -f "$ROOT/lib/udev/devices.tar.gz" || exit $?
+	fi
+}
