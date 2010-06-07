@@ -44,8 +44,8 @@ EXTRA_OECONF='--disable-cups \
               samba_cv_struct_timespec=yes'
 
 PACKAGES =+ "libsmbclient libsmbclient-dev cifs cifs-doc smbfs smbfs-doc"
-PACKAGES_opendreambox =+ "${@base_conditional('DISTRO', 'opendreambox', ' sambaserver libpopt libtalloc libtdb', '', d)}"
-PACKAGES_vuplus =+ "${@base_conditional('DISTRO', 'vuplus', ' sambaserver libpopt libtalloc libtdb', '', d)}"
+PACKAGES =+ "${@base_conditional('DISTRO', 'opendreambox', ' sambaserver libpopt libtalloc libtdb', '', d)}"
+PACKAGES =+ "${@base_conditional('DISTRO', 'vuplus', ' sambaserver libpopt libtalloc libtdb', '', d)}"
 FILES_smbfs = "${bindir}/smbmount ${bindir}/smbumount ${bindir}/smbmnt ${base_sbindir}/mount.smbfs ${base_sbindir}/mount.smb"
 FILES_smbfs-doc = "${mandir}/man8/smbmount.8 ${mandir}/man8/smbumount.8 ${mandir}/man8/smbmnt.8"
 FILES_cifs = "${base_sbindir}/mount.cifs ${base_sbindir}/umount.cifs"
