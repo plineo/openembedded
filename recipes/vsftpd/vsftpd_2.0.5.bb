@@ -25,6 +25,12 @@ do_configure_append_opendreambox() {
 	sed -i '/libcap/ d' vsf_findlibs.sh
 }
 
+do_configure_append_vuplus() {
+	# do not link against libcap
+	sed -i '/^#define VSF_SYSDEP_HAVE_LIBCAP$/ d' sysdeputil.c
+	sed -i '/libcap/ d' vsf_findlibs.sh
+}
+
 do_compile() {
         oe_runmake "LIBS=-lcrypt -L${STAGING_LIBDIR}"
 }
