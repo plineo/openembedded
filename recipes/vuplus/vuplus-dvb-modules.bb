@@ -1,36 +1,41 @@
-DESCRIPTION = "VuPlus drivers"
+DESCRIPTION = "Hardware drivers for VuPlus"
 SECTION = "base"
 PRIORITY = "required"
 LICENSE = "proprietary"
 
 
+def get_modules_extension(bb, d):
+	if bb.data.getVar('GLIBC_ADDONS', d, 1) in ['nptl']:
+		return "-gcc4.1"
+	return ""
+
 KV = "2.6.18-7.3"
-PV = "2.6.18-7.3"
 
 
-RDEPENDS = "initscripts-vuplus kernel (${KV})"
-PR = "r13"
+PV_bm750 = "${KV}"
+PV_vusolo = "${KV}"
 
-SRC_URI = "file://dvb-bcm7335.ko \
-	file://dvb-core.ko \
-	file://fb.ko \
-	file://brcmfb.ko \
-	file://procmk.ko"
 
+SRCDATE_bm750 = "20100604"
+SRCDATE_vusolo = "20100601"
+
+
+RDEPENDS = "initscripts-mbox kernel (${KV}) kernel-module-firmware-class kernel-module-input kernel-module-evdev kernel-module-i2c-core"
+PR = "r19-${SRCDATE}"
+
+
+SRC_URI = "http://archive.vuplus.com/download/drivers/mbox-dvb-modules-${MACHINE}-${PV}-${SRCDATE}.tar.gz "
 
 S = "${WORKDIR}"
 
 do_install() {
-	install -d ${D}/lib/modules/${KV}/extra
-	install -m 0755    ${WORKDIR}/dvb-bcm7335.ko	${D}/lib/modules/${KV}/extra
-	install -m 0755    ${WORKDIR}/dvb-core.ko	${D}/lib/modules/${KV}/extra
-	install -m 0755    ${WORKDIR}/fb.ko	${D}/lib/modules/${KV}/extra
-	install -m 0755    ${WORKDIR}/procmk.ko	${D}/lib/modules/${KV}/extra
-	install -m 0755    ${WORKDIR}/brcmfb.ko	${D}/lib/modules/${KV}/extra
+        install -d ${D}/lib/modules/${KV}/extra
+        for f in *.ko; do
+                install -m 0644 ${WORKDIR}/$f ${D}/lib/modules/${KV}/extra/$f;
+        done
 }
 
-do_runstrip() {
-}
+
 
 PACKAGE_ARCH := "${MACHINE_ARCH}"
 FILES_${PN} = "/"
