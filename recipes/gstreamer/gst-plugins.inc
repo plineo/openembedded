@@ -3,6 +3,7 @@ DESCRIPTION = "Plugins for GStreamer"
 DEPENDS = "gstreamer libmikmod liboil libogg tremor libvorbis"
 DEPENDS += "${@base_conditional('ENTERPRISE_DISTRO', '1', '', 'libmad libid3tag', d)}"
 DEPENDS += "${@base_conditional('DISTRO', 'opendreambox', 'libmad neon flac libmatroska libcdio libid3tag', '', d)}"
+DEPENDS += "${@base_conditional('DISTRO', 'vuplus', 'libmad neon flac libmatroska libcdio libid3tag', '', d)}"
 
 INC_PR = "r7"
 
@@ -13,6 +14,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/${PN}/${PN}-${PV}.tar.bz2"
 EXTRA_OECONF = "--enable-introspection=no --disable-aalib --disable-shout2 --disable-sdl --disable-cdaudio --x-includes=${STAGING_INCDIR} --x-libraries=${STAGING_LIBDIR} "
 EXTRA_OECONF_append_shr = " --disable-dvdnav "
 EXTRA_OECONF_opendreambox = "--disable-x --disable-aalib --disable-esd --disable-shout2 --disable-sdl --with-check=no --enable-neon "
+EXTRA_OECONF_bm750 = "--disable-x --disable-aalib --disable-esd --disable-shout2 --disable-sdl --with-check=no --enable-neon "
+EXTRA_OECONF_vusolo = "--disable-x --disable-aalib --disable-esd --disable-shout2 --disable-sdl --with-check=no --enable-neon "
 
 acpaths = "-I ${S}/common/m4 -I ${S}/m4"
 
