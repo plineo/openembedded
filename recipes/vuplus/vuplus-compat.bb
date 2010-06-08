@@ -1,7 +1,6 @@
 DESCRIPTION = "Vuplus compatibility links"
 SECTION = "base"
 PRIORITY = "required"
-MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 PV = "1.0"
 PR = "r0"
 
