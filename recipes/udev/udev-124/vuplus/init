@@ -56,11 +56,10 @@ create_dev_makedev() {
 
 make_extra_nodes() {
   ret=1
-#csh why?
-#  if [ "$(echo /lib/udev/devices/*)" != "/lib/udev/devices/*" ]; then
+  if [ "$(echo /lib/udev/devices/*)" != "/lib/udev/devices/*" ]; then
     cp -a /lib/udev/devices/* /$1/
     ret=0
-#  fi
+  fi
 
   [ -e /etc/udev/links.conf ] || return $ret
 
@@ -82,7 +81,7 @@ make_extra_nodes() {
 
 [ -x /sbin/udevd ] || exit 0
 
-PATH="/sbin:/bin"
+PATH="/sbin:/bin:/usr/bin"
 
 # defaults
 tmpfs_size="2M"
@@ -137,6 +136,9 @@ case "$1" in
 
     create_dev_makedev
 
+#force COLDPLUG to yes
+
+    COLDPLUG=yes;
     if [ $COLDPLUG != "no" ]; then
         echo "Synthesizing the initial hotplug events"
         udevadm trigger
