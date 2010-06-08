@@ -4,10 +4,15 @@ if [ ! -d /dev/dvb/adapter0 ];
 then mkdir /dev/dvb/adapter0 -p
 fi
 
+for mod in input evdev i2c-core firmware_class; do
+        modprobe $mod
+done
+
+
 insmod /lib/modules/2.6.18-7.3/extra/procmk.ko
 insmod /lib/modules/2.6.18-7.3/extra/fb.ko
 insmod /lib/modules/2.6.18-7.3/extra/dvb-core.ko
-insmod /lib/modules/2.6.18-7.3/extra/dvb-bcm7335.ko
+insmod /lib/modules/2.6.18-7.3/extra/dvb-bcm7325.ko
 insmod /lib/modules/2.6.18-7.3/extra/brcmfb.ko
 
 
@@ -25,11 +30,11 @@ insmod /lib/modules/2.6.18-7.3/extra/brcmfb.ko
 depmod -Ae
 echo 12 > /proc/progress
 
-for mod in isofs cifs usb-storage sr_mod vfat cdrom ntfs; do
+for mod in isofs cifs usb-storage sr_mod sd_mod vfat cdrom ntfs; do
 	modprobe $mod
 done
 
-for mod in sata_svw libata nls_base nls_cp437 nls_iso8859-1; do
+for mod in nls_base nls_cp437 nls_iso8859-1; do
 	modprobe $mod
 done
 
@@ -110,9 +115,5 @@ ldconfig
 echo 25 > /proc/progress
 
 ipkg-cl configure
-
-if [ -f /usr/local/bin/vucamd ];
-then /usr/local/bin/vucamd &
-fi
 
 /usr/bin/hotplug_br &

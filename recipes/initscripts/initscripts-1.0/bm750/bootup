@@ -4,6 +4,10 @@ if [ ! -d /dev/dvb/adapter0 ];
 then mkdir /dev/dvb/adapter0 -p
 fi
 
+for mod in input evdev i2c-core firmware_class; do
+	modprobe $mod
+done
+
 insmod /lib/modules/2.6.18-7.3/extra/procmk.ko
 insmod /lib/modules/2.6.18-7.3/extra/fb.ko
 insmod /lib/modules/2.6.18-7.3/extra/dvb-core.ko
