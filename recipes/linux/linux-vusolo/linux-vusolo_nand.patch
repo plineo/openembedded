@@ -2,33 +2,17 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
 ===================================================================
 --- drivers/mtd/brcmnand/bcm7xxx-nand.c	(revision 1)
 +++ drivers/mtd/brcmnand/bcm7xxx-nand.c	(working copy)
-@@ -48,6 +48,8 @@
- 
- #define PRINTK(...)
- //#define PRINTK printk
-+//
-+//#define USE_SPLASH
- 
- #define DRIVER_NAME	"bcm7xxx-nand"
- #define DRIVER_INFO "Broadcom STB NAND controller"
-@@ -74,31 +76,25 @@
+@@ -74,31 +74,18 @@
   *	start of flash	1f7f_ffff		flashSize-8MB	rootfs		Linux File System
   */
  #define SMALLEST_FLASH_SIZE	(16<<20)
-+#if 0 /* csh */
- #define DEFAULT_RESERVED_SIZE 	(8<<20) 
--#define DEFAULT_SPLASH_SIZE 	(1<<20)
-+#else
-+/*#define DEFAULT_RESERVED_SIZE 	(6<<20) */
-+/* csh add boot partition 20090828 */
-+/* csh splash */
+-#define DEFAULT_RESERVED_SIZE 	(8<<20) 
 +#ifdef USE_SPLASH
-+#define DEFAULT_RESERVED_SIZE 	(12<<20)
++#define DEFAULT_RESERVED_SIZE 	(14<<20) 
 +#else
-+#define DEFAULT_RESERVED_SIZE 	(10<<20)
++#define DEFAULT_RESERVED_SIZE 	(12<<20) 
 +#endif
-+#endif
-+#define DEFAULT_SPLASH_SIZE 	(2<<20)
+ #define DEFAULT_SPLASH_SIZE 	(1<<20)
  #define DEFAULT_BBT0_SIZE_MB	(1)
  #define DEFAULT_BBT1_SIZE_MB	(4)
  
@@ -56,7 +40,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  /* New partition scheme, starting with 7420
  	mtd0: rootfs
  	mtd1: all flash less BBT0 (1MB) for flash <= 512MB
-@@ -114,26 +110,20 @@
+@@ -114,25 +101,18 @@
  #define DEFAULT_ECM_SIZE	(0)
  #define DEFAULT_AVAIL1_SIZE	(0)
  
@@ -82,11 +66,9 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
 -#define KERNEL_PART 			(2)
 -#define DATA_PART 			(3)
  #endif
-+
  #define DEFAULT_ROOTFS_SIZE (SMALLEST_FLASH_SIZE - DEFAULT_RESERVED_SIZE - DEFAULT_ECM_SIZE)
  
- #define N_ROOTFS	"rootfs"
-@@ -147,22 +137,9 @@
+@@ -147,22 +127,9 @@
  #define N_ALL		"all"
  
  
@@ -111,22 +93,38 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  	{ name: N_ROOTFS,	offset: 0,					size: DEFAULT_ROOTFS_SIZE },	
  	{ name: N_ALL,		offset: 0x0,					size: DEFAULT_ROOTFS_SIZE - (DEFAULT_BBT0_SIZE_MB <<20) },
  	{ name: N_KERNEL,	offset: 0x00800000,			size: 4<<20 },
-@@ -174,8 +151,9 @@
+@@ -174,15 +141,24 @@
  	{name: NULL, 		offset: 0, 					size: 0} 	/* End marker */
  };
  
 -static struct mtd_partition bcm7XXX_old_partition[] = 
 +#else
  {
-+#if 0 /* csh */
  	{ name: N_ROOTFS,	offset: 0,					size: DEFAULT_ROOTFS_SIZE },	
  #ifdef CONFIG_MTD_ECM_PARTITION
  	{ name: N_AVAIL1,	offset: DEFAULT_ROOTFS_SIZE,	size: DEFAULT_AVAIL1_SIZE },
-@@ -189,18 +167,49 @@
- /* Add 1 extra place-holder partition for splash, and a safety guard element */
+ 	{ name: N_OCAP,		offset: DEFAULT_ROOTFS_SIZE+DEFAULT_AVAIL1_SIZE,	size: DEFAULT_OCAP_SIZE },
+ #endif
+-	{ name: N_KERNEL,	offset: 0x00800000,			size: 4<<20 },
+-	{ name: N_CFE,		offset: 0x00C00000,			size: 2<<20 },
++#ifdef USE_SPLASH
++	{ name: N_KERNEL,	offset: 0x00200000,			size: 4<<20 },
++	{ name: "boot",		offset: 0x00600000,			size: 4<<20 },
++	{ name: "bootimg",	offset: 0x00A00000,			size: 2<<20 },
++#else
++	{ name: N_KERNEL,	offset: 0x00400000,			size: 4<<20 },
++	{ name: "boot",		offset: 0x00800000,			size: 4<<20 },
++#endif
++	{ name: N_CFE,		offset: 0x00C00000,			size: 1<<20 },
++	{ name: "mac",		offset: 0x00D00000,			size: 1<<19 },
++	{ name: "env",		offset: 0x00D80000,			size: 1<<19 },
+ 	{ name: N_NVM,		offset: 0x00E00000,			size: 1<<20 },
+ 	/* BBT 1MB not mountable by anyone */
+ 	{ name: N_DATA, 	offset: 0x20000000,		size: 0 },
+@@ -190,15 +166,6 @@
  	{name: NULL, offset: 0, size: 0},
  	{name: NULL, offset: 0, size: 0}
--};
+ };
 -
 -#if defined( CONFIG_MTD_BRCMNAND_DISABLE_XOR )
 -static struct mtd_partition* bcm7XXX_nand_parts = bcm7XXX_no_xor_partition;
@@ -134,54 +132,12 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
 -#elif defined( CONFIG_MTD_NEW_PARTITION )
 -static struct mtd_partition* bcm7XXX_nand_parts = bcm7XXX_new_partition;
 -
- #else
+-#else
 -static struct mtd_partition* bcm7XXX_nand_parts = bcm7XXX_old_partition;
-+#if 0
-+#define ROOTFS_PART     (0)
-+        { name: "rootfs",               offset: 0,              size: DEFAULT_ROOTFS_SIZE },   /* rootfs is total nand size - 6 M Bytes. referr to cfe. bcm97335_devs.c */ 
-+        { name: "kernel",       offset: 0x00A00000,             size: 2<<20 },
-+        { name: "cfe",          offset: 0x00C00000,             size: 2<<20 },
-+        { name: "nvm",          offset: 0x00E00000,             size: 2<<20 },
-+        /* BBT 1MB not mountable by anyone */
-+        { name: "data",         offset: 0x20000000,             size: 0 },
-+/* Add 1 extra place-holder partition for splash, and a safety guard element */
-+        {name: NULL, offset: 0, size: 0}, 
-+        {name: NULL, offset: 0, size: 0}
-+#else
-+/* csh add boot partition 20090828 */
-+#define ROOTFS_PART     (0)
-+        { name: "rootfs",               offset: 0,              size: DEFAULT_ROOTFS_SIZE },   /* rootfs is total nand size - 6 M Bytes. referr to cfe. bcm97335_devs.c */ 
-+#ifndef USE_SPLASH /* csh splash */
-+        { name: "kernel",       offset: 0x00600000,             size: 2<<20 },        
-+        { name: "boot",       offset: 0x00800000,             size: 4<<20 },
-+#else
-+        { name: "kernel",       offset: 0x00500000,             size: 2<<20 },        
-+        { name: "boot",       offset: 0x00700000,             size: 4<<20 },
-+        { name: "bootimg",       offset: 0x00B00000,             size: DEFAULT_SPLASH_SIZE },
  #endif
-+#if 0 /*12 09 */
-+        { name: "cfe",          offset: 0x00C00000,             size: 2<<20 },
-+#else
-+        { name: "cfe",          offset: 0x00C00000,             size: 1<<20 },
-+        { name: "mac",          offset: 0x00D00000,             size: 1<<19 },
-+        { name: "env",          offset: 0x00D80000,             size: 1<<19 },
-+#endif
-+        { name: "nvm",          offset: 0x00E00000,             size: 1<<20 }, //csh change to 1 20091207
-+        /* BBT 1MB not mountable by anyone */
-+        { name: "data",         offset: 0x20000000,             size: 0 },
-+/* Add 1 extra place-holder partition for splash, and a safety guard element */
-+        {name: NULL, offset: 0, size: 0}, 
-+        {name: NULL, offset: 0, size: 0}
  
-+#endif
-+#endif
-+};
-+#endif
-+
  struct brcmnand_info {
- 	struct mtd_info		mtd;
- 	struct mtd_partition*	parts;
-@@ -253,41 +262,17 @@
+@@ -253,41 +220,17 @@
  	unsigned int ocap_size = DEFAULT_OCAP_SIZE;
  #endif
  	unsigned int avail1_size = DEFAULT_AVAIL1_SIZE;
@@ -231,7 +187,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  	if (device_size(mtd) <= (512ULL <<20)) {
  		bcm7XXX_nand_parts[ALL_PART].size = 
  			device_size(mtd) - (uint64_t) (DEFAULT_BBT0_SIZE_MB<<20);
-@@ -308,53 +293,8 @@
+@@ -308,53 +251,8 @@
  	nandinfo->parts = bcm7XXX_nand_parts;
  	
  	return;
@@ -286,7 +242,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  	/* Do not generate AVAIL1 partition if usable flash size is less than 64MB */
  	
  	if (size < (64<<20)) {
-@@ -370,12 +310,11 @@
+@@ -370,12 +268,11 @@
  		ecm_size = ocap_size + avail1_size;
  	}
  	
@@ -300,15 +256,15 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  PRINTK("Part[%d] name=%s, size=%llx, offset=%llx\n", i, bcm7XXX_nand_parts[0].name, 
  bcm7XXX_nand_parts[0].size, bcm7XXX_nand_parts[0].offset);
  
-@@ -550,6 +489,7 @@
+@@ -549,6 +446,7 @@
+ 	int e; // Index into Env vars
  	int i; // Index into mtd partition
  
++#ifndef USE_SPLASH
  	// Not configured for Splash, but does CFE define it?
-+#ifndef USE_SPLASH /* csh splash*/
  	if (!gBcmSplash) { 
  		for (i=0; i < gCfePartitions.numParts; i++) {
- 			if (gCfePartitions.parts[i].part == SPLASH_PT) {
-@@ -558,6 +498,7 @@
+@@ -558,6 +456,7 @@
  			}
  		}
  	}
@@ -316,7 +272,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  
  	/*
  	 * Remove OCAP partitions if Env Vars are defined
-@@ -640,7 +581,6 @@
+@@ -640,7 +539,6 @@
  	//unsigned long size = res->end - res->start + 1;
  	int err = 0;
  	int numParts = 0;
@@ -324,7 +280,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  
  	gPageBuffer = NULL;
  	info = kmalloc(sizeof(struct brcmnand_info), GFP_KERNEL);
-@@ -672,7 +612,7 @@
+@@ -672,7 +570,7 @@
  	//info->brcmnand.mmcontrol = NULL;  // THT: Sync Burst Read TBD.  pdata->mmcontrol;
  
  	info->mtd.name = pdev->dev.bus_id;
@@ -333,7 +289,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  	info->mtd.owner = THIS_MODULE;
  
  	/* Enable the following for a flash based bad block table */
-@@ -690,19 +630,12 @@
+@@ -690,19 +588,12 @@
  
  //print_partition(numParts);
  
@@ -353,7 +309,7 @@ Index: drivers/mtd/brcmnand/bcm7xxx-nand.c
  
  //print_partition(numParts);
  		
-@@ -711,20 +644,6 @@
+@@ -711,20 +602,6 @@
  //printk("	dev_set_drvdata\n");	
  	dev_set_drvdata(&pdev->dev, info);
  //printk("<-- brcmnanddrv_probe\n");
@@ -2228,14 +2184,13 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  /**
   * brcmnand_posted_write - [BrcmNAND Interface] Write a buffer to the flash cache
   * Assuming brcmnand_get_device() has been called to obtain exclusive lock
-@@ -3160,136 +2684,89 @@
+@@ -3160,136 +2684,88 @@
  }
  
  
 -
  #ifdef CONFIG_MTD_BRCMNAND_EDU
 -   #ifdef CONFIG_MTD_BRCMNAND_ISR_QUEUE
-+#error
  
 -   /*
 -    * Performs WAR for queue-write. Currently, it is always called with needBBT=1
@@ -2429,7 +2384,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  /**
   * brcmnand_posted_write - [BrcmNAND Interface] Write a buffer to the flash cache
   * Assuming brcmnand_get_device() has been called to obtain exclusive lock
-@@ -3307,14 +2784,12 @@
+@@ -3307,14 +2783,12 @@
  	uint32_t* p32;
  	int i; 
  	int ret;
@@ -2444,7 +2399,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  #ifdef WR_BADBLOCK_SIMULATION
  	unsigned long tmp = (unsigned long) offset;
-@@ -3333,7 +2808,7 @@
+@@ -3333,7 +2807,7 @@
  		goto out;
  	}
  
@@ -2453,7 +2408,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		// EDU requires the buffer to be DW-aligned
  PRINTK("%s: Buffer %p not suitable for EDU at %0llx, trying ctrl read op\n", __FUNCTION__, buffer, offset);
  		ret = brcmnand_ctrl_posted_write_cache(mtd, buffer, oobarea, offset);
-@@ -3362,26 +2837,23 @@
+@@ -3362,26 +2836,23 @@
  
  		PLATFORM_IOFLUSH_WAR(); // Check if this line may be taken-out
  
@@ -2485,7 +2440,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	}while (retries-- > 0 && ((ret == ERESTARTSYS) || (ret & HIF_INTR2_EBI_TIMEOUT)));
  
  	if (retries <= 0 && ((ret == ERESTARTSYS) || (ret & HIF_INTR2_EBI_TIMEOUT))) { 
-@@ -3390,9 +2862,18 @@
+@@ -3390,9 +2861,18 @@
  		goto out;
  	}
  
@@ -2506,7 +2461,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	{
  		if (!needBBT) 
  		{
-@@ -3425,10 +2906,10 @@
+@@ -3425,10 +2905,10 @@
  	ret = -ETIMEDOUT;
  
  out:
@@ -2519,7 +2474,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
   	if (0 == ret) {
  		if (edu_write_verify(mtd, buffer, oobarea, offset)) {
  			BUG();
-@@ -3440,11 +2921,17 @@
+@@ -3440,11 +2920,17 @@
      return ret;
  }
  
@@ -2539,7 +2494,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  static int (*brcmnand_posted_write_cache)(struct mtd_info*, 
  		const void*, const u_char*, loff_t) = brcmnand_ctrl_posted_write_cache;
  
-@@ -3564,7 +3051,7 @@
+@@ -3564,7 +3050,7 @@
  			set_current_state(TASK_UNINTERRUPTIBLE);
  			add_wait_queue(&chip->wq, &wait);
  			spin_unlock(&chip->chip_lock);
@@ -2548,7 +2503,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  				schedule();
  			remove_wait_queue(&chip->wq, &wait);
  		}
-@@ -3616,7 +3103,6 @@
+@@ -3616,7 +3102,6 @@
  }
  
  
@@ -2556,7 +2511,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  /**
   * brcmnand_read_page - {REPLACEABLE] hardware ecc based page read function
   * @mtd:	mtd info structure
-@@ -3722,7 +3208,7 @@
+@@ -3722,7 +3207,7 @@
  #ifdef CONFIG_MTD_BRCMNAND_CORRECTABLE_ERR_HANDLING
  static int brcmnand_refresh_blk(struct mtd_info *mtd, loff_t from)
  {
@@ -2565,7 +2520,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	int i, j, k, numpages, ret, count = 0, nonecccount = 0;
  	uint8_t *blk_buf;	/* Store one block of data (including OOB) */
  	unsigned int  pg_idx, oob_idx;
-@@ -3737,9 +3223,9 @@
+@@ -3737,9 +3222,9 @@
  
  
  #if CONFIG_MTD_BRCMNAND_VERSION >= CONFIG_MTD_BRCMNAND_VERS_1_0
@@ -2577,7 +2532,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  	DEBUG(MTD_DEBUG_LEVEL3, "Inside %s: from=%0llx\n", __FUNCTION__, from);
  	printk(KERN_INFO "%s: Performing block refresh for correctable ECC error at %0llx\n",
-@@ -3747,9 +3233,9 @@
+@@ -3747,9 +3232,9 @@
  	pg_idx = 0;
  	oob_idx = mtd->writesize;
  	numpages = mtd->erasesize/mtd->writesize;
@@ -2589,7 +2544,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  #ifdef CONFIG_MTD_BRCMNAND_EDU
  	if (!gblk_buf) {
-@@ -3777,7 +3263,7 @@
+@@ -3777,7 +3262,7 @@
  	/* Read an entire block */
  	brcmnand_get_device(mtd, FL_READING);
  	for (i = 0; i < numpages; i++) {
@@ -2598,7 +2553,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		if (ret < 0) {
  #ifndef CONFIG_MTD_BRCMNAND_EDU
  			BRCMNAND_free(blk_buf);
-@@ -3795,7 +3281,7 @@
+@@ -3795,7 +3280,7 @@
  	if (unlikely(gdebug > 0)) {
  		printk("---> %s:  Read -> erase\n", __FUNCTION__);
  	}
@@ -2607,7 +2562,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  	/* Erase the block */
  	instr = kmalloc(sizeof(struct erase_info), GFP_KERNEL);
-@@ -3813,7 +3299,7 @@
+@@ -3813,7 +3298,7 @@
  	instr->addr = blkbegin;
  	instr->len = mtd->erasesize;
  	if (unlikely(gdebug > 0)) {
@@ -2616,7 +2571,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	}
  	ret = brcmnand_erase_nolock(mtd, instr, 0);
  	if (ret) {
-@@ -3831,12 +3317,12 @@
+@@ -3831,12 +3316,12 @@
  	/* Write the entire block */
  	pg_idx = 0;
  	oob_idx = mtd->writesize;
@@ -2633,7 +2588,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	for (i = 0; i < numpages; i++) {
  		/* Avoid writing empty pages */
  		count = 0;
-@@ -3858,7 +3344,7 @@
+@@ -3858,7 +3343,7 @@
  		}
  		/* Skip this page, but write the OOB */
  		if (count == j && nonecccount != k) {
@@ -2642,7 +2597,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  			if (ret) {
  #ifndef CONFIG_MTD_BRCMNAND_EDU
  				BRCMNAND_free(blk_buf);
-@@ -3875,7 +3361,7 @@
+@@ -3875,7 +3360,7 @@
  		for (j = 0; j < oobinfo->eccbytes; j++) {
  			oobptr[oobinfo->eccpos[j]] = 0xff;
  		}
@@ -2651,7 +2606,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		if (ret) {
  #ifndef CONFIG_MTD_BRCMNAND_EDU
  			BRCMNAND_free(blk_buf);
-@@ -3900,463 +3386,7 @@
+@@ -3900,463 +3385,7 @@
  #endif
  
  
@@ -3115,7 +3070,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
   * brcmnand_do_read_ops - [Internal] Read data with ECC
   *
   * @mtd:	MTD device structure
-@@ -4390,13 +3420,17 @@
+@@ -4390,13 +3419,17 @@
  	//int sndcmd = 1;
  	int ret = 0;
  	uint32_t readlen = ops->len;
@@ -3137,7 +3092,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	stats = mtd->ecc_stats;
  
  	// THT: BrcmNAND controller treats multiple chip as one logical chip.
-@@ -4407,7 +3441,6 @@
+@@ -4407,7 +3440,6 @@
  	//page = realpage & chip->pagemask;
  
  	col = mtd64_ll_low(from & (mtd->writesize - 1));
@@ -3145,7 +3100,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  #ifndef EDU_DEBUG_1 
  /* Debugging 12/27/08 */
  	chip->oob_poi = BRCMNAND_OOBBUF(chip->buffers);
-@@ -4419,91 +3452,38 @@
+@@ -4419,91 +3451,38 @@
  	buf = ops->datbuf;
  	oob = ops->oobbuf;
  
@@ -3263,7 +3218,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  			if (ret < 0)
  				break;
  
-@@ -4524,25 +3504,45 @@
+@@ -4524,25 +3503,45 @@
  				}
  			}
  
@@ -3320,7 +3275,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  	if (ret)
  		return ret;
-@@ -4577,7 +3577,7 @@
+@@ -4577,7 +3576,7 @@
  	DEBUG(MTD_DEBUG_LEVEL3, "%s: from=%0llx\n", __FUNCTION__, from);
  
  if (gdebug > 3 ) {
@@ -3329,7 +3284,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  
  	/* Do not allow reads past end of device */
-@@ -4610,20 +3610,11 @@
+@@ -4610,20 +3609,11 @@
  		if (likely(chip->cet)) {
  			if (likely(chip->cet->flags != BRCMNAND_CET_DISABLED)) {
  				if (brcmnand_cet_update(mtd, from, &status) == 0) {
@@ -3350,7 +3305,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  				}
  				if (gdebug > 3) {
  					printk(KERN_INFO "DEBUG -> %s ret = %d, status = %d\n", __FUNCTION__, ret, status);
-@@ -4879,7 +3870,7 @@
+@@ -4879,7 +3869,7 @@
  		//struct nand_oobinfo noauto_oobsel;
  
  		printk("Comparison Failed\n");
@@ -3359,7 +3314,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		
  		//noauto_oobsel = *oobsel;
  		//noauto_oobsel.useecc = MTD_NANDECC_PLACEONLY;
-@@ -4917,7 +3908,7 @@
+@@ -4917,7 +3907,7 @@
  {
  	struct brcmnand_chip * chip = mtd->priv;
  	
@@ -3368,7 +3323,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	//int ooblen=0, datalen=0;
  	//int complen;
  	u_char* oobbuf = v_oob_buf;
-@@ -4929,12 +3920,7 @@
+@@ -4929,12 +3919,7 @@
  
  if (gdebug > 3) printk("-->%s: addr=%0llx\n", __FUNCTION__, addr);
  
@@ -3382,7 +3337,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	if (chip->ecclevel != BRCMNAND_ECC_HAMMING) {
  		return 0;
  	}
-@@ -4942,7 +3928,7 @@
+@@ -4942,7 +3927,7 @@
  #if 1
  	page = ((uint64_t) addr) >> chip->page_shift;
  	// Must read entire page
@@ -3391,7 +3346,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	if (ret) {
  		printk(KERN_ERR "%s: brcmnand_read_page at %08x failed ret=%d\n", 
  			__FUNCTION__, (unsigned int) addr, ret);
-@@ -4967,28 +3953,12 @@
+@@ -4967,28 +3952,12 @@
  		brcmnand_Hamming_ecc(&dbuf[pageOffset], sw_ecc);
  
  		if (sw_ecc[0] != oobp[6] || sw_ecc[1] != oobp[7] || sw_ecc[2] != oobp[8]) {
@@ -3425,7 +3380,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	}
  
  	return ret;
-@@ -5062,8 +4032,7 @@
+@@ -5062,8 +4031,7 @@
   * @page:	page number to write
   * @cached:	cached programming [removed]
   */
@@ -3435,7 +3390,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  			   const uint8_t *inp_buf, const uint8_t* inp_oob, uint64_t page)
  {
  	struct brcmnand_chip *chip = (struct brcmnand_chip*) mtd->priv;
-@@ -5094,206 +4063,17 @@
+@@ -5094,206 +4062,17 @@
  	}
  
  	// TBD
@@ -3645,7 +3600,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  /**
   * brcmnand_fill_oob - [Internal] Transfer client buffer to oob
   * @chip:	nand chip structure
-@@ -5307,7 +4087,6 @@
+@@ -5307,7 +4086,6 @@
  {
  	size_t len = ops->ooblen;
  
@@ -3653,7 +3608,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	switch(ops->mode) {
  
  	case MTD_OOB_PLACE:
-@@ -5320,8 +4099,6 @@
+@@ -5320,8 +4098,6 @@
  		uint32_t boffs = 0, woffs = ops->ooboffs;
  		size_t bytes = 0;
  
@@ -3662,7 +3617,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		for(; free->length && len; free++, len -= bytes) {
  			/* Write request not from offset 0 ? */
  			if (unlikely(woffs)) {
-@@ -5370,8 +4147,6 @@
+@@ -5370,8 +4146,6 @@
  	uint8_t *buf = ops->datbuf;
  	int bytes = mtd->writesize;
  	int ret = 0;
@@ -3671,7 +3626,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  DEBUG(MTD_DEBUG_LEVEL3, "-->%s, offset=%0llx\n", __FUNCTION__, to);
  
-@@ -5392,8 +4167,13 @@
+@@ -5392,8 +4166,13 @@
  	chip->select_chip(mtd, chipnr);
  */
  
@@ -3686,7 +3641,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	realpage = to >> chip->page_shift;
  	//page = realpage & chip->pagemask;
  	blockmask = (1 << (chip->phys_erase_shift - chip->page_shift)) - 1;
-@@ -5414,70 +4194,15 @@
+@@ -5414,70 +4193,15 @@
  		chip->oob_poi = NULL;
  	}
  
@@ -3763,7 +3718,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		if (ret)
  			break;
  
-@@ -5486,9 +4211,21 @@
+@@ -5486,9 +4210,21 @@
  			break;
  
  		buf += bytes;
@@ -3786,7 +3741,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  	ops->retlen = ops->len - writelen;
  	DEBUG(MTD_DEBUG_LEVEL3, "<-- %s\n", __FUNCTION__);
-@@ -6593,29 +5330,12 @@
+@@ -6593,29 +5329,12 @@
   */
  static void brcmnand_adjust_timings(struct brcmnand_chip *this, brcmnand_chip_Id* chip)
  {
@@ -3822,7 +3777,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	if (chip->timing1) {
  		nand_timing1_b4 = nand_timing1;
  
-@@ -6688,61 +5408,20 @@
+@@ -6688,61 +5407,20 @@
  brcmnand_read_id(struct mtd_info *mtd, unsigned int chipSelect, unsigned long* dev_id)
  {
  	struct brcmnand_chip * chip = mtd->priv;
@@ -3891,7 +3846,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  }
  
  
-@@ -6764,8 +5443,6 @@
+@@ -6764,8 +5442,6 @@
  	int version_id;
  	//int density;
  	int i;
@@ -3900,7 +3855,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	
  	/* Read manufacturer and device IDs from Controller */
  	brcmnand_read_id(mtd, chipSelect, &chip->device_id);
-@@ -7169,10 +5846,9 @@
+@@ -7169,10 +5845,9 @@
  	/* Version ID */
  	version_id = chip->ctrl_read(BCHP_NAND_REVISION);
  
@@ -3913,7 +3868,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  	return 0;
  }
-@@ -7615,92 +6291,51 @@
+@@ -7615,92 +6290,51 @@
  	}
  	
  #elif CONFIG_MTD_BRCMNAND_VERSION >= CONFIG_MTD_BRCMNAND_VERS_2_0
@@ -4045,7 +4000,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  #else
  	#error "Unknown Broadcom NAND controller version"
  #endif /* Versions >= 1.0 */
-@@ -7728,15 +6363,24 @@
+@@ -7728,15 +6362,24 @@
  		volatile unsigned long acc_control;
  
  		chip->numchips = 1;
@@ -4077,7 +4032,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		}
  
  		printk("Found NAND chip on Chip Select %d, chipSize=%dMB, usable size=%dMB, base=%08x\n", 
-@@ -7926,7 +6570,7 @@
+@@ -7926,7 +6569,7 @@
  				printk("ACC: %d OOB bytes per 512B ECC step; from ID probe: %d\n", eccOobSize, chip->eccOobSize);
  				// We have recorded chip->eccOobSize during probe, let's compare it against value from ACC
  				if (chip->eccOobSize < eccOobSize) {
@@ -4086,7 +4041,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  						chip->eccOobSize, eccLevel, eccOobSize);
  					printk(KERN_INFO "Please fix your board straps. Aborting to avoid file system damage\n");
  					BUG();
-@@ -7941,7 +6585,7 @@
+@@ -7941,7 +6584,7 @@
  				break;
  
  			default:
@@ -4095,7 +4050,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  				BUG();
  				
  			}
-@@ -7963,11 +6607,11 @@
+@@ -7963,11 +6606,11 @@
  				brcmnand_ctrl_write(BCHP_NAND_ACC_CONTROL, acc_control );
  				printk("Corrected PARTIAL_PAGE_EN: ACC_CONTROL = %08lx\n", acc_control);
  			}			
@@ -4111,7 +4066,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  #endif
  			printk("ACC_CONTROL for MLC NAND: %08lx\n", acc_control);
  		}
-@@ -8010,58 +6654,7 @@
+@@ -8010,58 +6653,7 @@
  				printk("SLC flash: Corrected ACC_CONTROL = %08lx from %08lx\n", acc_control, org_acc_control);
  			}
  		}
@@ -4170,7 +4125,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  #endif // Version 3.0+
  #endif // Version 1.0+
  
-@@ -8112,17 +6705,12 @@
+@@ -8112,17 +6704,12 @@
  #ifdef EDU_DEBUG_3
  printk("++++++++++++ EDU_DEBUG_3 enabled\n");
  #endif
@@ -4193,7 +4148,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  PRINTK("%s 30\n", __FUNCTION__);
  	/*
-@@ -8200,22 +6788,8 @@
+@@ -8200,22 +6787,8 @@
  				}
  			}
  			else {
@@ -4218,7 +4173,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  			}
  			break;
  			
-@@ -8239,18 +6813,7 @@
+@@ -8239,18 +6812,7 @@
  	//chip->eccOobSize = (mtd->oobsize*512) /mtd->writesize; 
  	printk(KERN_INFO "mtd->oobsize=%d, mtd->eccOobSize=%d\n", mtd->oobsize, chip->eccOobSize);
  
@@ -4237,7 +4192,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  		chip->read_page = brcmnand_read_page;
  	if (!chip->write_page)
  		chip->write_page = brcmnand_write_page;
-@@ -8258,7 +6821,6 @@
+@@ -8258,7 +6820,6 @@
  		chip->read_page_oob = brcmnand_read_page_oob;
  	if (!chip->write_page_oob)
  		chip->write_page_oob = brcmnand_write_page_oob;
@@ -4245,7 +4200,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  	if (!chip->read_oob)
  		chip->read_oob = brcmnand_do_read_ops;
  	if (!chip->write_oob)
-@@ -8387,17 +6949,21 @@
+@@ -8387,17 +6948,21 @@
  	EDU_init();
  #endif
  
@@ -4275,7 +4230,7 @@ Index: drivers/mtd/brcmnand/brcmnand_base.c
  
  
  #ifdef CONFIG_MTD_BRCMNAND_CORRECTABLE_ERR_HANDLING
-@@ -8411,9 +6977,9 @@
+@@ -8411,9 +6976,9 @@
  	}
  #endif
  
