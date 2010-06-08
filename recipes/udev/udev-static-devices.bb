@@ -1,7 +1,7 @@
 DESCRIPTION = "Provide per-machine static nodes of /dev"
 RDEPENDS = "udev"
 
-PR = "r0"
+PR = "r2"
 
 SRC_URI = "file://udev_static_devices_tarball"
 
@@ -18,12 +18,5 @@ pkg_postinst () {
 	ROOT="$D"
 	if [ -f "$ROOT/lib/udev/devices.tar.gz" ]; then
 		tar -C "$ROOT/lib/udev" -zxf "$ROOT/lib/udev/devices.tar.gz" || exit $?
-	fi
-}
-
-pkg_postinst_vuplus () {
-	ROOT="$D"
-	if [ -f "$ROOT/lib/udev/devices.tar.gz" ]; then
-		tar -C "$ROOT/lib/udev" -zxf "$ROOT/lib/udev/devices.tar.gz";rm  -f "$ROOT/lib/udev/devices.tar.gz" || exit $?
 	fi
 }
