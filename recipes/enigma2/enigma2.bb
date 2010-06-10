@@ -93,14 +93,15 @@ SRCREV = ""
 ####################################################
 BRANCH_vuplus = "vuplus"
 PV_vuplus = "2.8git${SRCDATE}"
-SRCREV_vuplus = ""
+SRCREV_vuplus = "78fa44de60dd56f5f9e0155115608c3aaa97ff8e"
 ####################################################
 
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
 	file://new-hotplug.patch;patch=1;pnum=1 \
 	file://enigma2.sh"
 
-SRC_URI_vuplus = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+	   file://enigma2_vuplus_duo.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
            file://MyriadPro-Regular.otf \
            file://MyriadPro-Semibold.otf \
@@ -110,7 +111,16 @@ SRC_URI_vuplus = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=
            file://number_key \
            file://enigma2.sh"
 
-SRC_URI_append_bm750 = " file://enigma2_vuplus_duo.patch;patch=1;pnum=1"
+SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+           file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
+           file://MyriadPro-Regular.otf \
+           file://MyriadPro-Semibold.otf \
+           file://MyriadPro-SemiboldIt.otf \
+           file://750S \
+           file://Vu_HD \
+           file://number_key \
+           file://enigma2.sh"
+
 
 S = "${WORKDIR}/git"
 
