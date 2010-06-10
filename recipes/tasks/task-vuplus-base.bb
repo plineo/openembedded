@@ -18,7 +18,7 @@ VUPLUS_BASE_ESSENTIAL = "\
   base-files-doc \
   vuplus-bootlogo \
   vuplus-compat \
-  dreambox-feed-configs \
+  vuplus-feed-configs \
   dreambox-keymaps \
   e2fsprogs-e2fsck \
   e2fsprogs-mke2fs \
