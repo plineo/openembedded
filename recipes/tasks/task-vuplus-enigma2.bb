@@ -44,7 +44,6 @@ RRECOMMENDS_task-vuplus-enigma2 = "\
   enigma2-plugin-extensions-pictureplayer \
   enigma2-plugin-systemplugins-skinselector \
   ${@base_contains("MACHINE_FEATURES", "wifi", "task-vuplus-wlan", "", d)} \
-  ${@base_contains("MACHINE_FEATURES", "modem", "task-vuplus-modem", "", d)} \
 "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
