@@ -40,13 +40,8 @@ RRECOMMENDS_task-vuplus-enigma2 = "\
   python-twisted-core \
   python-twisted-protocols \
   python-twisted-web \
-  enigma2-plugin-extensions-cutlisteditor \
-  enigma2-plugin-extensions-graphmultiepg \
   enigma2-plugin-extensions-mediaplayer \
   enigma2-plugin-extensions-pictureplayer \
-  enigma2-plugin-extensions-webinterface \
-  enigma2-plugin-systemplugins-satfinder \
-  enigma2-plugin-systemplugins-positionersetup \
   enigma2-plugin-systemplugins-skinselector \
   ${@base_contains("MACHINE_FEATURES", "wifi", "task-vuplus-wlan", "", d)} \
   ${@base_contains("MACHINE_FEATURES", "modem", "task-vuplus-modem", "", d)} \
