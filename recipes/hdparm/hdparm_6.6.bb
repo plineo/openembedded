@@ -13,7 +13,3 @@ do_install () {
 	oe_runmake 'DESTDIR=${D}' install
 }
 
-do_install_vuplus () {
-	install -d ${D}/sbin/
-	install -m 0755 ${S}/hdparm ${D}/sbin/hdparm
-}

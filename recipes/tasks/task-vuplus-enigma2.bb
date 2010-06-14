@@ -24,10 +24,6 @@ RDEPENDS_task-vuplus-enigma2 = "\
   enigma2 \
   enigma2-defaultservices \
   enigma2-plugin-extensions-mediascanner \
-  enigma2-plugin-systemplugins-hotplug \
-  enigma2-plugin-systemplugins-networkwizard \
-#  enigma2-plugin-systemplugins-softwaremanager \
-  enigma2-plugin-systemplugins-videotune \
   enigma2-plugin-systemplugins-factorytest \
   enigma2-streamproxy \
   tuxbox-tuxtxt-32bpp \

@@ -18,7 +18,6 @@ FILES_${PN}-dev = " \
 	/usr/include/*.h \
 	/usr/include/xmlccwrap/*.h \
 	/usr/lib/libxmlccwrap.la"
-FILES_${PN}-dev_vuplus = "/usr/include/*.h"
 
 do_stage () {
 	install -d ${STAGING_INCDIR}/xmlccwrap
