@@ -11,3 +11,4 @@ FILESPATH = "${FILE_DIRNAME}/unionfs-${PV}:${FILE_DIRNAME}/unionfs:${FILE_DIRNAM
 export UCFLAGS = '${CFLAGS} -DNODEBUG -DUNIONFS_VERSION=\\"${PV}\\"'
 CFLAGS = "${BUILD_OPTIMIZATIONS}"
 CFLAGS_opendreambox = ""
+CFLAGS_vuplus = ""

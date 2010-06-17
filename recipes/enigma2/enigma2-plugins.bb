@@ -39,13 +39,13 @@ inherit autotools
 S = "${WORKDIR}/enigma2-plugins"
 
 DEPENDS = "python-pyopenssl python-gdata streamripper python-mutagen"
-DEPENDS_vuplus = "${@get_version_depends(bb, d)}"
+#DEPENDS_vuplus = "${@get_version_depends(bb, d)}"
 DEPENDS += "enigma2"
 
-def get_version_depends(bb, d):
-	if bb.data.getVar('REL_MINOR', d, 1) > '4':
-		return "python-pyopenssl"
-	return ""
+#def get_version_depends(bb, d):
+#	if bb.data.getVar('REL_MINOR', d, 1) > '4':
+#		return "python-pyopenssl"
+#	return ""
 
 do_install_append_vuplus() {
 	install -m 0644 ${WORKDIR}/dreamboxweb.png ${D}/usr/lib/enigma2/python/Plugins/Extensions/WebInterface/web-data/img/

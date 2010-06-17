@@ -1,8 +1,4 @@
-#csh
 
-if [ ! -d /dev/dvb/adapter0 ];
-then mkdir /dev/dvb/adapter0 -p
-fi
 
 for mod in input evdev i2c-core firmware_class; do
 	modprobe $mod
@@ -14,17 +10,6 @@ insmod /lib/modules/2.6.18-7.3/extra/dvb-core.ko
 insmod /lib/modules/2.6.18-7.3/extra/dvb-bcm7335.ko
 insmod /lib/modules/2.6.18-7.3/extra/brcmfb.ko
 
-
-#Don't like to change enigma2 source.
-#rm -rf /dev/fb
-#mkdir /dev/fb
-#ln -s /dev/fb0 /dev/fb/0
-
-#echo 10 > /proc/progress
-#[ -e /dev/dbox/oled0 ] && ln -s /dev/dbox/oled0 /dev/dbox/lcd0
-
-#mount -t sysfs sysfs /sys
-#echo 11 > /proc/progress
 
 depmod -Ae
 echo 12 > /proc/progress
@@ -39,10 +24,6 @@ done
 
 echo 13 > /proc/progress
 
-#(sleep 10; cat /etc/fscking.raw > /dev/dbox/oled0; sleep 1d) &
-#pid=$!
-#mount -at nonfs,nosmbfs,noncpfs,nocifs
-#kill $pid
 
 mount -at nonfs,nosmbfs,noncpfs,nocifs
 echo 14 > /proc/progress
@@ -54,26 +35,12 @@ tar xzf /etc/var.tar.gz -C /
 echo 16 > /proc/progress
 
 # sleep after 10min
-hdparm -S 120 /dev/discs/disc0/disc
-#hdparm2 -S 120 /dev/discs/disc0/disc
+hdparm -S 120 /dev/sda
 
 echo 17 > /proc/progress
 
-# set UDMA66, enable dma
-hdparm -d 1 /dev/discs/disc0/disc
-hdparm -X66 /dev/discs/disc0/disc
-
 # accustic management
-hdparm -M 128 /dev/discs/disc0/disc
-
-# disable dma for cd drive ...
-# we remove this when the dma timeout problem is fixed!
-#hdparm -d 0 /dev/ide/host0/bus0/target0/lun0/cd
-
-#echo 18 > /proc/progress
-#for mod in dreambox_keyboard fp bcm7400; do
-#	modprobe $mod
-#done
+hdparm -M128 /dev/sda
 
 echo 19 > /proc/progress
 
@@ -81,17 +48,6 @@ cat /etc/videomode > /proc/stb/video/videomode
 
 echo 20 > /proc/progress
 
-#for mod in rt73 zd1211b; do
-#	modprobe $mod
-#done
-
-#echo "loading madwifi modules"
-#for x in wlan ath_rate; do
-#	for mod in `ls /lib/modules/$(uname -r)/net | grep $x | cut -d . -f 0`; do
-#		modprobe $mod
-#	done
-#done
-#modprobe ath_pci
 
 echo 21 > /proc/progress
 
@@ -100,8 +56,6 @@ echo 21 > /proc/progress
 hostname -F /etc/hostname
 
 echo 22 > /proc/progress
-
-#/usr/bin/wdog /usr/bin/dccamd -
 
 echo 23 > /proc/progress
 

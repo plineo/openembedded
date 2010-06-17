@@ -26,3 +26,4 @@ do_install() {
 # unwanted dependencies for SlugOS.
 RDEPENDS_slugos = ""
 RDEPENDS_opendreambox = ""
+RDEPENDS_vuplus = ""

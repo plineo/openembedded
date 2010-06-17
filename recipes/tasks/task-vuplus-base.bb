@@ -31,6 +31,7 @@ VUPLUS_BASE_ESSENTIAL = "\
   vsftpd \
   udev-static-devices \
   mtd-utils \
+  hdparm \  
 "
 
 VUPLUS_BASE_RECOMMENDS = "\

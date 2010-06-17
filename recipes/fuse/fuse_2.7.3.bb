@@ -4,6 +4,7 @@ PR = "r0"
 
 SRC_URI += "file://not-run-updaterc.d-on-host.patch;patch=1"
 SRC_URI_append_opendreambox = " file://dev_misc_fuse.patch;patch=1"
+SRC_URI_append_vuplus = " file://dev_misc_fuse.patch;patch=1"
 
 EXTRA_OECONF = " --disable-kernel-module"
 

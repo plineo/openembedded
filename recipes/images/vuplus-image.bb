@@ -50,7 +50,7 @@ generate_nfo() {
     echo "Machine: Vuplus ${MACHINE}" >> ${NFO}
     DATE=`date +%Y-%m-%d' '%H':'%M`
     echo "Date: ${DATE}" >> ${NFO}
-    echo "Issuer: Vuplus Multimedia" >> ${NFO}
+    echo "Issuer: Vuplus" >> ${NFO}
     echo "Link: ${DISTRO_FEED_URI}" >> ${NFO}
     if [ "${DESC}" != "" ]; then
         echo "Description: ${DESC}" >> ${NFO}

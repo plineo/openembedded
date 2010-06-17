@@ -26,7 +26,7 @@ do_install() {
 }
 
 
-do_install_bm750() {
+do_install_vuplus() {
 	install -d ${D}/boot
 	install -d ${D}/usr/share
 	for i in ${MVI}; do
