@@ -17,8 +17,8 @@ PV = "experimental-cvs${SRCDATE}"
 # if vuplus
 REL_MAJOR="2"
 REL_MINOR="6"
-PV = "${REL_MAJOR}.${REL_MINOR}cvs${SRCDATE}"
-PR = "r1"
+PV_vuplus = "${REL_MAJOR}.${REL_MINOR}cvs${SRCDATE}"
+PR_vuplus = "r1"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-skins;module=enigma2-skins;method=pserver${TAG};date=${SRCDATE}"
 
@@ -38,14 +38,6 @@ python populate_packages_prepend () {
 	enigma2_skindir = bb.data.expand('${datadir}/enigma2', d)
 
 	do_split_packages(d, enigma2_skindir, '(.*?)/.*', 'enigma2-skin-%s', 'Enigma2 Skin: %s', recursive=True, match_path=True, prepend=True)
-}
-
-python populate_packages_prepend_vuplus () {
-	if bb.data.expand('${REL_MINOR}', d) != "4":
-		enigma2_skindir = bb.data.expand('${datadir}/enigma2', d)
-		do_split_packages(d, enigma2_skindir, '(.*?)/.*', 'enigma2-skin-%s', 'Enigma2 Skin: %s', recursive=True, match_path=True, prepend=True)
-        for package in bb.data.getVar('PACKAGES', d, 1).split():
-		bb.data.setVar('RDEPENDS_' + package, ' enigma2(>=2.6git20091201) enigma2-plugin-systemplugins-skinselector(>=2.6git20091201-r0)', d)
 }
 
 python populate_packages_append () {
