@@ -14,7 +14,6 @@ RDEPENDS = "python-codecs python-core python-lang python-re python-threading \
 	gst-plugin-neonhttpsrc gst-plugin-mpegaudioparse gst-plugin-subparse \
 	gst-plugin-apetag gst-plugin-icydemux gst-plugin-autodetect \
 	glibc-gconv-iso8859-15 ethtool"
-RDEPENDS_append_vuplus = " python-gdata"
 
 RDEPENDS_append_dm7020 = " gst-plugin-ossaudio gst-plugin-ivorbisdec"
 RDEPENDS_append_dm7025 = " gst-plugin-alsa alsa-conf gst-plugin-ivorbisdec"
@@ -135,7 +134,6 @@ bindir = "/usr/bin"
 sbindir = "/usr/sbin"
 
 EXTRA_OECONF = "--with-target=native --with-libsdl=no"
-EXTRA_OECONF_append_vuplus = " --enable-maintainer-mode"
 
 do_compile_prepend_vuplus() {
         install -m 0755 ${WORKDIR}/MyriadPro-Regular.otf ${S}/data/fonts/
@@ -164,13 +162,6 @@ python populate_packages_prepend () {
 
 	do_split_packages(d, enigma2_plugindir, '(.*?/.*?)/.*', 'enigma2-plugin-%s', '%s ', recursive=True, match_path=True, prepend=True)
 }
-
-python populate_packages_prepend_vuplus () {
-	enigma2_plugindir = bb.data.expand('${libdir}/enigma2/python/Plugins', d)
-
-	do_split_packages(d, enigma2_plugindir, '(.*?/.*?)/.*', 'enigma2-plugin-%s', '%s ', recursive=True, match_path=True, prepend=True, extra_depends="enigma2")
-}
-
 
 do_stage() {
 	install -d ${STAGING_INCDIR}/enigma2
