@@ -4,7 +4,7 @@ MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 PACKAGES_DYNAMIC = "enigma2-skin-*"
 
 SRCDATE = "20100213"
-SRCDATE_vuplus = "20100104"
+SRCDATE_vuplus = "20100621"
 
 # if you want the 2.7 release, use
 #TAG = ";tag=enigma2-skins_rel27"
@@ -15,15 +15,10 @@ TAG = ""
 PV = "experimental-cvs${SRCDATE}"
 
 # if vuplus
-REL_MAJOR="2"
-REL_MINOR="6"
-PV_vuplus = "${REL_MAJOR}.${REL_MINOR}cvs${SRCDATE}"
-PR_vuplus = "r1"
+TAG_vuplus = ";tag=enigma2-skins_rel28"
+PV_vuplus = "2.8cvs${SRCDATE}"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-skins;module=enigma2-skins;method=pserver${TAG};date=${SRCDATE}"
-
-SRC_URI_append_vuplus = " \
-	file://enigma2-skins_cutlisteditor_video.patch;patch=1;pnum=0"
 
 FILES_${PN} += " /usr/share/enigma2 /usr/share/fonts "
 FILES_${PN}-meta = "${datadir}/meta"

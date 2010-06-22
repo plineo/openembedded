@@ -4,7 +4,7 @@ MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 PACKAGES_DYNAMIC = "enigma2-plugin-*"
 
 SRCDATE = "20100213"
-SRCDATE_vuplus = "20100119"
+SRCDATE_vuplus = "20100621"
 
 
 # if you want the 2.7.0 release, use
@@ -16,18 +16,14 @@ TAG = ""
 PV = "experimental-cvs${SRCDATE}"
 
 #if vuplus
-REL_MAJOR="2"
-REL_MINOR="6"
-PV_vuplus = "${REL_MAJOR}.${REL_MINOR}cvs${SRCDATE}"
+TAG_vuplus = ";tag=enigma2-plugins_rel28"
+PV_vuplus = "2.8cvs${SRCDATE}"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-plugins;module=enigma2-plugins;method=pserver${TAG};date=${SRCDATE}"
 
 SRC_URI_append_vuplus = " \
-	   file://enigma2-plugins_vuplus.patch;patch=1;pnum=0 \
            file://dreamboxweb.png \
-           file://favicon.ico \
-	   file://block_install_vuplus.patch;patch=1;pnum=0" 
-
+           file://favicon.ico"
 
 FILES_${PN} += " /usr/share/enigma2 /usr/share/fonts "
 FILES_${PN}-meta = "${datadir}/meta"
@@ -40,6 +36,44 @@ S = "${WORKDIR}/enigma2-plugins"
 
 DEPENDS = "python-pyopenssl python-gdata streamripper python-mutagen"
 DEPENDS += "enigma2"
+
+
+def modify_po():
+	import os
+	try:
+		os.system("find ./ -name \"*.po\" > ./po_list")
+		os.system("find ./ -name \"*.pot\" >> ./po_list")
+		po_list = []
+		po_list = open('po_list','r+').readlines()
+		for x in po_list:
+			changeword(x)
+		changeword('enigma2-plugins/networkwizard/src/networkwizard.xml ')
+		changeword2('enigma2-plugins/webinterface/src/web-data/tpl/default/index.html ')
+		os.system('rm po_list')
+	except:
+		print 'word patch error '
+		return
+
+def changeword(file):
+	fn = file[:-1]
+	fnn = file[:-1]+'_n'
+	cmd = "sed s/Dreambox/STB/g "+fn+" > "+fnn
+	os.system(cmd)
+	cmd1 = "mv "+fnn+" "+fn
+	os.system(cmd1)
+
+def changeword2(file):
+	fn = file[:-1]
+	fnn = file[:-1]+'_n'
+	cmd = "sed s/Dreambox/Vu+/g "+fn+" > "+fnn
+	os.system(cmd)
+	cmd1 = "mv "+fnn+" "+fn
+	os.system(cmd1)
+
+do_unpack_append(){
+	modify_po()
+}
+
 
 do_install_append_vuplus() {
 	install -m 0644 ${WORKDIR}/dreamboxweb.png ${D}/usr/lib/enigma2/python/Plugins/Extensions/WebInterface/web-data/img/

@@ -94,7 +94,7 @@ SRCREV = ""
 ####################################################
 BRANCH_vuplus = "vuplus"
 PV_vuplus = "2.8git${SRCDATE}"
-SRCREV_vuplus = "78fa44de60dd56f5f9e0155115608c3aaa97ff8e"
+SRCREV_vuplus = "339fa730b8daeb2cb601585450040e1bd65e61db"
 ####################################################
 
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
@@ -122,6 +122,31 @@ SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=
            file://number_key \
            file://enigma2.sh"
 
+def change_po():
+        import os
+        try:
+                os.system("find ./ -name \"*.po\" > ./po_list")
+                os.system("find ./ -name \"*.pot\" >> ./po_list")
+                po_list = []
+                po_list = open('po_list','r+').readlines()
+                for x in po_list:
+                        changeword(x)
+                os.system('rm po_list')
+        except:
+                print 'word patch error '
+                return
+
+def changeword(file):
+        fn = file[:-1]
+        fnn = file[:-1]+'_n'
+        cmd = "sed s/Dreambox/STB/g "+fn+" > "+fnn
+        os.system(cmd)
+        cmd1 = "mv "+fnn+" "+fn
+        os.system(cmd1)
+
+do_unpack_append(){
+        change_po()
+}
 
 S = "${WORKDIR}/git"
 
