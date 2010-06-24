@@ -94,7 +94,7 @@ SRCREV = ""
 ####################################################
 BRANCH_vuplus = "vuplus"
 PV_vuplus = "2.8git${SRCDATE}"
-SRCREV_vuplus = "339fa730b8daeb2cb601585450040e1bd65e61db"
+SRCREV_vuplus = "69cb53da0b883f57214d8c1fdac0bd40ebdec09a"
 ####################################################
 
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
