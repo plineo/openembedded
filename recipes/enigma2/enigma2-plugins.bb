@@ -46,15 +46,15 @@ def modify_po():
 		po_list = []
 		po_list = open('po_list','r+').readlines()
 		for x in po_list:
-			changeword(x)
-		changeword('enigma2-plugins/networkwizard/src/networkwizard.xml ')
+			changeword1(x)
+		changeword1('enigma2-plugins/networkwizard/src/networkwizard.xml ')
 		changeword2('enigma2-plugins/webinterface/src/web-data/tpl/default/index.html ')
 		os.system('rm po_list')
 	except:
 		print 'word patch error '
 		return
 
-def changeword(file):
+def changeword1(file):
 	fn = file[:-1]
 	fnn = file[:-1]+'_n'
 	cmd = "sed s/Dreambox/STB/g "+fn+" > "+fnn
