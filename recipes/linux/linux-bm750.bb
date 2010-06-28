@@ -6,6 +6,7 @@ PR = "r4"
 
 MODULE = "stblinux-2.6.18"
 
+
 SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
 	file://linux_bm750_nand.patch;patch=1;pnum=0 \
         file://linux_bm750_proc.patch;patch=1;pnum=0 \
@@ -16,7 +17,7 @@ SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
         file://linux_bm750_kobject.patch;patch=1;pnum=0 \
         file://linux_bm750_dvb-core_fe.patch;patch=1;pnum=0 \
 	file://bm750_defconfig \
-	file://stblinux-2.6.18.makefile.patch;patch=1"
+	"
 
 
 S = "${WORKDIR}/stblinux-2.6.18"
