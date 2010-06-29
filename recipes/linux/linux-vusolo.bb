@@ -14,7 +14,7 @@ SRC_URI += " file://vusolo_defconfig"
 SRC_URI += " file://linux-vusolo_nand4.patch;patch=1;pnum=0 \
 	file://linux-vusolo_info.patch;patch=1;pnum=0 \
 	file://linux-vusolo_resource.patch;patch=1;pnum=0 \
-	file://linux_bm750_arch_makefile.patch;patch=1;pnum=0 \
+	file://linux_vusolo_arch_makefile.patch;patch=1;pnum=0 \
 	file://linux-vusolo_kojbect.patch;patch=1;pnum=0 \
 	file://linux-vusolo_dvb-core_fe.patch;patch=1;pnum=0 \
 	file://linux-vusolo_romblock.patch;patch=1;pnum=0 \
