@@ -92,9 +92,16 @@ SRCREV = ""
 
 # if you want a vuplus release, use
 ####################################################
-BRANCH_vuplus = "vuplus"
+#BRANCH_vuplus = "vuplus"
+#PV_vuplus = "2.8git${SRCDATE}"
+#SRCREV_vuplus = "4186f8c308d9450353520a88eb5a5ee3940281d3"
+####################################################
+
+#if you want a vuplus experimental, use
+####################################################
+BRANCH_vuplus = "vuplus_experimental"
 PV_vuplus = "2.8git${SRCDATE}"
-SRCREV_vuplus = "4186f8c308d9450353520a88eb5a5ee3940281d3"
+SRCREV_vuplus = ""
 ####################################################
 
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
