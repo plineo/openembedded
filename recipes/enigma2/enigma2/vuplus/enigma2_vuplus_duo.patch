@@ -12,12 +12,12 @@ index ab3835e..dd6ef07 100755
  if test "$DVB_API_VERSION"; then
  	AC_DEFINE(HAVE_DVB,1,[Define to 1 if you have the dvb includes])
 diff --git a/lib/dvb/frontend.cpp b/lib/dvb/frontend.cpp
-index 9de5917..b576d52 100755
+index 6b09d3d..40c2289 100755
 --- a/lib/dvb/frontend.cpp
 +++ b/lib/dvb/frontend.cpp
-@@ -2727,3 +2727,45 @@ RESULT eDVBFrontend::ScanSatCR()
- 	setTone(iDVBFrontend::toneOff);
- 	return 0;
+@@ -2730,3 +2730,45 @@ arg_error:
+ 		"eDVBFrontend::setSlotInfo must get a tuple with first param slotid, second param slot description and third param enabled boolean");
+ 	return false;
  }
 +
 +#ifdef BUILD_VUPLUS_DUO /* ikseong  */
@@ -62,37 +62,26 @@ index 9de5917..b576d52 100755
 +}
 +#endif		
 diff --git a/lib/dvb/frontend.h b/lib/dvb/frontend.h
-old mode 100644
-new mode 100755
-index bc31755..f409b28
+index bef4a18..9aebc71 100644
 --- a/lib/dvb/frontend.h
 +++ b/lib/dvb/frontend.h
-@@ -154,6 +154,9 @@ public:
- 
- 	RESULT turnOffSatCR(int satcr);
- 	RESULT ScanSatCR();
+@@ -152,6 +152,11 @@ public:
+ 	int closeFrontend(bool force=false, bool no_delayed=false);
+ 	const char *getDescription() const { return m_description; }
+ 	bool is_simulate() const { return m_simulate; }
++
 +#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+	RESULT setLoopthrough(int onoff);	
++	RESULT setLoopthrough(int onoff);
 +#endif
++
  };
  
  #endif // SWIG
 diff --git a/lib/dvb/sec.cpp b/lib/dvb/sec.cpp
-old mode 100644
-new mode 100755
-index 0e3e7e0..2c769d9
+index 58fc5e3..6ece243 100644
 --- a/lib/dvb/sec.cpp
 +++ b/lib/dvb/sec.cpp
-@@ -375,7 +375,7 @@ RESULT eDVBSatelliteEquipmentControl::prepare(iDVBFrontend &frontend, FRONTENDPA
- 			{
- 			// calc Frequency
- 				local = abs(sat.frequency 
--					- ((lof - (lof % 1000)) + ((lof % 1000)>500 ? 1000 : 0)) ); //TODO für den Mist mal ein Macro schreiben
-+					- ((lof - (lof % 1000)) + ((lof % 1000)>500 ? 1000 : 0)) ); //TODO f? den Mist mal ein Macro schreiben
- 				parm.FREQUENCY = (local - (local % 125)) + ((local % 125)>62 ? 125 : 0);
- 				frontend.setData(eDVBFrontend::FREQ_OFFSET, sat.frequency - parm.FREQUENCY);
- 
-@@ -980,6 +980,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
+@@ -1018,6 +1018,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
  			}
  		}
  		it->m_frontend->setData(eDVBFrontend::SATPOS_DEPENDS_PTR, -1);
@@ -102,7 +91,7 @@ index 0e3e7e0..2c769d9
  		it->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, -1);
  		it->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, -1);
  		it->m_frontend->setData(eDVBFrontend::ROTOR_POS, -1);
-@@ -990,6 +993,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
+@@ -1028,6 +1031,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
  	for (eSmartPtrList<eDVBRegisteredFrontend>::iterator it(m_avail_simulate_frontends.begin()); it != m_avail_simulate_frontends.end(); ++it)
  	{
  		it->m_frontend->setData(eDVBFrontend::SATPOS_DEPENDS_PTR, -1);
@@ -112,7 +101,7 @@ index 0e3e7e0..2c769d9
  		it->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, -1);
  		it->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, -1);
  		it->m_frontend->setData(eDVBFrontend::ROTOR_POS, -1);
-@@ -1401,6 +1407,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
+@@ -1459,6 +1465,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
  					fclose(f);
  				}
  			}
@@ -122,7 +111,7 @@ index 0e3e7e0..2c769d9
  		}
  
  		p1=p2=NULL;
-@@ -1416,6 +1425,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
+@@ -1474,6 +1483,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
  		{
  			p1->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, (long)p2);
  			p2->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, (long)p1);
@@ -133,7 +122,7 @@ index 0e3e7e0..2c769d9
  		}
  	}
 diff --git a/lib/gdi/glcddc.cpp b/lib/gdi/glcddc.cpp
-index 2a2973a..ed53877 100755
+index 096705e..bcf0f5f 100755
 --- a/lib/gdi/glcddc.cpp
 +++ b/lib/gdi/glcddc.cpp
 @@ -34,6 +34,16 @@ void gLCDDC::exec(gOpcode *o)
@@ -154,10 +143,10 @@ index 2a2973a..ed53877 100755
  //		if (update)
  #ifndef BUILD_VUPLUS /* ikseong  */
 diff --git a/lib/gdi/lcd.cpp b/lib/gdi/lcd.cpp
-index c8560ac..56aff7f 100755
+index 9cb657c..51af908 100755
 --- a/lib/gdi/lcd.cpp
 +++ b/lib/gdi/lcd.cpp
-@@ -183,3 +183,32 @@ void eDBoxLCD::update()
+@@ -228,3 +228,32 @@ void eDBoxLCD::update()
  	}
  }
  
@@ -191,14 +180,12 @@ index c8560ac..56aff7f 100755
 +}
 +#endif
 diff --git a/lib/gdi/lcd.h b/lib/gdi/lcd.h
-old mode 100644
-new mode 100755
-index 99f921b..d460953
+index e7b4c2c..561e3b0 100644
 --- a/lib/gdi/lcd.h
 +++ b/lib/gdi/lcd.h
 @@ -36,6 +36,9 @@ public:
+ 	int stride() { return _stride; }
  	eSize size() { return res; }
- 	
  	virtual void update()=0;
 +#ifdef BUILD_VUPLUS_DUO /* ikseong  */
 +	virtual void updates(ePoint start,char *text) = 0;
@@ -218,9 +205,7 @@ index 99f921b..d460953
  
  #endif
 diff --git a/lib/python/Screens/ChoiceBox.py b/lib/python/Screens/ChoiceBox.py
-old mode 100644
-new mode 100755
-index 7c8b142..39e70d4
+index 7c8b142..39e70d4 100644
 --- a/lib/python/Screens/ChoiceBox.py
 +++ b/lib/python/Screens/ChoiceBox.py
 @@ -31,7 +31,9 @@ class ChoiceBox(Screen):
@@ -263,10 +248,10 @@ index 7c8b142..39e70d4
  
  	def cancel(self):
 diff --git a/lib/python/enigma_python.i b/lib/python/enigma_python.i
-index f3e67d9..732b922 100755
+index 0bddce1..040952d 100755
 --- a/lib/python/enigma_python.i
 +++ b/lib/python/enigma_python.i
-@@ -130,6 +130,7 @@ is usually caused by not marking PSignals as immutable.
+@@ -131,6 +131,7 @@ is usually caused by not marking PSignals as immutable.
  
  #define DEBUG
  #define BUILD_VUPLUS
