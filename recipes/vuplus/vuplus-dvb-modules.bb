@@ -16,7 +16,7 @@ PV_bm750 = "${KV}"
 PV_vusolo = "${KV}"
 
 
-SRCDATE_bm750 = "20100611"
+SRCDATE_bm750 = "20100707"
 SRCDATE_vusolo = "20100611"
 
 
