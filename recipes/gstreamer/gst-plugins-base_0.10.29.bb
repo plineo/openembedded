@@ -11,7 +11,7 @@ file://playbin2-If-a-text-sink-is-provided-let-subtitle-p.patch;patch=1 "
 #Following patch is needed if X is enabled.
 #file://jsseek_have_x.patch;patch=1 "
 
-PR = "${INC_PR}.0"
+PR = "${INC_PR}.1"
 
 PROVIDES += "gst-plugins"
 
