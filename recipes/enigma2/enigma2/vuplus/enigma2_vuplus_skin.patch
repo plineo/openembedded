@@ -80,11 +80,11 @@ index 0000000..ff165af
 +install_DATA = \
 +	*.png
 diff --git a/data/750S/skin.xml b/data/750S/skin.xml
-new file mode 100644
-index 0000000..e35a01c
+new file mode 100755
+index 0000000..7be3bca
 --- /dev/null
 +++ b/data/750S/skin.xml
-@@ -0,0 +1,2314 @@
+@@ -0,0 +1,2489 @@
 +<skin>
 +	<!-- VU+ skin (skin.xml)  -->
 +	<output id="0">
@@ -253,12 +253,10 @@ index 0000000..e35a01c
 +			<convert type="ConditionalShowHide" />
 +		</widget>
 +		<!-- Audio icon (is there multichannel audio?) -->
-+<!--		
 +		<widget source="session.CurrentService" render="Pixmap" pixmap="750S/icons/icon_dolby.png" position="634,36" zPosition="1" size="25,15" alphatest="on">
 +			<convert type="ServiceInfo">IsMultichannel</convert>
 +			<convert type="ConditionalShowHide" />
 +		</widget>
-+-->		
 +		<!-- Progressbar (current event duration)-->
 +		<ePixmap pixmap="750S/progress_bg.png" position="60,77" size="84,7" transparent="1" alphatest="on" />
 +		<widget source="session.Event_Now" render="Progress" pixmap="750S/progress_small.png" position="62,78" zPosition="1" size="80,5" transparent="1">
@@ -546,8 +544,47 @@ index 0000000..e35a01c
 +		<widget name="statuspic" pixmaps="750S/buttons/button_green.png,750S/buttons/button_green_off.png" position="460,322" zPosition="10" size="22,22" transparent="1" alphatest="on"/>
 +	</screen>
 +	<!-- Audio selection -->
-+	<screen name="AudioSelection" position="210,203" size="300,170" title="Audio">
-+		<widget name="tracks" position="20,10" size="260,150" scrollbarMode="showOnDemand" />
++	<screen name="AudioSelection" position="center,center" size="560,330" title="Audio">
++		<widget name="config" position="50,10" size="500,110" scrollbarMode="showOnDemand" />
++		
++		<widget source="key_red" render="Pixmap" pixmap="750S/buttons/button_red.png" position="10,10" size="22,22" alphatest="on">
++			<convert type="ConditionalShowHide" />
++		</widget>
++		<widget source="key_green" render="Pixmap" pixmap="750S/buttons/button_green.png" position="10,35" size="22,22" alphatest="on">
++			<convert type="ConditionalShowHide" />
++		</widget>
++		<widget source="key_yellow" render="Pixmap" pixmap="750S/buttons/button_yellow.png" position="10,60" size="22,22" alphatest="on">
++			<convert type="ConditionalShowHide" />
++		</widget>
++		<widget source="key_blue" render="Pixmap" pixmap="750S/buttons/button_blue.png" position="10,85" size="22,22" alphatest="on">
++			<convert type="ConditionalShowHide" />
++		</widget>
++		
++		<ePixmap pixmap="skin_default/div-h.png" position="10,112" zPosition="10" size="540,2" />
++
++		<widget source="streams" render="Listbox" scrollbarMode="showOnDemand" position="10,120" size="540,200" zPosition="3" transparent="1" >
++			<convert type="TemplatedMultiContent">
++				{"templates":
++					{"default": (25, [ 
++						MultiContentEntryText(pos = (0, 0),   size = (35, 25),  font = 0, flags = RT_HALIGN_LEFT,  text = 1), # key,
++						MultiContentEntryText(pos = (40, 0),  size = (60, 25),  font = 0, flags = RT_HALIGN_LEFT,  text = 2), # number,
++						MultiContentEntryText(pos = (110, 0), size = (120, 25), font = 0, flags = RT_HALIGN_LEFT,  text = 3), # description,
++						MultiContentEntryText(pos = (240, 0), size = (200, 25), font = 0, flags = RT_HALIGN_LEFT,  text = 4), # language,
++						MultiContentEntryText(pos = (450, 4), size = (90, 25),  font = 1, flags = RT_HALIGN_RIGHT, text = 5), # selection,
++					], True, "showNever"),
++					"notselected": (25, [ 
++						MultiContentEntryText(pos = (0, 0),   size = (35, 25),  font = 0, flags = RT_HALIGN_LEFT,  text = 1), # key,
++						MultiContentEntryText(pos = (40, 0),  size = (60, 25),  font = 0, flags = RT_HALIGN_LEFT,  text = 2), # number,
++						MultiContentEntryText(pos = (110, 0), size = (120, 25), font = 0, flags = RT_HALIGN_LEFT,  text = 3), # description,
++						MultiContentEntryText(pos = (240, 0), size = (200, 25), font = 0, flags = RT_HALIGN_LEFT,  text = 4), # language,
++						MultiContentEntryText(pos = (450, 4), size = (90, 25),  font = 1, flags = RT_HALIGN_RIGHT, text = 5), # selection,
++					], False, "showNever")
++					},
++				"fonts": [gFont("Regular", 20), gFont("Regular", 16)],
++				"itemHeight": 25
++				}
++			</convert>
++		</widget>
 +	</screen>
 +	<!-- Bouquet selector -->
 +	<screen name="BouquetSelector" position="210,160" size="300,240" title="Choose bouquet">
@@ -653,9 +690,6 @@ index 0000000..e35a01c
 +
 +		</applet>
 +	</screen>
-+	<screen name="ChoiceBox_summary" position="0,0" size="132,64">
-+		<widget source="parent.summary_list" render="Label" position="6,0" size="126,64" font="Regular;11" />
-+	</screen>	
 +	<!-- Common interface -->
 +	<screen name="MMIDialog" position="135,153" size="450,270">
 +		<widget name="title" position="10,10" size="430,25" font="Regular;23" />
@@ -1033,10 +1067,6 @@ index 0000000..e35a01c
 +self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2, orgpos.y()))
 +		</applet>
 +	</screen>
-+	<screen name="MessageBox_summary" position="0,0" size="132,64">
-+		<widget source="parent.Text" render="Label" position="0,0" size="132,52" font="Regular;11" halign="center" valign="center" />
-+		<widget source="parent.selectedChoice" render="Label" position="6,50" size="120,14" font="Regular;14" halign="center" valign="center" />
-+	</screen>
 +	<!-- Minute input -->
 +	<screen name="MinuteInput" position="200,140" size="280,60" title="Seek">
 +		<widget name="minutes" position="80,15" size="160,25" halign="right" font="Regular;23" />
@@ -1098,9 +1128,21 @@ index 0000000..e35a01c
 +		<ePixmap pixmap="750S/buttons/button_red.png" position="400,328" zPosition="10" size="22,22" transparent="1" alphatest="on" />
 +		<ePixmap pixmap="750S/buttons/button_green.png" position="20,328" zPosition="10" size="22,22" transparent="1" alphatest="on" />
 +		<ePixmap pixmap="750S/buttons/button_yellow.png" position="20,358" zPosition="10" size="22,22" transparent="1" alphatest="on" />
-+		<widget name="list" position="10,10" size="480,250" transparent="1" scrollbarMode="showOnDemand" zPosition="10"/>    
-+		<widget name="introduction" position="140,360" size="300,21" zPosition="10" font="Regular;21" halign="center" transparent="1" />
-+	</screen>
++		<widget source="list" render="Listbox" position="10,10" size="550,280" zPosition="10" scrollbarMode="showOnDemand">
++			<convert type="TemplatedMultiContent"> <!--  iface, name, description, interfacepng, defaultpng, activepng, divpng  -->
++				{"template": [
++						MultiContentEntryText(pos = (85, 6), size = (440, 28), font=0, flags = RT_HALIGN_LEFT|RT_VALIGN_TOP, text = 1), # index 1 is the interfacename
++						MultiContentEntryText(pos = (85, 43), size = (440, 20), font=1, flags = RT_HALIGN_LEFT|RT_VALIGN_BOTTOM, text = 2), # index 2 is the description
++						MultiContentEntryPixmapAlphaTest(pos = (2, 8), size = (54, 54), png = 3), # index 3 is the interface pixmap
++						MultiContentEntryPixmapAlphaTest(pos = (63, 46), size = (15, 16), png = 4), # index 4 is the default pixmap
++					],
++				"fonts": [gFont("Regular", 28),gFont("Regular", 20)],
++				"itemHeight": 70
++				}
++			</convert>
++		</widget>
++		<widget source="introduction" render="Label" position="140,360" size="300,21" zPosition="10" font="Regular;21" halign="center" transparent="1" />
++	</screen>	
 +	<!-- Network adapter test Black = "#000000" Grey = "#8c8c93" Green = "#1cff1c" Red = #f23d21-->
 +	<screen name="NetworkAdapterTest" position="110,120" size="520,400" title="Network test..." >
 +		<ePixmap pixmap="750S/buttons/button_red.png" position="380,328" zPosition="10" size="22,22" transparent="1" alphatest="on" />
@@ -1617,86 +1659,6 @@ index 0000000..e35a01c
 +		<ePixmap pixmap="750S/volume.png" position="0,0" size="539,44" />
 +		<widget name="Volume" pixmap="750S/volume_box.png" position="70,16" zPosition="1" size="452,12" transparent="1" />
 +	</screen>
-+
-+	<!-- LCD/OLED Screens -->
-+
-+	<!-- LCD screen (channelselection) -->
-+	<screen name="ChannelSelection_summary" position="0,0" size="132,64">
-+		<widget source="parent.ServiceEvent" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
-+			<convert type="ServiceName">Name</convert>
-+		</widget>
-+		<widget source="parent.ServiceEvent" render="Progress" position="16,27" size="100,5" borderWidth="1">
-+			<convert type="EventTime">Progress</convert>
-+		</widget>
-+		<widget source="global.CurrentTime" render="Label" position="6,32" size="90,32" font="Regular;32" halign="right" valign="top">
-+			<convert type="ClockToText">Format:%H:%M</convert>
-+		</widget>
-+		<widget source="global.CurrentTime" render="Label" position="100,34" zPosition="1" size="26,30" font="Regular;16" valign="top">
-+			<convert type="ClockToText">Format:%S</convert>
-+		</widget>
-+	</screen>
-+	<!-- LCD screen (main) -->
-+	<screen name="InfoBarSummary" position="0,0" size="132,64">
-+		<widget source="session.CurrentService" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
-+			<convert type="ServiceName">Name</convert>
-+		</widget>
-+		<widget source="session.Event_Now" render="Progress" position="16,27" size="100,5" borderWidth="1">
-+			<convert type="EventTime">Progress</convert>
-+		</widget>
-+		<widget source="global.CurrentTime" render="Label" position="6,32" size="90,32" font="Regular;32" halign="right" valign="top">
-+			<convert type="ClockToText">Format:%H:%M</convert>
-+		</widget>
-+		<widget source="global.CurrentTime" render="Label" position="100,34" zPosition="1" size="26,30" font="Regular;16" valign="top">
-+			<convert type="ClockToText">Format:%S</convert>
-+		</widget>
-+		<widget source="session.RecordState" render="FixedLabel" text=" " position="6,30" zPosition="1" size="120,34">
-+			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
-+			<convert type="ConditionalShowHide">Blink</convert>
-+		</widget>
-+	</screen>
-+	<!-- LCD screen (menus) -->
-+	<screen name="MenuSummary" position="0,0" size="132,64">
-+		<widget source="parent.title" render="Label" position="6,0" size="120,32" font="Regular;14" halign="center" valign="center"/>
-+		<widget source="parent.menu" render="Label" position="6,32" size="120,32" font="Regular;16" halign="center" valign="center">
-+			<convert type="StringListSelection" />
-+		</widget>
-+	</screen>
-+	<!-- LCD screen (movieplayer) -->
-+	<screen name="InfoBarMoviePlayerSummary" position="0,0" size="132,64">
-+		<widget source="session.CurrentService" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
-+			<convert type="ServiceName">Name</convert>
-+		</widget>
-+		<widget source="session.CurrentService" render="Progress" position="16,27" size="100,5" borderWidth="1">
-+			<convert type="ServicePosition">Position</convert>
-+		</widget>
-+		<widget source="global.CurrentTime" render="Label" position="6,32" size="120,32" font="Regular;32" halign="center" valign="center">
-+			<convert type="ClockToText">Format:%H:%M</convert>
-+		</widget>
-+		<widget source="session.RecordState" render="FixedLabel" text=" " position="6,32" zPosition="1" size="120,32">
-+			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
-+			<convert type="ConditionalShowHide">Blink</convert>
-+		</widget>
-+	</screen>
-+	<!-- LCD screen (setup) -->
-+	<screen name="SetupSummary" position="0,0" size="132,64">
-+		<widget source="SetupTitle" render="Label" position="6,0" size="120,16" font="Regular;12" />
-+		<widget source="SetupEntry" render="Label" position="6,16" size="120,32" font="Regular;12" />
-+		<widget source="SetupValue" render="Label" position="6,48" size="120,16" font="Regular;12" />
-+	</screen>
-+	<!-- LCD screen (misc) -->
-+	<screen name="SimpleSummary" position="0,0" size="132,64">
-+		<widget source="parent.Title" render="Label" position="6,0" size="120,64" font="Regular;16" halign="center" valign="center" />
-+	</screen>
-+	<!-- LCD screen (standby) -->
-+	<screen name="StandbySummary" position="0,0" size="132,64">
-+		<widget source="global.CurrentTime" render="Label" position="6,0" size="120,64" font="Regular;40" halign="center" valign="center">
-+			<convert type="ClockToText">Format:%H:%M</convert>
-+		</widget>
-+		<widget source="session.RecordState" render="FixedLabel" position="6,0" zPosition="1" size="120,64" text=" ">
-+			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
-+			<convert type="ConditionalShowHide">Blink</convert>
-+		</widget>
-+	</screen>
 +	<screen name="JobView" position="84,122" size="520,350" title="Job View">
 +		<widget source="job_name" render="Label" position="20,12" size="480,60" font="Regular;28" />
 +		<widget source="job_task" render="Label" position="20,90" size="480,50" font="Regular;23" />
@@ -1725,13 +1687,12 @@ index 0000000..e35a01c
 +			<convert type="ConditionalShowHide" />
 +		</widget>
 +	</screen>
-+	<screen name="JobView_summary" position="0,0" size="132,64">
-+		<widget source="parent.summary_job_name" render="Label" position="6,4" size="120,42" font="Regular;16" />
-+		<widget source="parent.summary_job_task" render="Label" position="6,22" size="120,26" font="Regular;12" />
-+		<widget source="parent.summary_job_progress" render="Progress" position="6,50" size="60,12" borderWidth="1" zPosition="1" />
-+		<widget source="parent.summary_job_progress" render="Label" position="66,50" size="50,12" font="Regular;12" zPosition="2" halign="center" transparent="1"  >
-+			<convert type="ProgressToText" />
-+		</widget>
++	<!-- VirtualKeyBoard -->
++	<screen name="VirtualKeyBoard" position="center,center" size="560,350" zPosition="99" title="Virtual KeyBoard">
++		<ePixmap pixmap="skin_default/vkey_text.png" position="9,35" zPosition="-4" size="542,52" alphatest="on" />
++		<widget name="header" position="10,10" size="500,20" font="Regular;20" transparent="1" noWrap="1" />
++		<widget name="text" position="12,35" size="536,46" font="Regular;46" transparent="1" noWrap="1" halign="right" />
++		<widget name="list" position="10,100" size="540,225" selectionDisabled="1" transparent="1" />
 +	</screen>
 +	<!-- FileBrowser -->
 +	<screen name="FileBrowser" position="center,120" size="520,420" title="DVD File Browser" >
@@ -2398,6 +2359,220 @@ index 0000000..e35a01c
 +		<widget name="blue" position="405,415" zPosition="1" size="135,40" pixmap="750S/buttons/blue.png" transparent="1" alphatest="on" />
 +		<widget name="key_blue" position="425,415" zPosition="2" size="115,40" halign="center" valign="center" font="Regular;22" transparent="1" shadowColor="black" shadowOffset="-1,-1" />            
 +	</screen>
++	<!-- LCD/OLED Screens -->
++	
++	<!-- LCD screen (channelselection) -->
++	<screen name="ChannelSelection_summary" position="0,0" size="132,64" id="1">
++		<widget source="parent.ServiceEvent" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="parent.ServiceEvent" render="Progress" position="16,27" size="100,5" borderWidth="1">
++			<convert type="EventTime">Progress</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="6,32" size="90,32" font="Regular;32" halign="right" valign="top">
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="100,34" zPosition="1" size="26,30" font="Regular;16" valign="top">
++			<convert type="ClockToText">Format:%S</convert>
++		</widget>
++	</screen> 
++	<!-- Color OLED screen (ChannelSelection) -->
++	<screen name="ChannelSelection_summary" position="0,0" size="96,64" id="2">
++		<widget source="parent.ServiceEvent" render="Label" position="0,0" size="96,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="parent.ServiceEvent" render="Progress" position="0,27" size="96,5" borderWidth="1" >
++			<convert type="EventTime">Progress</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="0,32" size="96,32" font="Regular;32" halign="center" valign="center" foregroundColor="#FFFFFF" backgroundColor="#000000" >
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++	</screen>
++	<!-- LCD screen (main) -->
++	<screen name="InfoBarSummary" position="0,0" size="132,64" id="1">
++		<widget source="session.CurrentService" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="session.Event_Now" render="Progress" position="16,27" size="100,5" borderWidth="1">
++			<convert type="EventTime">Progress</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="6,32" size="90,32" font="Regular;32" halign="right" valign="top">
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="100,34" zPosition="1" size="26,30" font="Regular;16" valign="top">
++			<convert type="ClockToText">Format:%S</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" text=" " position="6,30" zPosition="1" size="120,34">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- Color OLED screen (main) -->
++	<screen name="InfoBarSummary" position="0,0" size="96,64" id="2">
++		<widget source="session.CurrentService" render="Label" position="0,0" size="96,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="session.Event_Now" render="Progress" position="0,27" size="96,5" borderWidth="1" >
++			<convert type="EventTime">Progress</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="0,32" size="96,32" font="Regular;32" halign="center" valign="center" foregroundColor="#FFFFFF" backgroundColor="#000000" >
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" text=" " position="0,32" zPosition="1" size="96,32">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- LCD screen (movieplayer) -->
++	<screen name="InfoBarMoviePlayerSummary" position="0,0" size="132,64" id="1">
++		<widget source="session.CurrentService" render="Label" position="6,0" size="120,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="session.CurrentService" render="Progress" position="16,27" size="100,5" borderWidth="1">
++			<convert type="ServicePosition">Position</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="6,32" size="120,32" font="Regular;32" halign="center" valign="center">
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" text=" " position="6,32" zPosition="1" size="120,32">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- Color OLED screen (movieplayer) -->
++	<screen name="InfoBarMoviePlayerSummary" position="0,0" size="96,64" id="2">
++		<widget source="session.CurrentService" render="Label" position="0,0" size="96,25" font="Regular;14" halign="center" valign="center" >
++			<convert type="ServiceName">Name</convert>
++		</widget>
++		<widget source="session.CurrentService" render="Progress" position="0,27" size="96,5" borderWidth="1" >
++			<convert type="ServicePosition">Position</convert>
++		</widget>
++		<widget source="global.CurrentTime" render="Label" position="0,32" size="96,32" font="Regular;32" halign="center" valign="center" foregroundColor="#FFFFFF" backgroundColor="#000000" >
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" text=" " position="0,32" zPosition="1" size="96,32">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- LCD screen (ChoiceBox) -->
++	<screen name="ChoiceBox_summary" position="0,0" size="132,64" id="1">
++		<widget source="parent.summary_list" render="Label" position="6,0" size="126,64" font="Regular;11" />
++	</screen>
++	<!-- Color OLED screen (ChoiceBox) -->
++	<screen name="ChoiceBox_summary" position="0,0" size="96,64" id="2">
++		<widget source="parent.summary_list" render="Label" position="0,0" size="96,64" font="Regular;10" />
++	</screen>	
++	<!-- LCD screen (MessageBox) -->
++	<screen name="MessageBox_summary" position="0,0" size="132,64" id="1">
++		<widget source="parent.Text" render="Label" position="0,0" size="132,52" font="Regular;11" halign="center" valign="center" />
++		<widget source="parent.selectedChoice" render="Label" position="6,50" size="120,14" font="Regular;14" halign="center" valign="center" />
++	</screen>
++	<!-- Color OLED screen (MessageBox) -->
++	<screen name="MessageBox_summary" position="0,0" size="96,64" id="2">
++		<widget source="parent.Text" render="Label" position="0,0" size="96,52" font="Regular;10" halign="center" valign="center" />
++		<widget source="parent.selectedChoice" render="Label" position="0,50" size="96,14" font="Regular;12" halign="center" valign="center" />
++	</screen>
++
++	<!-- LCD screen (menus) -->
++	<screen name="MenuSummary" position="0,0" size="132,64" id="1">
++		<widget source="parent.title" render="Label" position="6,0" size="120,32" font="Regular;14" halign="center" valign="center"/>
++		<widget source="parent.menu" render="Label" position="6,32" size="120,32" font="Regular;16" halign="center" valign="center">
++			<convert type="StringListSelection" />
++		</widget>
++	</screen> 
++	<!-- Color OLED screen (menus) -->
++	<screen name="MenuSummary" position="0,0" size="96,64" id="2">
++		<widget source="parent.title" render="Label" position="0,0" size="96,32" font="Regular;14" halign="center" valign="center"/>
++		<widget source="parent.menu" render="Label" position="0,32" size="96,32" font="Regular;14" halign="center" valign="center">
++			<convert type="StringListSelection" />
++		</widget>
++	</screen>	
++	<!-- LCD screen (ServiceScan) -->
++	<screen name="ServiceScanSummary" position="0,0" size="132,64" id="1">
++		<widget name="Title" position="6,4" size="120,42" font="Regular;16" transparent="1" />
++		<widget name="Service" position="6,22" size="120,26" font="Regular;12" transparent="1" />
++		<widget name="scan_progress" position="6,50" zPosition="1" borderWidth="1" size="56,12" backgroundColor="dark" />
++	</screen>
++	<!-- Color OLED screen (ServiceScan) -->
++	<screen name="ServiceScanSummary" position="0,0" size="96,64" id="2">
++		<widget name="Title" position="0,0" size="96,30" font="Regular;14" transparent="1" />
++		<widget name="Service" position="0,30" size="96,20" font="Regular;10" transparent="1" />
++		<widget name="scan_progress" position="0,50" zPosition="1" borderWidth="1" size="96,12" backgroundColor="dark" />
++	</screen>
++	<!-- LCD screen (setup) -->
++	<screen name="SetupSummary" position="0,0" size="132,64" id="1">
++		<widget source="SetupTitle" render="Label" position="6,0" size="120,16" font="Regular;12" />
++		<widget source="SetupEntry" render="Label" position="6,16" size="120,32" font="Regular;12" />
++		<widget source="SetupValue" render="Label" position="6,48" size="120,16" font="Regular;12" />
++	</screen>
++	<!-- Color OLED screen (setup) -->
++	<screen name="SetupSummary" position="0,0" size="96,64" id="2">
++		<widget source="SetupTitle" render="Label" position="0,0" size="96,16" font="Regular;10" />
++		<widget source="SetupEntry" render="Label" position="0,16" size="96,32" font="Regular;10" />
++		<widget source="SetupValue" render="Label" position="0,48" size="96,16" font="Regular;10" />
++	</screen>
++	<!-- LCD screen (misc) -->
++	<screen name="SimpleSummary" position="0,0" size="132,64" id="1">
++		<widget source="parent.Title" render="Label" position="6,0" size="120,64" font="Regular;16" halign="center" valign="center" />
++	</screen>
++	<!-- Color OLED screen (misc) -->
++	<screen name="SimpleSummary" position="0,0" size="96,64" id="2">
++		<widget source="parent.Title" render="Label" position="0,0" size="96,64" font="Regular;14" halign="center" valign="center" />
++	</screen>
++	<!-- LCD screen (standby) -->
++	<screen name="StandbySummary" position="0,0" size="132,64" id="1">
++		<widget source="global.CurrentTime" render="Label" position="6,0" size="120,64" font="Regular;40" halign="center" valign="center">
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" position="6,0" zPosition="1" size="120,64" text=" ">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- Color OLED screen (standby) -->
++	<screen name="StandbySummary" position="0,0" size="96,64" id="2">
++		<widget source="global.CurrentTime" render="Label" position="0,0" size="96,64" font="Regular;40" halign="center" valign="center">
++			<convert type="ClockToText">Format:%H:%M</convert>
++		</widget>
++		<widget source="session.RecordState" render="FixedLabel" position="0,0" zPosition="1" size="96,64" text=" ">
++			<convert type="ConfigEntryTest">config.usage.blinking_display_clock_during_recording,True,CheckSourceBoolean</convert>
++			<convert type="ConditionalShowHide">Blink</convert>
++		</widget>
++	</screen>
++	<!-- LCD screen (JobView) -->
++	<screen name="JobView_summary" position="0,0" size="132,64" id="1">
++		<widget source="parent.summary_job_name" render="Label" position="6,4" size="120,42" font="Regular;16" />
++		<widget source="parent.summary_job_task" render="Label" position="6,22" size="120,26" font="Regular;12" />
++		<widget source="parent.summary_job_progress" render="Progress" position="6,50" size="60,12" borderWidth="1" zPosition="1" />
++		<widget source="parent.summary_job_progress" render="Label" position="66,50" size="50,12" font="Regular;12" zPosition="2" halign="center" transparent="1"  >
++			<convert type="ProgressToText" />
++		</widget>
++	</screen>
++	<!-- Color OLED screen (JobView) -->
++	<screen name="JobView_summary" position="0,0" size="96,64" id="2">
++		<widget source="parent.summary_job_name" render="Label" position="0,4" size="96,42" font="Regular;14" />
++		<widget source="parent.summary_job_task" render="Label" position="0,22" size="96,26" font="Regular;10" />
++		<widget source="parent.summary_job_progress" render="Progress" position="0,50" size="60,12" borderWidth="1" zPosition="1" />
++		<widget source="parent.summary_job_progress" render="Label" position="60,50" size="36,12" font="Regular;10" zPosition="2" halign="center" transparent="1"  >
++			<convert type="ProgressToText" />
++		</widget>
++	</screen>
++	<!-- LCD screen (Wizard) -->
++	<screen name="WizardSummary" position="0,0" size="132,64" id="1">
++		<widget source="text" render="Label" position="6,0" size="120,16" font="Regular;16" transparent="1" />
++		<widget source="parent.list" render="Label" position="6,18" size="120,46" font="Regular;12">
++			<convert type="StringListSelection" />
++		</widget>
++	</screen>
++	<!-- Color OLED screen (Wizard) -->
++	<screen name="WizardSummary" position="0,0" size="96,64" id="2">
++		<widget source="text" render="Label" position="0,0" size="96,16" font="Regular;14" transparent="1" />
++		<widget source="parent.list" render="Label" position="0,18" size="96,46" font="Regular;12">
++			<convert type="StringListSelection" />
++		</widget>
++	</screen>
++	
 +</skin>
 diff --git a/data/Makefile.am b/data/Makefile.am
 index 1ed9444..d75b822 100644
@@ -2470,11 +2645,11 @@ index 0000000..ed47ec9
 +install_DATA = \
 +	*.png
 diff --git a/data/Vu_HD/skin.xml b/data/Vu_HD/skin.xml
-new file mode 100644
-index 0000000..c092ede
+new file mode 100755
+index 0000000..469b314
 --- /dev/null
 +++ b/data/Vu_HD/skin.xml
-@@ -0,0 +1,3037 @@
+@@ -0,0 +1,3036 @@
 +<skin>
 +	<!-- VU+ skin (skin.xml)  -->
 +	<output id="0">
@@ -2635,6 +2810,7 @@ index 0000000..c092ede
 +		<ePixmap position="720,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_crypt_off.png"  alphatest="blend" />
 +		<ePixmap position="740,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_txt_off.png"  alphatest="blend" />
 +		<ePixmap position="770,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_format_off.png"  alphatest="blend" />
++		<ePixmap position="804,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_dolby_off.png"  alphatest="blend" />
 +		<!-- Blinking pixmap (recording in progress?) -->
 +		<ePixmap pixmap="Vu_HD/icons/icon_rec_off.png" position="680,18" size="31,20" alphatest="blend" />
 +		<widget source="session.RecordState" render="Pixmap" pixmap="Vu_HD/icons/icon_rec.png" position="680,18" zPosition="1" size="31,20" alphatest="blend" >
@@ -2656,12 +2832,10 @@ index 0000000..c092ede
 +			<convert type="ConditionalShowHide" />
 +		</widget>
 +		<!-- Audio icon (is there multichannel audio?) -->
-+<!--		
-+		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_dolby.png" position="634,36" zPosition="1" size="25,15" alphatest="on">
++		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_dolby.png" position="804,20" zPosition="1" size="43,15" alphatest="blend">
 +			<convert type="ServiceInfo">IsMultichannel</convert>
 +			<convert type="ConditionalShowHide" />
 +		</widget>
-+-->		
 +		<!-- Progressbar (current event duration)-->
 +		<ePixmap pixmap="Vu_HD/Statusbar_white.png" position="60,65" size="100,10" transparent="1" alphatest="on" />
 +		<widget source="session.Event_Now" render="Progress" pixmap="Vu_HD/progress_medium.png" position="60,65" zPosition="1" size="100,10" backgroundColor="#ffffff" transparent="1">
@@ -2913,7 +3087,7 @@ index 0000000..c092ede
 +		<widget name="statuspic" pixmaps="Vu_HD/buttons/green.png,Vu_HD/buttons/button_off.png" position="630,98" zPosition="10" size="25,25" transparent="1" alphatest="blend"/>
 +	</screen>
 +	<!-- Audio selection -->
-+	<screen name="AudioSelection" position="center,center" size="300,170" title="Audio">
++	<screen name="AudioSelection" position="center,center" size="560,330" title="Audio">
 +		<widget name="config" position="50,10" size="500,110" scrollbarMode="showOnDemand" />
 +		
 +		<widget source="key_red" render="Pixmap" pixmap="Vu_HD/buttons/red.png" position="10,10" size="25,25" alphatest="on">
@@ -4600,19 +4774,19 @@ index 0000000..c092ede
 +			<convert type="ServiceName">Name</convert>
 +		</widget>
 +		<!-- Chapter info -->
-+		<widget name="chapterLabel" position="110,32" size="360,20" font="Regular;18" foregroundColor="#3c3c3c" backgroundColor="#27d9dee2" transparent="1" />
++		<widget name="chapterLabel" position="110,32" size="360,20" font="Regular;16" foregroundColor="#3c3c3c" backgroundColor="#27d9dee2" transparent="1" />
 +		<!-- Audio track info -->
-+		<ePixmap pixmap="Vu_HD/icons/icon_dolby.png" position="690,52" zPosition="1" size="26,16" alphatest="on"/>
-+		<widget name="audioLabel" position="720,50" size="130,22" font="Regular;18" backgroundColor="#27aeaeae" transparent="1" />
++		<ePixmap pixmap="Vu_HD/icons/icon_dolby.png" position="675,52" zPosition="1" size="43,15" alphatest="blend"/>
++		<widget name="audioLabel" position="720,50" size="130,22" font="Regular;16" backgroundColor="#27aeaeae" transparent="1" />
 +		<!-- Subtitle track info -->
-+		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_txt.png" position="530,52" zPosition="1" size="26,16" alphatest="blend" >
++		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_txt.png" position="520,52" zPosition="1" size="26,16" alphatest="blend" >
 +			<convert type="ServiceInfo">HasTelext</convert>
 +			<convert type="ConditionalShowHide" />
 +		</widget>
-+		<widget name="subtitleLabel" position="560,50" size="130,22" font="Regular;18" backgroundColor="#263c59" transparent="1" />
++		<widget name="subtitleLabel" position="550,50" size="120,22" font="Regular;16" backgroundColor="#263c59" transparent="1" />
 +		<!-- Angle info -->
 +		<widget name="anglePix" pixmap="Vu_HD/icons/icon_view.png" position="370,50" size="26,16" alphatest="on" />
-+		<widget name="angleLabel" position="400,48" size="130,22" font="Regular;18" backgroundColor="#263c59" transparent="1" />
++		<widget name="angleLabel" position="400,48" size="120,22" font="Regular;16" backgroundColor="#263c59" transparent="1" />
 +		<!-- Elapsed time -->
 +		<widget source="session.CurrentService" render="Label" position="240,95" size="100,24" font="Semiboldit;18" halign="left" valign="center" foregroundColor="#3d0e82" backgroundColor="#27aeaeae" transparent="1">
 +			<convert type="ServicePosition">Position,ShowHours</convert>
@@ -4623,7 +4797,7 @@ index 0000000..c092ede
 +			<convert type="ServicePosition">Gauge</convert>
 +		</widget>
 +		<!-- Remaining time -->
-+		<widget source="session.CurrentService" render="Label" position="700,95" size="95,20" font="Regular;18" halign="right" valign="center" foregroundColor="#3c3c3c" backgroundColor="#27aeaeae" transparent="1">
++		<widget source="session.CurrentService" render="Label" position="700,95" size="95,20" font="Regular;16" halign="right" valign="center" foregroundColor="#3c3c3c" backgroundColor="#27aeaeae" transparent="1">
 +			<convert type="ServicePosition">Remaining,Negate,ShowHours</convert>
 +		</widget>
 +	</screen>
@@ -5526,6 +5700,23 @@ index f743b8c..87650c8 100644
 +	MyriadPro-Semibold.otf \
 +	MyriadPro-SemiboldIt.otf 
 +
+diff --git a/data/skin.xml b/data/skin.xml
+index cde03f4..77c5f64 100755
+--- a/data/skin.xml
++++ b/data/skin.xml
+@@ -179,11 +179,10 @@
+ 			<convert type="ConditionalShowHide" />
+ 		</widget>
+ 		<!-- Audio icon (is there multichannel audio?) -->
+-<!--	ikseong		
+ 		<widget source="session.CurrentService" render="Pixmap" pixmap="skin_default/icons/icon_dolby.png" position="645,48" zPosition="1" size="26,16" alphatest="on">
+ 			<convert type="ServiceInfo">IsMultichannel</convert>
+ 			<convert type="ConditionalShowHide" />
+-		</widget>	-->
++		</widget>
+ 		<!-- Progressbar (current event duration)-->
+ 		<ePixmap pixmap="skin_default/progress_bg.png" position="48,77" size="84,7" transparent="1" alphatest="on" />
+ 		<widget source="session.Event_Now" render="Progress" pixmap="skin_default/progress_small.png" position="50,78" zPosition="1" size="80,5" transparent="1">
 diff --git a/lib/gdi/epng.cpp b/lib/gdi/epng.cpp
 index 972a89d..2629ef8 100644
 --- a/lib/gdi/epng.cpp
@@ -5868,72 +6059,3 @@ index b490f73..bbd9ddd 100755
  			if attrib == "pixmap":
  				guiObject.setPixmap(ptr)
  			elif attrib == "backgroundPixmap":
-diff --git a/data/750S/skin.xml b/data/750S/skin.xml
-index e35a01c..c75b604 100644
---- a/data/750S/skin.xml
-+++ b/data/750S/skin.xml
-@@ -166,12 +166,10 @@
- 			<convert type="ConditionalShowHide" />
- 		</widget>
- 		<!-- Audio icon (is there multichannel audio?) -->
--<!--		
- 		<widget source="session.CurrentService" render="Pixmap" pixmap="750S/icons/icon_dolby.png" position="634,36" zPosition="1" size="25,15" alphatest="on">
- 			<convert type="ServiceInfo">IsMultichannel</convert>
- 			<convert type="ConditionalShowHide" />
- 		</widget>
---->		
- 		<!-- Progressbar (current event duration)-->
- 		<ePixmap pixmap="750S/progress_bg.png" position="60,77" size="84,7" transparent="1" alphatest="on" />
- 		<widget source="session.Event_Now" render="Progress" pixmap="750S/progress_small.png" position="62,78" zPosition="1" size="80,5" transparent="1">
-diff --git a/data/Vu_HD/skin.xml b/data/Vu_HD/skin.xml
-index c092ede..7947ecf 100644
---- a/data/Vu_HD/skin.xml
-+++ b/data/Vu_HD/skin.xml
-@@ -158,6 +158,7 @@
- 		<ePixmap position="720,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_crypt_off.png"  alphatest="blend" />
- 		<ePixmap position="740,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_txt_off.png"  alphatest="blend" />
- 		<ePixmap position="770,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_format_off.png"  alphatest="blend" />
-+		<ePixmap position="804,20" zPosition="0" size="70,20" pixmap="Vu_HD/icons/icon_dolby_off.png"  alphatest="blend" />
- 		<!-- Blinking pixmap (recording in progress?) -->
- 		<ePixmap pixmap="Vu_HD/icons/icon_rec_off.png" position="680,18" size="31,20" alphatest="blend" />
- 		<widget source="session.RecordState" render="Pixmap" pixmap="Vu_HD/icons/icon_rec.png" position="680,18" zPosition="1" size="31,20" alphatest="blend" >
-@@ -179,12 +180,10 @@
- 			<convert type="ConditionalShowHide" />
- 		</widget>
- 		<!-- Audio icon (is there multichannel audio?) -->
--<!--		
--		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_dolby.png" position="634,36" zPosition="1" size="25,15" alphatest="on">
-+		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_dolby.png" position="804,20" zPosition="1" size="43,15" alphatest="blend">
- 			<convert type="ServiceInfo">IsMultichannel</convert>
- 			<convert type="ConditionalShowHide" />
- 		</widget>
---->		
- 		<!-- Progressbar (current event duration)-->
- 		<ePixmap pixmap="Vu_HD/Statusbar_white.png" position="60,65" size="100,10" transparent="1" alphatest="on" />
- 		<widget source="session.Event_Now" render="Progress" pixmap="Vu_HD/progress_medium.png" position="60,65" zPosition="1" size="100,10" backgroundColor="#ffffff" transparent="1">
-@@ -2125,7 +2124,7 @@ self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2, orgpos.y()))
- 		<!-- Chapter info -->
- 		<widget name="chapterLabel" position="110,32" size="360,20" font="Regular;18" foregroundColor="#3c3c3c" backgroundColor="#27d9dee2" transparent="1" />
- 		<!-- Audio track info -->
--		<ePixmap pixmap="Vu_HD/icons/icon_dolby.png" position="690,52" zPosition="1" size="26,16" alphatest="on"/>
-+		<ePixmap pixmap="Vu_HD/icons/icon_dolby.png" position="690,52" zPosition="1" size="43,15" alphatest="blend"/>
- 		<widget name="audioLabel" position="720,50" size="130,22" font="Regular;18" backgroundColor="#27aeaeae" transparent="1" />
- 		<!-- Subtitle track info -->
- 		<widget source="session.CurrentService" render="Pixmap" pixmap="Vu_HD/icons/icon_txt.png" position="530,52" zPosition="1" size="26,16" alphatest="blend" >
-diff --git a/data/skin.xml b/data/skin.xml
-index cde03f4..77c5f64 100755
---- a/data/skin.xml
-+++ b/data/skin.xml
-@@ -179,11 +179,10 @@
- 			<convert type="ConditionalShowHide" />
- 		</widget>
- 		<!-- Audio icon (is there multichannel audio?) -->
--<!--	ikseong		
- 		<widget source="session.CurrentService" render="Pixmap" pixmap="skin_default/icons/icon_dolby.png" position="645,48" zPosition="1" size="26,16" alphatest="on">
- 			<convert type="ServiceInfo">IsMultichannel</convert>
- 			<convert type="ConditionalShowHide" />
--		</widget>	-->
-+		</widget>
- 		<!-- Progressbar (current event duration)-->
- 		<ePixmap pixmap="skin_default/progress_bg.png" position="48,77" size="84,7" transparent="1" alphatest="on" />
- 		<widget source="session.Event_Now" render="Progress" pixmap="skin_default/progress_small.png" position="50,78" zPosition="1" size="80,5" transparent="1">
