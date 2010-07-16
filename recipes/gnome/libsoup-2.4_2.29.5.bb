@@ -15,6 +15,9 @@ S = "${WORKDIR}/libsoup-${PV}"
 
 EXTRA_OECONF_opendreambox += "--without-gnome"
 EXTRA_OECONF_vuplus += "--without-gnome"
+#the following is needed for dm800 .. i dont know why...
+SRC_URI_append_opendreambox = " file://libsoup-libz-hack.patch;patch=1;pnum=1"
+SRC_URI_append_vuplus = " file://libsoup-libz-hack.patch;patch=1;pnum=1"
 
 PACKAGES =+ "libsoup-gnome"
 FILES_libsoup-gnome = "${libdir}/libsoup-gnome*.so.*"

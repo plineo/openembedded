@@ -1,5 +1,8 @@
 require gst-plugins.inc
 
+SRC_URI_append_opendreambox = " file://dvdsubdec-addproperty-singlebuffer.patch;patch=1"
+SRC_URI_append_vuplus = " file://dvdsubdec-addproperty-singlebuffer.patch;patch=1"
+
 PR = "${INC_PR}.0"
 
 DEPENDS += "gst-plugins-base libsidplay"
