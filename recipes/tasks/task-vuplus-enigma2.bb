@@ -25,6 +25,7 @@ RDEPENDS_task-vuplus-enigma2 = "\
   enigma2-defaultservices \
   enigma2-plugin-extensions-mediascanner \
   enigma2-plugin-systemplugins-factorytest \
+  enigma2-plugin-systemplugins-fancontrol \
   enigma2-streamproxy \
   tuxbox-tuxtxt-32bpp \
 "
