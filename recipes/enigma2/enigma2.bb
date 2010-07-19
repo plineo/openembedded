@@ -70,7 +70,7 @@ PN = "enigma2"
 PR = "r0"
 
 SRCDATE = "20100318"
-SRCDATE_vuplus = "20100512"
+SRCDATE_vuplus = "20100719"
 #SRCDATE is NOT used by git to checkout a specific revision
 #but we need it to build a ipk package version
 #when you like to checkout a specific revision of e2 you need
@@ -108,7 +108,7 @@ SRCREV = ""
 #if you want a vuplus experimental, use
 ####################################################
 BRANCH_vuplus = "vuplus_experimental"
-PV_vuplus = "2.8git${SRCDATE}"
+PV_vuplus = "experimental-git${SRCDATE}"
 SRCREV_vuplus = ""
 ####################################################
 
