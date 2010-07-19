@@ -16,15 +16,16 @@ PV_bm750 = "${KV}"
 PV_vusolo = "${KV}"
 
 
-SRCDATE_bm750 = "20100707"
-SRCDATE_vusolo = "20100611"
+SRCDATE_bm750 = "20100716"
+SRCDATE_vusolo = "20100716"
 
 
 RDEPENDS = "initscripts-vuplus kernel (${KV}) kernel-module-firmware-class kernel-module-input kernel-module-evdev kernel-module-i2c-core kernel-module-snd kernel-module-snd-pcm"
 PR = "r19-${SRCDATE}"
 
 
-SRC_URI = "http://archive.vuplus.com/download/drivers/mbox-dvb-modules-${MACHINE}-${PV}-${SRCDATE}.tar.gz "
+#SRC_URI = "http://archive.vuplus.com/download/drivers/mbox-dvb-modules-${MACHINE}-${PV}-${SRCDATE}.tar.gz "
+SRC_URI = "http://archive.vuplus.com/download/drivers_test/mbox-dvb-modules-${MACHINE}-${PV}-${SRCDATE}.tar.gz "
 
 S = "${WORKDIR}"
 
