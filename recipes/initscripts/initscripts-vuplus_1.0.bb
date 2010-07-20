@@ -4,7 +4,7 @@ PRIORITY = "required"
 DEPENDS = "makedevs"
 RDEPENDS = "makedevs"
 LICENSE = "GPL"
-PR = "r22"
+PR = "r23"
 
 #FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/${P}', '${FILE_DIRNAME}/initscripts-${PV}', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
 #deprecated
@@ -67,6 +67,8 @@ do_install () {
 	install -m 0755 ${WORKDIR}/netmount.sh	${D}${sysconfdir}/network/if-up.d/02netmount
 	install -d ${D}${sysconfdir}/network/if-down.d
 	install -m 0755 ${WORKDIR}/umountnfs.sh	${D}${sysconfdir}/network/if-down.d/02umountnfs
+
+	echo "[ -f /etc/shadow ] && /bin/true || touch /etc/shadow" >> ${D}${sysconfdir}/init.d/bootup
 
 	ln -sf		../init.d/rmnologin	${D}${sysconfdir}/rc2.d/S99rmnologin
 	ln -sf		../init.d/rmnologin	${D}${sysconfdir}/rc3.d/S99rmnologin
