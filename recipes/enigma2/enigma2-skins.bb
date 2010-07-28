@@ -3,7 +3,7 @@ MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 
 PACKAGES_DYNAMIC = "enigma2-skin-*"
 
-SRCDATE = "20100213"
+SRCDATE = "20100727"
 SRCDATE_vuplus = "20100621"
 
 # if you want the 2.7 release, use
