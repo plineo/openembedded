@@ -62,7 +62,7 @@ PN = "enigma2"
 PR = "r0"
 
 SRCDATE = "20100727"
-SRCDATE_vuplus = "20100719"
+SRCDATE_vuplus = "20100727"
 #SRCDATE is NOT used by git to checkout a specific revision
 #but we need it to build a ipk package version
 #when you like to checkout a specific revision of e2 you need
