@@ -2646,7 +2646,7 @@ index 0000000..ed47ec9
 +	*.png
 diff --git a/data/Vu_HD/skin.xml b/data/Vu_HD/skin.xml
 new file mode 100755
-index 0000000..469b314
+index 0000000..555c0d6
 --- /dev/null
 +++ b/data/Vu_HD/skin.xml
 @@ -0,0 +1,3036 @@
@@ -5300,8 +5300,8 @@ index 0000000..469b314
 +		<eLabel text="Software update" position="90,50" size="600,32" font="Semiboldit;32" foregroundColor="#5d5d5d" backgroundColor="#27b5b9bd" transparent="1" />
 +		<widget name="activityslider" position="60,140" size="720,5"  />
 +		<widget source="package" render="Label" position="70,160" size="700,20" font="Regular;18" halign="center" valign="center" backgroundColor="darkgrey" transparent="1" />
-+		<widget source="status" render="Label" position="70,190" size="700,45" font="Regular;20" halign="center" valign="center" backgroundColor="darkgrey" transparent="1" />
-+		<widget name="slider" position="70,250" size="700,30"  />
++		<widget source="status" render="Label" position="70,190" size="700,80" font="Regular;20" halign="center" valign="center" backgroundColor="darkgrey" transparent="1" />
++		<widget name="slider" position="70,280" size="700,30"  />
 +	</screen>
 +	<screen name="IPKGMenu" position="209,48" size="865,623" title="Select upgrade source to edit." flags="wfNoBorder" backgroundColor="transparent">	
 +		<ePixmap pixmap="Vu_HD/Bg_EPG_view.png" zPosition="-1" position="0,0" size="865,623" alphatest="on" />

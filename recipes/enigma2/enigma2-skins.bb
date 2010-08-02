@@ -3,8 +3,8 @@ MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 
 PACKAGES_DYNAMIC = "enigma2-skin-*"
 
-SRCDATE = "20100213"
-SRCDATE_vuplus = "20100621"
+SRCDATE = "20100727"
+SRCDATE_vuplus = "20100727"
 
 # if you want the 2.7 release, use
 #TAG = ";tag=enigma2-skins_rel27"
@@ -15,8 +15,12 @@ TAG = ""
 PV = "experimental-cvs${SRCDATE}"
 
 # if vuplus
-TAG_vuplus = ";tag=enigma2-skins_rel28"
-PV_vuplus = "2.8cvs${SRCDATE}"
+#TAG_vuplus = ";tag=enigma2-skins_rel28"
+#PV_vuplus = "2.8cvs${SRCDATE}"
+
+# if you want vuplus experimental, use:
+TAG_vuplus = ""
+PV_vuplus = "experimental-cvs${SRCDATE}"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-skins;module=enigma2-skins;method=pserver${TAG};date=${SRCDATE}"
 
