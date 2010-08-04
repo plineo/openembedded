@@ -1,0 +1,185 @@
+diff --git a/lib/python/Screens/InfoBarGenerics.py b/lib/python/Screens/InfoBarGenerics.py
+index 6619bbc..3c34f77 100755
+--- a/lib/python/Screens/InfoBarGenerics.py
++++ b/lib/python/Screens/InfoBarGenerics.py
+@@ -944,13 +944,13 @@ class InfoBarSeek:
+ 			self.showAfterSeek()
+ 
+ 	def seekFwd(self):
+-		seek = self.getSeek()
+-		if seek and not (seek.isCurrentlySeekable() & 2):
+-			if not self.fast_winding_hint_message_showed and (seek.isCurrentlySeekable() & 1):
+-				self.session.open(MessageBox, _("No fast winding possible yet.. but you can use the number buttons to skip forward/backward!"), MessageBox.TYPE_INFO, timeout=10)
+-				self.fast_winding_hint_message_showed = True
+-				return
+-			return 0 # trade as unhandled action
++#		seek = self.getSeek()
++#		if seek and not (seek.isCurrentlySeekable() & 2):
++#			if not self.fast_winding_hint_message_showed and (seek.isCurrentlySeekable() & 1):
++#				self.session.open(MessageBox, _("No fast winding possible yet.. but you can use the number buttons to skip forward/backward!"), MessageBox.TYPE_INFO, timeout=10)
++#				self.fast_winding_hint_message_showed = True
++#				return
++#			return 0 # trade as unhandled action
+ 		if self.seekstate == self.SEEK_STATE_PLAY:
+ 			self.setSeekState(self.makeStateForward(int(config.seek.enter_forward.value)))
+ 		elif self.seekstate == self.SEEK_STATE_PAUSE:
+@@ -980,13 +980,13 @@ class InfoBarSeek:
+ 			self.setSeekState(self.makeStateSlowMotion(speed))
+ 
+ 	def seekBack(self):
+-		seek = self.getSeek()
+-		if seek and not (seek.isCurrentlySeekable() & 2):
+-			if not self.fast_winding_hint_message_showed and (seek.isCurrentlySeekable() & 1):
+-				self.session.open(MessageBox, _("No fast winding possible yet.. but you can use the number buttons to skip forward/backward!"), MessageBox.TYPE_INFO, timeout=10)
+-				self.fast_winding_hint_message_showed = True
+-				return
+-			return 0 # trade as unhandled action
++#		seek = self.getSeek()
++#		if seek and not (seek.isCurrentlySeekable() & 2):
++#			if not self.fast_winding_hint_message_showed and (seek.isCurrentlySeekable() & 1):
++#				self.session.open(MessageBox, _("No fast winding possible yet.. but you can use the number buttons to skip forward/backward!"), MessageBox.TYPE_INFO, timeout=10)
++#				self.fast_winding_hint_message_showed = True
++#				return
++#			return 0 # trade as unhandled action
+ 		seekstate = self.seekstate
+ 		if seekstate == self.SEEK_STATE_PLAY:
+ 			self.setSeekState(self.makeStateBackward(int(config.seek.enter_backward.value)))
+diff --git a/lib/service/servicemp3.cpp b/lib/service/servicemp3.cpp
+old mode 100644
+new mode 100755
+index 9c24d4b..f5c5a70
+--- a/lib/service/servicemp3.cpp
++++ b/lib/service/servicemp3.cpp
+@@ -234,6 +234,8 @@ eServiceMP3::eServiceMP3(eServiceReference ref)
+ 	m_aspect = m_width = m_height = m_framerate = m_progressive = -1;
+ 
+ 	m_state = stIdle;
++	m_event_on=FALSE;
++	m_cur_rate=1.0;
+ 	eDebug("eServiceMP3::construct!");
+ 
+ 	const char *filename = m_ref.path.c_str();
+@@ -516,8 +518,13 @@ RESULT eServiceMP3::unpause()
+ 	if (!m_gst_playbin || m_state != stRunning)
+ 		return -1;
+ 
+-	gst_element_set_state(m_gst_playbin, GST_STATE_PLAYING);
+-
++	if(m_cur_rate!=1.0)
++	{	
++		trickSeek(1);
++	}else if (gst_element_set_state(m_gst_playbin, GST_STATE_PLAYING)==2){
++		eDebug("eServiceMP3::unpause : the state change will happen asunchronously");
++		trickSeek(1);
++	}
+ 	return 0;
+ }
+ 
+@@ -568,11 +575,13 @@ RESULT eServiceMP3::seekTo(pts_t to)
+ 
+ 	if (m_gst_playbin) {
+ 		eSingleLocker l(m_subs_to_pull_lock); // this is needed to dont handle incomming subtitles during seek!
++		m_event_on = TRUE;
+ 		if (!(ret = seekToImpl(to)))
+ 		{
+ 			m_subtitle_pages.clear();
+ 			m_subs_to_pull = 0;
+ 		}
++		m_event_on = FALSE;
+ 	}
+ 
+ 	return ret;
+@@ -585,26 +594,35 @@ RESULT eServiceMP3::trickSeek(gdouble ratio)
+ 		return -1;
+ 	if (!ratio)
+ 		return seekRelative(0, 0);
++	
++	eSingleLocker l(m_subs_to_pull_lock);
++	m_event_on=TRUE;
+ 
+ 	GstEvent *s_event;
+ 	int flags;
+ 	flags = GST_SEEK_FLAG_NONE;
+ 	flags |= GST_SEEK_FLAG_FLUSH;
+ // 	flags |= GstSeekFlags (GST_SEEK_FLAG_ACCURATE);
+-	flags |= GST_SEEK_FLAG_KEY_UNIT;
++//	flags |= GST_SEEK_FLAG_KEY_UNIT;
+ // 	flags |= GstSeekFlags (GST_SEEK_FLAG_SEGMENT);
+ // 	flags |= GstSeekFlags (GST_SEEK_FLAG_SKIP);
+ 
+ 	GstFormat fmt = GST_FORMAT_TIME;
+-	gint64 pos, len;
++	//gint64 pos, len;
++	//gst_element_query_duration(m_gst_playbin, &fmt, &len);
++	//gst_element_query_position(m_gst_playbin, &fmt, &pos);
++
++	gint64 len;
++	pts_t pos;
+ 	gst_element_query_duration(m_gst_playbin, &fmt, &len);
+-	gst_element_query_position(m_gst_playbin, &fmt, &pos);
++	getPlayPosition(pos);
++	pos=pos*11111;
+ 
+ 	if ( ratio >= 0 )
+ 	{
+-		s_event = gst_event_new_seek (ratio, GST_FORMAT_TIME, (GstSeekFlags)flags, GST_SEEK_TYPE_SET, pos, GST_SEEK_TYPE_SET, len);
++		s_event = gst_event_new_seek (ratio, GST_FORMAT_TIME, (GstSeekFlags)flags, GST_SEEK_TYPE_SET, pos, GST_SEEK_TYPE_SET, len); //chang : pos -> (gint64)pos
+ 
+-		eDebug("eServiceMP3::trickSeek with rate %lf to %" GST_TIME_FORMAT " ", ratio, GST_TIME_ARGS (pos));
++		eDebug("eServiceMP3::trickSeek with rate %lf to %" GST_TIME_FORMAT " ", ratio, GST_TIME_ARGS (pos) );
+ 	}
+ 	else
+ 	{
+@@ -616,7 +634,10 @@ RESULT eServiceMP3::trickSeek(gdouble ratio)
+ 		eDebug("eServiceMP3::trickSeek failed");
+ 		return -1;
+ 	}
+-
++	m_subtitle_pages.clear();
++	m_subs_to_pull = 0;
++	m_event_on=FALSE;
++	m_cur_rate=ratio;
+ 	return 0;
+ }
+ 
+@@ -1500,9 +1521,11 @@ eAutoInitPtr<eServiceFactoryMP3> init_eServiceFactoryMP3(eAutoInitNumbers::servi
+ void eServiceMP3::gstCBsubtitleAvail(GstElement *appsink, gpointer user_data)
+ {
+ 	eServiceMP3 *_this = (eServiceMP3*)user_data;
+-	eSingleLocker l(_this->m_subs_to_pull_lock);
+-	++_this->m_subs_to_pull;
+-	_this->m_pump.send(2);
++	if(!_this->m_event_on){
++		eSingleLocker l(_this->m_subs_to_pull_lock);
++		++_this->m_subs_to_pull;
++		_this->m_pump.send(2);
++	}
+ }
+ 
+ void eServiceMP3::pullSubtitle()
+@@ -1511,6 +1534,8 @@ void eServiceMP3::pullSubtitle()
+ 	g_object_get (G_OBJECT (m_gst_playbin), "text-sink", &sink, NULL);
+ 	if (sink)
+ 	{
++		if(m_event_on)
++			return;
+ 		while (m_subs_to_pull && m_subtitle_pages.size() < 2)
+ 		{
+ 			GstBuffer *buffer;
+diff --git a/lib/service/servicemp3.h b/lib/service/servicemp3.h
+old mode 100644
+new mode 100755
+index 01f7cf7..1d981b1
+--- a/lib/service/servicemp3.h
++++ b/lib/service/servicemp3.h
+@@ -227,6 +227,10 @@ private:
+ 	gint m_aspect, m_width, m_height, m_framerate, m_progressive;
+ 	std::string m_useragent;
+ 	RESULT trickSeek(gdouble ratio);
++
++	double m_cur_rate; 
++	bool m_event_on; 
++	
+ };
+ #endif
+ 
