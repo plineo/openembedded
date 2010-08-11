@@ -143,10 +143,10 @@ index 096705e..bcf0f5f 100755
  //		if (update)
  #ifndef BUILD_VUPLUS /* ikseong  */
 diff --git a/lib/gdi/lcd.cpp b/lib/gdi/lcd.cpp
-index 9cb657c..51af908 100755
+index 9cb657c..83add38 100755
 --- a/lib/gdi/lcd.cpp
 +++ b/lib/gdi/lcd.cpp
-@@ -228,3 +228,32 @@ void eDBoxLCD::update()
+@@ -228,3 +228,25 @@ void eDBoxLCD::update()
  	}
  }
  
@@ -155,27 +155,20 @@ index 9cb657c..51af908 100755
 +{
 +	int len = strlen(text);
 +	int i;
-+	char *result;
 +	for(i=0;i<len;i++)
 +	{
 +		if(text[i]==0x0a)
-+			result[i] = 0x20;
-+		else
-+			result[i]=text[i];
++			text[i] = 0x20;
 +	}
 +	return text;
 +}
 +
 +void eDBoxLCD::updates(ePoint start,char *text)
 +{
-+	char *result;
 +	if((lcdfd >= 0) && (start.y() < 5))
 +	{
-+//		eDebug("vfd output - %s",text);
-+		result = remaketext(text);
-+//		eDebug("vfd output - %s",result);
-+		//write(lcdfd,text,strlen(text));
-+		write(lcdfd,result,strlen(result));
++		text = remaketext(text);
++		write(lcdfd,text,strlen(text));
 +	}
 +}
 +#endif
