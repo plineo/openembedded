@@ -7,19 +7,21 @@ PR = "r4"
 MODULE = "stblinux-2.6.18"
 
 
+SRC_URI_GCC44_PATCH = ${@base_contains('PREFERRED_GCC_VERSION', '4.4.3', 'file://linux_bm750_gcc_4.4.patch;patch=1;pnum=1', '', d)}
+
 SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
 	file://linux_bm750_nand.patch;patch=1;pnum=0 \
         file://linux_bm750_proc.patch;patch=1;pnum=0 \
         file://linux_bm750_resource.patch;patch=1;pnum=0 \
         file://linux_bm750_serial.patch;patch=1;pnum=0 \
         file://linux_bm750_setup.patch;patch=1;pnum=0 \
-        file://linux_bm750_gcc_4.4.patch;patch=1;pnum=1 \
         file://linux_bm750_arch_makefile.patch;patch=1;pnum=0 \
         file://linux_bm750_kobject.patch;patch=1;pnum=0 \
         file://linux_bm750_dvb-core_fe.patch;patch=1;pnum=0 \
 	file://bm750_defconfig \
 	"
 
+SRC_URI += ${SRC_URI_GCC44_PATCH}
 
 S = "${WORKDIR}/stblinux-2.6.18"
 
