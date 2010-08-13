@@ -29,8 +29,6 @@ RDEPENDS_task-vuplus-enigma2 = "\
   tuxbox-tuxtxt-32bpp \
 "
 
-RDEPENDS_task-vuplus-enigma2_bm750 += "enigma2-plugin-systemplugins-fancontrol"
-
 RRECOMMENDS_task-vuplus-enigma2 = "\
   aio-grab \
   python-crypt \
@@ -42,6 +40,10 @@ RRECOMMENDS_task-vuplus-enigma2 = "\
   enigma2-plugin-extensions-pictureplayer \
   enigma2-plugin-systemplugins-skinselector \
   ${@base_contains("MACHINE_FEATURES", "wifi", "task-vuplus-wlan", "", d)} \
+"
+
+RDEPENDS_task-vuplus-enigma2_append_bm750 = "\
+  enigma2-plugin-systemplugins-fancontrol \
 "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
