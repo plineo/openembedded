@@ -245,3 +245,44 @@ index 5f7dcf5..9325185 100644
  	\
  	__mod = do_div64_32(__low, __upper, __low, __base); \
  	\
+diff --git a/arch/mips/brcmstb/lib/udivdi3.c b/arch/mips/brcmstb/lib/udivdi3.c
+index 49599d6..4d094ab 100644
+--- a/arch/mips/brcmstb/lib/udivdi3.c
++++ b/arch/mips/brcmstb/lib/udivdi3.c
+@@ -198,6 +198,35 @@ __udivmoddi4 (UDItype n, UDItype d, UDItype *rp)
+               n0 = n0 << bm; 
+ 
+               udiv_qrnnd (q0, n1, n2, n1, d1);
++
++#undef umul_ppmm
++
++#if defined (__mips) && W_TYPE_SIZE == 32
++#if __GNUC__ > 2 || __GNUC_MINOR__ >= 7
++#define umul_ppmm(w1, w0, u, v) \
++do {                                                                   \
++UDItype __ll = (UDItype)(u) * (v);                                     \
++w1 = __ll >> 32;                                                       \
++w0 = __ll;                                                             \
++} while (0)
++#endif
++#endif
++
++
++#if (defined (__mips) && __mips >= 3) && W_TYPE_SIZE == 64
++#if __GNUC__ > 2 || __GNUC_MINOR__ >= 7
++#define umul_ppmm(w1, w0, u, v) \
++do {                                                                   \
++typedef unsigned int __ll_UTItype __attribute__((mode(TI)));   \
++__ll_UTItype __ll = (__ll_UTItype)(u) * (v);                   \
++w1 = __ll >> 64;                                                       \
++w0 = __ll;                                                             \
++} while (0)
++#endif
++#endif
++
++
++
+               umul_ppmm (m1, m0, q0, d0);
+ 
+               if (m1 > n1 || (m1 == n1 && m0 > n0))
+
