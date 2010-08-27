@@ -12,6 +12,9 @@ SRCDATE = "20100729"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/dvbmediasink;module=dvbmediasink;method=pserver"
 
+SRC_URI_append_vuplus = " \
+		file://fix_dvbaudiosink_async_opt.patch;patch=1;pnum=1"
+
 S = "${WORKDIR}/dvbmediasink"
 
 FILES_${PN} = "${libdir}/gstreamer-0.10/*.so*"
