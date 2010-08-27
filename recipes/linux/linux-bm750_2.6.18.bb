@@ -1,11 +1,13 @@
 DESCRIPTION = "Linux kernel for vuplus duo"
 LICENSE = "GPL"
 KV = "2.6.18-7.3"
-PV = "2.6.18-7.3"
+PV = "2.6.18"
 PR = "r4"
 
 MODULE = "stblinux-2.6.18"
 
+
+SRC_URI_GCC44_PATCH = ${@base_contains('PREFERRED_GCC_VERSION', '4.4.3', 'file://linux_bm750_gcc_4.4.patch;patch=1;pnum=1', '', d)}
 
 SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
 	file://linux_bm750_nand.patch;patch=1;pnum=0 \
@@ -19,6 +21,7 @@ SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
 	file://bm750_defconfig \
 	"
 
+SRC_URI += ${SRC_URI_GCC44_PATCH}
 
 S = "${WORKDIR}/stblinux-2.6.18"
 
