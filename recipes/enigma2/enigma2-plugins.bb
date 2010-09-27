@@ -21,11 +21,13 @@ PV = "experimental-cvs${SRCDATE}"
 # if you want vuplus experimental, use:
 TAG_vuplus = ""
 PV_vuplus = "experimental-cvs${SRCDATE}"
+PR_vuplus = "r1"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-plugins;module=enigma2-plugins;method=pserver${TAG};date=${SRCDATE}"
 
 SRC_URI_append_vuplus = " \
 	   file://enigma2_plugins_mytube_vuplus.patch;patch=1;pnum=1 \
+	   file://enigma2_plugins_mytube_entry_vuplus.patch;patch=1;pnum=1 \
            file://dreamboxweb.png \
            file://favicon.ico"
 
