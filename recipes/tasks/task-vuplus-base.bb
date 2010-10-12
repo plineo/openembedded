@@ -38,6 +38,7 @@ VUPLUS_BASE_RECOMMENDS = "\
   dropbear \
   vuplus-vucamd \
   sambaserver \
+  openvpn \
   zeroconf \
 "
 
