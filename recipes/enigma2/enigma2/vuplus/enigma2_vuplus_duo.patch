@@ -77,50 +77,6 @@ index bef4a18..9aebc71 100644
  };
  
  #endif // SWIG
-diff --git a/lib/dvb/sec.cpp b/lib/dvb/sec.cpp
-index 58fc5e3..6ece243 100644
---- a/lib/dvb/sec.cpp
-+++ b/lib/dvb/sec.cpp
-@@ -1018,6 +1018,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
- 			}
- 		}
- 		it->m_frontend->setData(eDVBFrontend::SATPOS_DEPENDS_PTR, -1);
-+#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+		it->m_frontend->setLoopthrough(0);
-+#endif		
- 		it->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, -1);
- 		it->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, -1);
- 		it->m_frontend->setData(eDVBFrontend::ROTOR_POS, -1);
-@@ -1028,6 +1031,9 @@ RESULT eDVBSatelliteEquipmentControl::clear()
- 	for (eSmartPtrList<eDVBRegisteredFrontend>::iterator it(m_avail_simulate_frontends.begin()); it != m_avail_simulate_frontends.end(); ++it)
- 	{
- 		it->m_frontend->setData(eDVBFrontend::SATPOS_DEPENDS_PTR, -1);
-+#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+		it->m_frontend->setLoopthrough(0);
-+#endif		
- 		it->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, -1);
- 		it->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, -1);
- 		it->m_frontend->setData(eDVBFrontend::ROTOR_POS, -1);
-@@ -1459,6 +1465,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
- 					fclose(f);
- 				}
- 			}
-+#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+			p1->m_frontend->setLoopthrough(1);
-+#endif
- 		}
- 
- 		p1=p2=NULL;
-@@ -1474,6 +1483,9 @@ RESULT eDVBSatelliteEquipmentControl::setTunerLinked(int tu1, int tu2)
- 		{
- 			p1->m_frontend->setData(eDVBFrontend::LINKED_PREV_PTR, (long)p2);
- 			p2->m_frontend->setData(eDVBFrontend::LINKED_NEXT_PTR, (long)p1);
-+#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+			p1->m_frontend->setLoopthrough(1);
-+#endif
- 			return 0;
- 		}
- 	}
 diff --git a/lib/gdi/glcddc.cpp b/lib/gdi/glcddc.cpp
 index 096705e..bcf0f5f 100755
 --- a/lib/gdi/glcddc.cpp

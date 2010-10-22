@@ -108,8 +108,10 @@ SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRAN
 	file://new-hotplug.patch;patch=1;pnum=1 \
 	file://enigma2.sh"
 
+
 SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
 	   file://enigma2_vuplus_duo.patch;patch=1;pnum=1 \
+	   file://enigma2_vuplus_swloop.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_mediaplayer.patch;patch=1;pnum=1 \
            file://MyriadPro-Regular.otf \
