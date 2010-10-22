@@ -13,6 +13,12 @@ SRC_URI_append_mipsel = " file://mips-add-missing-headers.patch;patch=1 \
 SRC_URI_append_opendreambox = " file://mips-brcm-add-missing-syscalls.patch;patch=1 \
            file://dvb-api-2.6.18-5.3.patch;patch=1"
 
+#TODO
+SRC_URI_append_vuplus = " file://mips-brcm-add-missing-syscalls.patch;patch=1 \
+           file://dvb-api-2.6.18-5.3.patch;patch=1"
+
+#SRC_URI_append_vuplus = " file://fix-dvb-headers.patch;patch=1"
+
 S = "${WORKDIR}/linux-2.6.18"
 
 set_arch() {
