@@ -2,7 +2,7 @@ DESCRIPTION = "Linux kernel for vuplus solo"
 LICENSE = "GPL"
 KV = "2.6.18-7.3"
 PV = "2.6.18"
-PR = "r5"
+PR = "r6"
 
 MODULE = "stblinux-2.6.18"
 
@@ -18,8 +18,10 @@ SRC_URI += " file://linux-vusolo_nand4.patch;patch=1;pnum=0 \
 	file://linux_vusolo_arch_makefile.patch;patch=1;pnum=0 \
 	file://linux-vusolo_setup.patch;patch=1;pnum=0 \
 	file://linux-vusolo_kojbect.patch;patch=1;pnum=0 \
-	file://linux-vusolo_dvb-core_fe.patch;patch=1;pnum=0 \
 	file://linux-vusolo_romblock.patch;patch=1;pnum=0 \
+        file://linux-2.6.18-dvb-frontends.patch;patch=1;pnum=0 \
+        file://linux-2.6.18-dvb-core.patch;patch=1;pnum=0 \
+        file://dvb-include-2.6.18-5.3.patch;patch=1;pnum=0 \
 	file://linux-vusolo_serial.patch;patch=1;pnum=0"
 
 SRC_URI += ${SRC_URI_GCC44_PATCH}

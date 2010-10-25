@@ -1,7 +1,7 @@
 DESCRIPTION = "Vuplus: Base Task for the Vuplus Distribution"
 SECTION = "vuplus/base"
 LICENSE = "MIT"
-PR = "r4"
+PR = "r5"
 
 inherit task
 
