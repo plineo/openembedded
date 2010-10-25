@@ -122,9 +122,8 @@ SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=$
            file://number_key \
            file://enigma2.sh"
 
-#SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
 
-SRC_URI_vusolo = "git:///home/shcheong/work/stb/sw/oe_1.6/dm/enigma2_test/enigma2;protocol=file;branch=test;tag=${SRCREV} \
+SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
            file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_mediaplayer.patch;patch=1;pnum=1 \
            file://MyriadPro-Regular.otf \

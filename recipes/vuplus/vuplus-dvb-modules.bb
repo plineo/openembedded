@@ -29,8 +29,7 @@ RDEPENDS_append_bm750 = " module-init-tools-depmod"
 RDEPENDS_append_vusolo = " module-init-tools-depmod"
 
 
-#SRC_URI = "http://archive.vuplus.com/download/drivers/mbox-dvb-modules-${MACHINE}-${PV}-${PREFERRED_GCC_VERSION}-${SRCDATE}.tar.gz "
-SRC_URI = "http://archive.vuplus.com/download/drivers_test2/mbox-dvb-modules-${MACHINE}-${PV}-${PREFERRED_GCC_VERSION}-${SRCDATE}.tar.gz "
+SRC_URI = "http://archive.vuplus.com/download/drivers/mbox-dvb-modules-${MACHINE}-${PV}-${PREFERRED_GCC_VERSION}-${SRCDATE}.tar.gz "
 
 S = "${WORKDIR}"
 
