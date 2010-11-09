@@ -1,3 +1,16 @@
+diff --git a/linux/drivers/media/dvb/dvb-core/dmxdev.c b/linux/drivers/media/dvb/dvb-core/dmxdev.c
+index 0eeb3e9..670456a 100644
+--- a/linux/drivers/media/dvb/dvb-core/dmxdev.c
++++ b/linux/drivers/media/dvb/dvb-core/dmxdev.c
+@@ -762,7 +762,7 @@ static int dvb_demux_open(struct inode *inode, struct file *file)
+ 	mutex_init(&dmxdevfilter->mutex);
+ 	file->private_data = dmxdevfilter;
+ 
+-	dvb_ringbuffer_init(&dmxdevfilter->buffer, NULL, 8192);
++	dvb_ringbuffer_init(&dmxdevfilter->buffer, NULL, 8192*16);
+ 	dmxdevfilter->type = DMXDEV_TYPE_NONE;
+ 	dvb_dmxdev_filter_state_set(dmxdevfilter, DMXDEV_STATE_ALLOCATED);
+ 	init_timer(&dmxdevfilter->timer);
 diff --git a/linux/drivers/media/dvb/dvb-core/dvb_demux.h b/linux/drivers/media/dvb/dvb-core/dvb_demux.h
 index 8567965..f0a448a 100644
 --- a/linux/drivers/media/dvb/dvb-core/dvb_demux.h
