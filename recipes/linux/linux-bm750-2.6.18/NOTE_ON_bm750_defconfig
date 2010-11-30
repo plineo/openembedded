@@ -1,0 +1,2 @@
+Duo's kernel size should be smaller than 2*1024*1024.
+Considering bad block existence, kernel size is recommended to be smaller than 2*1024*1024 - (128*1024*2)
