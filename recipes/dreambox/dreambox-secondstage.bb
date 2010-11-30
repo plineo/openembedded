@@ -8,8 +8,9 @@ PV_dm600pvr = "66"
 PV_dm500plus = "66"
 PV_dm8000 = "76"
 PV_dm800 = "76"
-PV_dm500hd = "79"
-PV_dm800se = "79"
+PV_dm500hd = "80"
+PV_dm800se = "80"
+PV_dm7020hd = "80"
 PR = "r1"
 PR_dm8000 = "r2"
 
@@ -24,6 +25,7 @@ SRC_URI_append_dm8000 = " ${SECONDSTAGE_UPDATE_SRC}"
 SRC_URI_append_dm800 = " ${SECONDSTAGE_UPDATE_SRC}"
 SRC_URI_append_dm500hd = " ${SECONDSTAGE_UPDATE_SRC}"
 SRC_URI_append_dm800se = " ${SECONDSTAGE_UPDATE_SRC}"
+SRC_URI_append_dm7020hd = " ${SECONDSTAGE_UPDATE_SRC}"
 
 S = "${WORKDIR}"
 
@@ -32,7 +34,7 @@ do_stage() {
 	gzip -c ${S}/secondstage-${MACHINE}-${PV}.bin > ${STAGING_LIBDIR}/dreambox-secondstage/main.bin.gz
 }
 
-# the dm{800,8000,500hd} secondstage is already compressed (and encrypted)
+# the dm{800,8000,500hd,800se,7020hd} secondstage is already compressed (and encrypted)
 
 do_stage_dm800() {
 	install -d ${STAGING_LIBDIR}/dreambox-secondstage
@@ -66,6 +68,14 @@ do_stage_dm800se() {
 }
 
 do_install_dm800se() {
+	do_install_dm800
+}
+
+do_stage_dm7020hd() {
+	do_stage_dm8000
+}
+
+do_install_dm7020hd() {
 	do_install_dm800
 }
 

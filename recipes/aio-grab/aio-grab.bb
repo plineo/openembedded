@@ -3,7 +3,7 @@ LICENSE = "GPL"
 
 PR = "r0"
 PV = "0.8+cvs${SRCDATE}"
-SRCDATE = "20100220"
+SRCDATE = "20101123"
 
 PR_vuplus = "r1"
 PV_vuplus = "0.8cvs${SRCDATE}"

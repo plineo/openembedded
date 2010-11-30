@@ -3,8 +3,8 @@ MAINTAINER = "Felix Domke <tmbinc@elitedvb.net>"
 
 PACKAGES_DYNAMIC = "enigma2-plugin-*"
 
-SRCDATE = "20100727"
-SRCDATE_vuplus = "20100727"
+SRCDATE = "20101112"
+SRCDATE_vuplus = "20101112"
 
 # if you want the 2.7.0 release, use
 #TAG = ";tag=enigma2-plugins_rel27"
@@ -40,7 +40,7 @@ inherit autotools
 
 S = "${WORKDIR}/enigma2-plugins"
 
-DEPENDS = "python-pyopenssl python-gdata streamripper python-mutagen"
+DEPENDS = "python-pyopenssl python-gdata streamripper python-mutagen python-daap"
 DEPENDS += "enigma2"
 
 
