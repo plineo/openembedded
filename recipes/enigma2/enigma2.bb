@@ -27,7 +27,8 @@ RDEPENDS_append_dm8000 = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-a
 RDEPENDS_append_dm500hd = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
 RDEPENDS_append_dm800se = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
 RDEPENDS_append_bm750 = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
-RDEPENDS_append_vuplus = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
+RDEPENDS_append_vusolo = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
+RDEPENDS_append_dm7020hd = " ${GST_BASE_RDEPENDS} ${GST_DVD_RDEPENDS} gst-plugin-avi"
 
 # 'forward depends' - no two providers can have the same PACKAGES_DYNAMIC, however both
 # enigma2 and enigma2-plugins produce enigma2-plugin-*.
@@ -61,19 +62,12 @@ DESCRIPTION_append_enigma2-plugin-systemplugins-networkwizard = "provides easy s
 PN = "enigma2"
 PR = "r0"
 
-SRCDATE = "20100728"
-SRCDATE_vuplus = "20100727"
+SRCDATE = "20101124"
+SRCDATE_vuplus = "20101124"
 #SRCDATE is NOT used by git to checkout a specific revision
 #but we need it to build a ipk package version
 #when you like to checkout a specific revision of e2 you need
 #have to specify a commit id or a tag name in SRCREV
-
-# if you want upcoming release, use:
-####################################################
-#BRANCH = "master"
-#PV = "2.8git${SRCDATE}"
-#SRCREV = ""
-####################################################
 
 # if you want experimental use
 ####################################################
@@ -104,9 +98,8 @@ PV_vuplus = "experimental-git${SRCDATE}"
 SRCREV_vuplus = ""
 ####################################################
 
-SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV} \
-	file://new-hotplug.patch;patch=1;pnum=1 \
-	file://enigma2.sh"
+
+SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV}"
 
 
 SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
@@ -163,13 +156,14 @@ do_unpack_append(){
 
 S = "${WORKDIR}/git"
 
-FILES_${PN} += "${datadir}/fonts"
+FILES_${PN} += "${datadir}/fonts ${datadir}/keymaps"
 FILES_${PN}-meta = "${datadir}/meta"
 PACKAGES += "${PN}-meta"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit autotools pkgconfig
 
+<<<<<<< HEAD:recipes/enigma2/enigma2.bb
 bindir = "/usr/bin"
 sbindir = "/usr/sbin"
 
@@ -196,6 +190,14 @@ do_compile_prepend_vuplus() {
 do_install_append() {
 	install -m 0755 ${WORKDIR}/enigma2.sh ${D}/usr/bin/
 }
+=======
+EXTRA_OECONF = " \
+        BUILD_SYS=${BUILD_SYS} \
+        HOST_SYS=${HOST_SYS} \
+        STAGING_INCDIR=${STAGING_INCDIR} \
+        STAGING_LIBDIR=${STAGING_LIBDIR} \
+"
+>>>>>>> dm/opendreambox-1.6:recipes/enigma2/enigma2.bb
 
 python populate_packages_prepend () {
 	enigma2_plugindir = bb.data.expand('${libdir}/enigma2/python/Plugins', d)
@@ -203,11 +205,23 @@ python populate_packages_prepend () {
 	do_split_packages(d, enigma2_plugindir, '(.*?/.*?)/.*', 'enigma2-plugin-%s', '%s ', recursive=True, match_path=True, prepend=True)
 }
 
-do_stage() {
-	install -d ${STAGING_INCDIR}/enigma2
-	install -m 0644 ${S}/include/*.h ${STAGING_INCDIR}/enigma2
-	for dir in actions base components driver dvb dvb/lowlevel dvb_ci gdi gui mmi nav python service; do
-		install -d ${STAGING_INCDIR}/enigma2/lib/$dir;
-		install -m 0644 ${S}/lib/$dir/*.h ${STAGING_INCDIR}/enigma2/lib/$dir;
-	done
+RCONFLICTS_${PN} = "dreambox-keymaps"
+RREPLACES_${PN} = "dreambox-keymaps tuxbox-tuxtxt-32bpp (<= 0.0+cvs20090130-r1)"
+
+# workaround for opkg <= 0.1.7+svnr455-r19.1
+pkg_preinst_${PN} () {
+	if [ "x$D" != "x" ]; then
+		exit 1
+	fi
+	if [ -f ${datadir}/fonts/tuxtxt.ttf ]; then
+		cp -a ${datadir}/fonts/tuxtxt.ttf /tmp/tuxtxt.ttf
+	fi
+}
+pkg_postinst_${PN} () {
+	if [ "x$D" != "x" ]; then
+		exit 1
+	fi
+	if [ -f /tmp/tuxtxt.ttf -a ! -f ${datadir}/fonts/tuxtxt.ttf ]; then
+		mv /tmp/tuxtxt.ttf ${datadir}/fonts/tuxtxt.ttf
+	fi
 }
