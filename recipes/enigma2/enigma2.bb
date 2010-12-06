@@ -102,11 +102,7 @@ SRCREV_vuplus = ""
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV}"
 
 
-#SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
-
-
-
-SRC_URI_bm750 = "git:///home/shcheong/work/stb/sw/oe_1.6/dm/enigma2_test/enigma2;protocol=file;branch=test_1130_mod;tag=${SRCREV} \
+SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
 	   file://enigma2_vuplus_duo.patch;patch=1;pnum=1 \
 	   file://enigma2_vuplus_swloop.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
