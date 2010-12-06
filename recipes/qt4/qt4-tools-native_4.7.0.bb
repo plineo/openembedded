@@ -1,5 +1,6 @@
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_opendreambox = "1"
+DEFAULT_PREFERENCE_vuplus = "1"
 
 require qt4-tools-native.inc
 LICENSE = "LGPLv2.1 GPLv3"

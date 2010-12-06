@@ -1,5 +1,6 @@
 DEFAULT_PREFERENCE = "-1"
 DEFAULT_PREFERENCE_opendreambox = "1"
+DEFAULT_PREFERENCE_vuplus = "1"
 
 FILESPATHPKG .= ":qt-${PV}"
 

@@ -1,16 +1,13 @@
-diff --git a/acinclude.m4 b/acinclude.m4
-index ab3835e..dd6ef07 100755
---- a/acinclude.m4
-+++ b/acinclude.m4
-@@ -159,6 +159,8 @@ fi
- 
-  #csh
- AC_DEFINE(BUILD_VUPLUS,1,[Define to 1 for 750])
-+ # ikseong
-+AC_DEFINE(BUILD_VUPLUS_DUO,1,[Define to 1 for 750])
- 
- if test "$DVB_API_VERSION"; then
- 	AC_DEFINE(HAVE_DVB,1,[Define to 1 if you have the dvb includes])
+diff --git a/configure.ac b/configure.ac
+index 4902a9c..4bd2117 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -207,4 +207,5 @@ tools/enigma2.sh
+ enigma2.pc
+ ])
+ AC_DEFINE(BUILD_VUPLUS,1,[Define to 1 for vuplus])
++AC_DEFINE(BUILD_VUPLUS_DUO,1,[Define to 1 for duo])
+ AC_OUTPUT
 diff --git a/lib/dvb/frontend.cpp b/lib/dvb/frontend.cpp
 index 6b09d3d..40c2289 100755
 --- a/lib/dvb/frontend.cpp

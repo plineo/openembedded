@@ -1,7 +1,7 @@
 DESCRIPTION = "Vuplus: Enigma2 Task for the Vuplus Distribution"
 SECTION = "vuplus/base"
 LICENSE = "MIT"
-PR = "r0"
+PR = "r1"
 
 inherit task
 
@@ -27,6 +27,9 @@ RDEPENDS_task-vuplus-enigma2 = "\
   enigma2-plugin-systemplugins-factorytest \
   enigma2-streamproxy \
   tuxbox-tuxtxt-32bpp \
+  enigma2-meta \
+  enigma2-plugins-meta \
+  enigma2-skins-meta \   
 "
 
 RRECOMMENDS_task-vuplus-enigma2 = "\

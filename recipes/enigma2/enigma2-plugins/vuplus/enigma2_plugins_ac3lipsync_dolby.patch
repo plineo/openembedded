@@ -1,0 +1,13 @@
+diff --git a/ac3lipsync/src/AC3delay.py b/ac3lipsync/src/AC3delay.py
+index a92c859..6bbc86d 100644
+--- a/ac3lipsync/src/AC3delay.py
++++ b/ac3lipsync/src/AC3delay.py
+@@ -177,7 +177,7 @@ class AC3delay:
+ 
+                 tlist.append((description, x))
+                 if x == self.selectedAudioIndex:
+-                    if ((description.find("AC3") != -1 or description.find("AC-3") != -1) and not bDownmixEnabled) or description.find("DTS") != -1:
++                    if ((description.find("Dolby") != -1 or description.find("AC3") != -1 or description.find("AC-3") != -1) and not bDownmixEnabled) or description.find("DTS") != -1:
+                         self.whichAudio = AC3
+                         self.channelAudio = AC3
+                     else:

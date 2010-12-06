@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 0953e4c..85b8f78 100755
+index 4902a9c..5c74eda 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -98,6 +98,16 @@ data/skin_default/menu/Makefile
+@@ -109,6 +109,16 @@ data/skin_default/menu/Makefile
  data/skin_default/icons/Makefile
  data/skin_default/buttons/Makefile
  data/skin_default/spinner/Makefile
@@ -27,7 +27,7 @@ index 0000000..a516e82
 @@ -0,0 +1,6 @@
 +SUBDIRS = menu icons buttons countries
 +
-+installdir = $(DATADIR)/enigma2/750S
++installdir = $(pkgdatadir)/750S
 +
 +install_DATA = \
 +	*.xml *.png
@@ -39,7 +39,7 @@ index 0000000..eb83d1c
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/750S/buttons
++installdir = $(pkgdatadir)/750S/buttons
 +
 +install_DATA = \
 +	*.png
@@ -51,7 +51,7 @@ index 0000000..4517ada
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/750S/countries
++installdir = $(pkgdatadir)/750S/countries
 +
 +install_DATA = \
 +	*.png
@@ -63,7 +63,7 @@ index 0000000..9277cc5
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/750S/icons
++installdir = $(pkgdatadir)/750S/icons
 +
 +install_DATA = \
 +	*.png
@@ -75,7 +75,7 @@ index 0000000..ff165af
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/750S/menu
++installdir = $(pkgdatadir)/750S/menu
 +
 +install_DATA = \
 +	*.png
@@ -2575,15 +2575,15 @@ index 0000000..7be3bca
 +	
 +</skin>
 diff --git a/data/Makefile.am b/data/Makefile.am
-index 1ed9444..d75b822 100644
+index 0eaa082..869a16e 100644
 --- a/data/Makefile.am
 +++ b/data/Makefile.am
 @@ -1,4 +1,4 @@
--SUBDIRS = countries fonts defaults extensions skin_default
-+SUBDIRS = countries fonts defaults extensions skin_default 750S Vu_HD
+-SUBDIRS = countries fonts defaults extensions keymaps skin_default
++SUBDIRS = countries fonts defaults extensions keymaps skin_default 750S Vu_HD
  
  dist_pkgdata_DATA = \
- 	defaultsatlists.xml \
+        defaultsatlists.xml \
 diff --git a/data/Vu_HD/Makefile.am b/data/Vu_HD/Makefile.am
 new file mode 100644
 index 0000000..ee39535
@@ -2592,7 +2592,7 @@ index 0000000..ee39535
 @@ -0,0 +1,6 @@
 +SUBDIRS = menu icons buttons countries
 +
-+installdir = $(DATADIR)/enigma2/Vu_HD
++installdir = $(pkgdatadir)/Vu_HD
 +
 +install_DATA = \
 +	*.xml *.png
@@ -2604,7 +2604,7 @@ index 0000000..cd14ba2
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/Vu_HD/buttons
++installdir = $(pkgdatadir)/Vu_HD/buttons
 +
 +install_DATA = \
 +	*.png
@@ -2616,7 +2616,7 @@ index 0000000..9a025db
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/Vu_HD/countries
++installdir = $(pkgdatadir)/Vu_HD/countries
 +
 +install_DATA = \
 +	*.png
@@ -2628,7 +2628,7 @@ index 0000000..0351458
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/Vu_HD/icons
++installdir = $(pkgdatadir)/Vu_HD/icons
 +
 +install_DATA = \
 +	*.png
@@ -2640,7 +2640,7 @@ index 0000000..ed47ec9
 @@ -0,0 +1,6 @@
 +AUTOMAKE_OPTIONS = gnu
 +
-+installdir = $(DATADIR)/enigma2/Vu_HD/menu
++installdir = $(pkgdatadir)/Vu_HD/menu
 +
 +install_DATA = \
 +	*.png
@@ -5687,19 +5687,18 @@ index 0000000..555c0d6
 +	</screen>
 +</skin>
 diff --git a/data/fonts/Makefile.am b/data/fonts/Makefile.am
-index f743b8c..87650c8 100644
+index 2f7e7c7..832b582 100644
 --- a/data/fonts/Makefile.am
 +++ b/data/fonts/Makefile.am
-@@ -4,4 +4,8 @@ dist_install_DATA = \
- 	ae_AlMateen.ttf \
+@@ -5,4 +5,7 @@ dist_install_DATA = \
  	lcd.ttf \
  	md_khmurabi_10.ttf \
--	nmsbd.ttf
-+	nmsbd.ttf \
+ 	nmsbd.ttf \
+-	tuxtxt.ttf
++	tuxtxt.ttf \
 +	MyriadPro-Regular.otf \
 +	MyriadPro-Semibold.otf \
 +	MyriadPro-SemiboldIt.otf 
-+
 diff --git a/data/skin.xml b/data/skin.xml
 index cde03f4..77c5f64 100755
 --- a/data/skin.xml

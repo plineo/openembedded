@@ -102,7 +102,11 @@ SRCREV_vuplus = ""
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV}"
 
 
-SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+#SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
+
+
+
+SRC_URI_bm750 = "git:///home/shcheong/work/stb/sw/oe_1.6/dm/enigma2_test/enigma2;protocol=file;branch=test_1130_mod;tag=${SRCREV} \
 	   file://enigma2_vuplus_duo.patch;patch=1;pnum=1 \
 	   file://enigma2_vuplus_swloop.patch;patch=1;pnum=1 \
            file://enigma2_vuplus_skin.patch;patch=1;pnum=1 \
@@ -113,7 +117,7 @@ SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=$
            file://750S \
            file://Vu_HD \
            file://number_key \
-           file://enigma2.sh"
+           "
 
 
 SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
@@ -163,11 +167,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit autotools pkgconfig
 
-<<<<<<< HEAD:recipes/enigma2/enigma2.bb
-bindir = "/usr/bin"
-sbindir = "/usr/sbin"
-
-EXTRA_OECONF = "--with-target=native --with-libsdl=no"
 
 do_compile_prepend_vuplus() {
         install -m 0755 ${WORKDIR}/MyriadPro-Regular.otf ${S}/data/fonts/
@@ -187,17 +186,12 @@ do_compile_prepend_vuplus() {
         install -m 0755 ${WORKDIR}/number_key/*.png ${S}/data/skin_default/buttons/
 }
 
-do_install_append() {
-	install -m 0755 ${WORKDIR}/enigma2.sh ${D}/usr/bin/
-}
-=======
 EXTRA_OECONF = " \
         BUILD_SYS=${BUILD_SYS} \
         HOST_SYS=${HOST_SYS} \
         STAGING_INCDIR=${STAGING_INCDIR} \
         STAGING_LIBDIR=${STAGING_LIBDIR} \
 "
->>>>>>> dm/opendreambox-1.6:recipes/enigma2/enigma2.bb
 
 python populate_packages_prepend () {
 	enigma2_plugindir = bb.data.expand('${libdir}/enigma2/python/Plugins', d)

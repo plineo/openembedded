@@ -26,6 +26,7 @@ FILES_libssl = "${libdir}/libssl.so.*"
 
 # disable unused algos
 EXTRA_OECONF = "${@base_contains('DISTRO', 'opendreambox', ' no-idea no-mdc2 no-rc5', '', d)}"
+EXTRA_OECONF = "${@base_contains('DISTRO', 'vuplus', ' no-idea no-mdc2 no-rc5', '', d)}"
 
 do_configure () {
 	cd util

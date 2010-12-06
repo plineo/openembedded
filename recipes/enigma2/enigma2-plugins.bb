@@ -25,9 +25,15 @@ PR_vuplus = "r1"
 
 SRC_URI = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-plugins;module=enigma2-plugins;method=pserver${TAG};date=${SRCDATE}"
 
+#SRC_URI_append_vuplus = " \
+#	   file://enigma2_plugins_mytube_vuplus.patch;patch=1;pnum=1 \
+#	   file://enigma2_plugins_mytube_entry_vuplus.patch;patch=1;pnum=1 \
+#           file://dreamboxweb.png \
+#           file://favicon.ico"
+
 SRC_URI_append_vuplus = " \
-	   file://enigma2_plugins_mytube_vuplus.patch;patch=1;pnum=1 \
-	   file://enigma2_plugins_mytube_entry_vuplus.patch;patch=1;pnum=1 \
+	   file://enigma2_plugins_mytube_tpm.patch;patch=1;pnum=1 \
+	   file://enigma2_plugins_ac3lipsync_dolby.patch;patch=1;pnum=1 \
            file://dreamboxweb.png \
            file://favicon.ico"
 

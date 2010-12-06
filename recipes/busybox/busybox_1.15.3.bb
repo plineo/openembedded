@@ -32,7 +32,6 @@ SRC_URI_append_opendreambox = "\
   file://nptl_task.patch;patch=1 \
 "
 SRC_URI_append_vuplus = "\
-  file://hdparm_M.patch;patch=1 \
   file://dhcp-hostname.patch;patch=1 \
   file://keymap_endianess.patch;patch=1 \
   file://nptl_task.patch;patch=1 \
