@@ -126,7 +126,7 @@ SRC_URI_vusolo = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=
            file://750S \
            file://Vu_HD \
            file://number_key \
-           file://enigma2.sh"
+           "
 
 def change_po():
         import os
