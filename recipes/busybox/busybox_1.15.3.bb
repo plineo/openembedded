@@ -1,5 +1,5 @@
 require busybox.inc
-PR = "${INC_PR}.4"
+PR = "${INC_PR}.5"
 PR_vuplus = "${INC_PR}.2"
 
 SRC_URI = "\

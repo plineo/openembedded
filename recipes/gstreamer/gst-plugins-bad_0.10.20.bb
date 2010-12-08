@@ -1,7 +1,7 @@
 require gst-plugins.inc
 
 INC_PR = "r0"
-PR = "${INC_PR}.0"
+PR = "${INC_PR}.1"
 
 do_configure_prepend() {
     sed -i -e s:docs::g Makefile.am

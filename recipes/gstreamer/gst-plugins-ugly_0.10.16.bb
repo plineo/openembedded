@@ -4,7 +4,7 @@ SRC_URI_append_opendreambox = " file://dvdsubdec-addproperty-singlebuffer.patch;
 SRC_URI_append_vuplus = " file://dvdsubdec-addproperty-singlebuffer.patch;patch=1"
 
 INC_PR = "r0"
-PR = "${INC_PR}.0"
+PR = "${INC_PR}.1"
 
 DEPENDS += "gst-plugins-base libsidplay"
 
