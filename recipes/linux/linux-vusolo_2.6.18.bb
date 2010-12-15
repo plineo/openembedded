@@ -2,7 +2,7 @@ DESCRIPTION = "Linux kernel for vuplus solo"
 LICENSE = "GPL"
 KV = "2.6.18-7.3"
 PV = "2.6.18"
-PR = "r7"
+PR = "r8"
 
 MODULE = "stblinux-2.6.18"
 

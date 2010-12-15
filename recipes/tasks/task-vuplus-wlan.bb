@@ -19,8 +19,13 @@ RDEPENDS_${PN} = "\
 WLAN_CRYPTO_MODULES = "\
   kernel-module-aes-generic \
   kernel-module-arc4 \
-  kernel-module-cryptomgr \
   kernel-module-ecb \
+  kernel-module-cryptomgr \
+  kernel-module-crypto-hash \
+  kernel-module-aead \
+  kernel-module-pcompress \
+  kernel-module-crypto-blkcipher \
+  kernel-module-crypto-algapi \
 "
 
 WLAN_PCI_MODULES = "\
@@ -34,10 +39,19 @@ WLAN_USB_MODULES = "\
   zd1211-firmware \
 "
 
-WLAN_USB_MODULES_2_6_18 = "\
+WLAN_USB_MODULES_LEGACY = "\
   zd1211b \
   wlan-rt73 \
 "
+
+RDEPENDS_${PN}_append_bm750 = "\
+  ${@base_contains('PREFERRED_VERSION_linux-bm750', '2.6.18', '${WLAN_USB_MODULES_LEGACY}', '${WLAN_CRYPTO_MODULES} ${WLAN_USB_MODULES}', d)} \
+"
+
+RDEPENDS_${PN}_append_vusolo = "\
+  ${@base_contains('PREFERRED_VERSION_linux-vusolo', '2.6.18', '${WLAN_USB_MODULES_LEGACY}', '${WLAN_CRYPTO_MODULES} ${WLAN_USB_MODULES}', d)} \
+"
+
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
