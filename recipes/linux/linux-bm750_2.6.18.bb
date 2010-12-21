@@ -2,7 +2,7 @@ DESCRIPTION = "Linux kernel for vuplus duo"
 LICENSE = "GPL"
 KV = "2.6.18-7.3"
 PV = "2.6.18"
-PR = "r5"
+PR = "r6"
 
 MODULE = "stblinux-2.6.18"
 
@@ -19,7 +19,7 @@ SRC_URI = "http://archive.vuplus.com/download/stblinux-${KV}.tar.bz2 \
         file://linux_bm750_arch_makefile.patch;patch=1;pnum=0 \
         file://linux_bm750_kobject.patch;patch=1;pnum=0 \
 	file://linux-2.6.18-dvb-frontends.patch;patch=1;pnum=0 \
-	file://linux-2.6.18-dvb-core.patch;patch=1;pnum=0 \
+	file://linux-2.6.18-dvb-core2.patch;patch=1;pnum=0 \
 	file://dvb-include-2.6.18-5.3.patch;patch=1;pnum=0 \
 	file://bm750_defconfig \
 	"
