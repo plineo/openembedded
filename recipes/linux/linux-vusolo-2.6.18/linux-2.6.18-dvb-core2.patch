@@ -374,7 +374,7 @@ Index: drivers/media/dvb/dvb-core/dvb_frontend.h
  
  	/* these two are only used for the swzigzag code */
  	int (*set_frontend)(struct dvb_frontend* fe, struct dvb_frontend_parameters* params);
-@@ -126,8 +292,21 @@
+@@ -126,8 +292,20 @@
  	int (*enable_high_lnb_voltage)(struct dvb_frontend* fe, long arg);
  	int (*dishnetwork_send_legacy_command)(struct dvb_frontend* fe, unsigned long cmd);
  	int (*i2c_gate_ctrl)(struct dvb_frontend* fe, int enable);
@@ -392,11 +392,10 @@ Index: drivers/media/dvb/dvb-core/dvb_frontend.h
 +	int (*set_property)(struct dvb_frontend* fe, struct dtv_property* tvp);
 +	int (*get_property)(struct dvb_frontend* fe, struct dtv_property* tvp);
 +
-+	int (*set_sw_loopthrough)(struct dvb_frontend* fe, int* arg);
  };
  
  #define MAX_EVENT 8
-@@ -138,23 +317,73 @@
+@@ -138,23 +316,73 @@
  	int			  eventr;
  	int			  overflow;
  	wait_queue_head_t	  wait_queue;
@@ -501,19 +500,7 @@ Index: drivers/media/dvb/dvb-core/dvb_demux.h
  struct dvb_demux_filter {
  	struct dmx_section_filter filter;
  	u8 maskandmode[DMX_MAX_FILTER_SIZE];
-@@ -56,6 +61,11 @@
- 
- 	u16 hw_handle;
- 	struct timer_list timer;
-+////////////////////////////////////////////////////
-+	void *priv;
-+	void *buf;
-+	int is_recpump;
-+	struct dvb_demux_filter *pre;
- };
- 
- #define DMX_FEED_ENTRY(pos) list_entry(pos, struct dvb_demux_feed, list_head)
-@@ -127,6 +137,11 @@
+@@ -127,6 +132,11 @@
  
  	struct mutex mutex;
  	spinlock_t lock;

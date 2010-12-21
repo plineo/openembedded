@@ -1,4 +1,7 @@
 
+for mod in isofs cifs usb-storage sr_mod vfat cdrom ntfs; do
+	modprobe $mod
+done
 
 for mod in input evdev i2c-core firmware_class; do
         modprobe $mod
@@ -16,9 +19,6 @@ done
 depmod -Ae
 echo 12 > /proc/progress
 
-for mod in isofs cifs usb-storage sr_mod vfat cdrom ntfs; do
-	modprobe $mod
-done
 
 for mod in nls_base nls_cp437 nls_iso8859-1 nls_utf8; do
 	modprobe $mod
@@ -26,6 +26,8 @@ done
 
 echo 13 > /proc/progress
 
+#Solo has only usb port. Needs a delay for usb pvr
+sleep 5
 
 mount -at nonfs,nosmbfs,noncpfs,nocifs
 echo 14 > /proc/progress
