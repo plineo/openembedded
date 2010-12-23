@@ -8,56 +8,6 @@ index 4902a9c..4bd2117 100644
  AC_DEFINE(BUILD_VUPLUS,1,[Define to 1 for vuplus])
 +AC_DEFINE(BUILD_VUPLUS_DUO,1,[Define to 1 for duo])
  AC_OUTPUT
-diff --git a/lib/dvb/frontend.cpp b/lib/dvb/frontend.cpp
-index 6b09d3d..40c2289 100755
---- a/lib/dvb/frontend.cpp
-+++ b/lib/dvb/frontend.cpp
-@@ -2730,3 +2730,45 @@ arg_error:
- 		"eDVBFrontend::setSlotInfo must get a tuple with first param slotid, second param slot description and third param enabled boolean");
- 	return false;
- }
-+
-+#ifdef BUILD_VUPLUS_DUO /* ikseong  */
-+#ifndef SW_LOOP_THROUGH
-+#define SW_LOOP_THROUGH	_IOW('o',103,int)
-+#endif
-+/*
-+*	by ikseong
-+*	for loopthrough
-+*	onoff	1 - on
-+*		   	0 - off
-+*/
-+RESULT eDVBFrontend::setLoopthrough(int onoff)
-+{	
-+	char filename[128];
-+	int result;
-+	int fd;
-+	if ( m_fd<0)
-+	{
-+		sprintf(filename, "/dev/dvb/adapter0/frontend%d",m_slotid);
-+		fd = ::open(filename, O_RDWR|O_NONBLOCK);
-+	}
-+	else
-+	{
-+		eDebug("fd = %d",m_fd);
-+		fd=m_fd;
-+	}
-+	if(fd > 0)
-+	{
-+		result =	::ioctl(fd, SW_LOOP_THROUGH, &onoff);
-+		eDebug("\n slot %d Loopthrough %d ->",m_slotid,onoff);
-+		if (result < 0)
-+			eDebugNoNewLine(" %d = %m",result);
-+		else
-+			eDebugNoNewLine("ok");
-+		if(m_fd<0)
-+			::close(fd);
-+	}
-+	else
-+		eDebug("eDVBFrontend::setLoopthrough %d open error",m_slotid);	
-+	return 0;
-+}
-+#endif		
 diff --git a/lib/dvb/frontend.h b/lib/dvb/frontend.h
 index bef4a18..9aebc71 100644
 --- a/lib/dvb/frontend.h
