@@ -27,7 +27,18 @@ done
 echo 13 > /proc/progress
 
 #Solo has only usb port. Needs a delay for usb pvr
-sleep 5
+count=1
+while [ $count -le 5 ]
+do
+   let count=$count+1
+   if [ -e /dev/sda1 ]; then 
+      echo count, $count
+      echo "External USB HDD will be mounted on /media/hdd"
+      break;  
+   fi; 
+   sleep 1 
+done
+
 
 mount -at nonfs,nosmbfs,noncpfs,nocifs
 echo 14 > /proc/progress
