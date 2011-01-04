@@ -1,5 +1,9 @@
 
 
+for mod in sata_svw libata nls_base nls_cp437 nls_iso8859-1; do
+	modprobe $mod
+done
+
 for mod in input evdev i2c-core firmware_class; do
 	modprobe $mod
 done
@@ -19,9 +23,6 @@ for mod in isofs cifs usb-storage sr_mod vfat cdrom ntfs; do
 	modprobe $mod
 done
 
-for mod in sata_svw libata nls_base nls_cp437 nls_iso8859-1; do
-	modprobe $mod
-done
 
 echo 13 > /proc/progress
 
