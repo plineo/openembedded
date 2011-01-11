@@ -9,13 +9,15 @@ do_configure_prepend() {
 
 DEPENDS += "gst-plugins-base"
 
-EXTRA_OECONF_opendreambox += "--disable-apexsink --disable-dvdnav --disable-cdaudio --disable-mpeg2enc --disable-mplex"
-EXTRA_OECONF_vuplus += "--disable-apexsink --disable-dvdnav --disable-cdaudio --disable-mpeg2enc --disable-mplex"
+EXTRA_OECONF_opendreambox += "--disable-apexsink --disable-dvdnav --disable-cdaudio --disable-mpeg2enc --disable-mplex --disable-librfb"
+EXTRA_OECONF_vuplus += "--disable-apexsink --disable-dvdnav --disable-cdaudio --disable-mpeg2enc --disable-mplex --disable-librfb"
 
-SRC_URI_append_opendreambox += " file://mpegpsdemux_speedup.diff;patch=1;pnum=0 \
-				 file://mpegtsdemux_fix_ac3_detection.diff;patch=1;pnum=0 \
+SRC_URI_append_opendreambox += " file://mpegpsdemux-speedup.diff;patch=1;pnum=0 \
+				 file://mpegtsdemux-fix-bd-streamtype-detection.diff;patch=1;pnum=1 \
 				 file://aacparse-fix-rank.diff;patch=1;pnum=1 \
-				 file://ac3parse-fix-rank.diff;patch=1;pnum=1"
+				 file://ac3parse-fix-rank.diff;patch=1;pnum=1 \
+				 file://ac3parse-just-warn-unknown-ac3-bsid.diff;patch=1;pnum=1 \
+"
 
 SRC_URI_append_vuplus += " file://mpegpsdemux_speedup.diff;patch=1;pnum=0 \
 				 file://mpegtsdemux_fix_ac3_detection.diff;patch=1;pnum=0 \

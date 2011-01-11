@@ -5,7 +5,7 @@ DEPENDS += "${@base_conditional('ENTERPRISE_DISTRO', '1', '', 'libmad libid3tag'
 DEPENDS += "${@base_conditional('DISTRO', 'opendreambox', 'libmad libsoup-2.4 flac libmatroska libcdio libid3tag', '', d)}"
 DEPENDS += "${@base_conditional('DISTRO', 'vuplus', 'libmad libsoup-2.4 flac libmatroska libcdio libid3tag', '', d)}"
 
-INC_PR = "r9"
+INC_PR = "r1"
 
 PACKAGES_DYNAMIC = "gst-plugin-*"
 
