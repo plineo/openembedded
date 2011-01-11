@@ -2,7 +2,7 @@ DESCRIPTION = "Linux kernel for vuplus duo"
 LICENSE = "GPL"
 KV = "2.6.18-7.3"
 PV = "2.6.18"
-PR = "r6"
+PR = "r7"
 
 MODULE = "stblinux-2.6.18"
 
