@@ -21,6 +21,7 @@ EXTRA_OECONF = " \
 
 SRC_URI_append_vuplus = " \
 	   file://enigma2_plugins_mytube_tpm.patch;patch=1;pnum=1 \
+	   file://enigma2_plugins_webinterface_tpm.patch;patch=1;pnum=1 \
 	   file://enigma2_plugins_ac3lipsync_dolby.patch;patch=1;pnum=1 \
            file://dreamboxweb.png \
            file://favicon.ico"
