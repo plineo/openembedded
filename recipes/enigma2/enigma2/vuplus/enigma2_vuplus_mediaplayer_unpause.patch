@@ -1,0 +1,20 @@
+diff --git a/lib/service/servicemp3.cpp b/lib/service/servicemp3.cpp
+index ba21d0c..88eb16e 100644
+--- a/lib/service/servicemp3.cpp
++++ b/lib/service/servicemp3.cpp
+@@ -568,9 +568,13 @@ RESULT eServiceMP3::unpause()
+ 		return -1;
+ 
+ 	if(m_cur_rate!=1.0)
++	{
+ 		trickSeek(1);
+-
+-	gst_element_set_state(m_gst_playbin, GST_STATE_PLAYING);
++		gst_element_set_state(m_gst_playbin, GST_STATE_PLAYING);
++	}else if (gst_element_set_state(m_gst_playbin, GST_STATE_PLAYING)==2){
++		eDebug("eServiceMP3::unpause : the state change will happen asunchronously");
++		trickSeek(1);
++	}
+ 
+ 	return 0;
+ }

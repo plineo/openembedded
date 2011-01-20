@@ -1,5 +1,5 @@
 DESCRIPTION = "Configuration files for online package repositories aka feeds"
-PR = "r2"
+PR = "r3"
 
 DISTRO_FEED_PREFIX ?= "official"
 DISTRO_FEED_URI ?= "http://archive.vuplus.com/openembedded/${DISTRO_VERSION}/vuplus/${MACHINE}/feeds/stable"

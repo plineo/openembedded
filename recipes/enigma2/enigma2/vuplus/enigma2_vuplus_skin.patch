@@ -3179,7 +3179,7 @@ index 0000000..555c0d6
 +		</widget>
 +	</screen>
 +	<!-- Channel selection - Radio -->
-+	<screen name="ChannelSelectionRadio" position="145, 55" size="990,610" zPosition="-10" flags="wfNoBorder" backgroundColor="transparent">
++	<screen name="ChannelSelectionRadio" position="145, 55" size="990,610" flags="wfNoBorder" backgroundColor="transparent">
 +		<ePixmap pixmap="Vu_HD/Bg_List.png" position="0,0" size="990,610" zPosition="-10" alphatest="on"  transparent="1" />
 +		<ePixmap pixmap="Vu_HD/icons/ico_Radio_title.png" position="44,37" size="38,34" alphatest="blend"  transparent="1" />
 +		<widget source="Title" render="Label" position="95,40" size="700,32" zPosition="3" font="Semiboldit;32" foregroundColor="#5d5d5d" backgroundColor="#27d8dee2" transparent="1" />
