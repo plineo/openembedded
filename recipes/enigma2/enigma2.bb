@@ -100,9 +100,9 @@ SRCREV_vuplus = ""
 
 SRC_URI = "git://git.opendreambox.org/git/enigma2.git;protocol=git;branch=${BRANCH};tag=${SRCREV}"
 
-#NOTE
-#enigma2_vuplus_mediaplayer.patch is for trick-play in media player
-#enigma2_vuplus_mediaplayer_unpause.patch is for bug-fixing in gstreamer 
+# enigma2_vuplus_mediaplayer.patch is for trick-play in media player
+# enigma2_vuplus_mediaplayer_unpause.patch is for work-around of gstreamer bug 
+
 
 SRC_URI_bm750 = "git://archive.vuplus.com/git/enigma2.git;protocol=http;branch=${BRANCH};tag=${SRCREV} \
 	   file://enigma2_vuplus_duo.patch;patch=1;pnum=1 \
