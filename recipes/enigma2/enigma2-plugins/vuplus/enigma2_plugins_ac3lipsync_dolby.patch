@@ -1,7 +1,7 @@
-diff --git a/ac3lipsync/src/AC3delay.py b/ac3lipsync/src/AC3delay.py
+diff --git a/audiosync/src/AC3delay.py b/audiosync/src/AC3delay.py
 index a92c859..6bbc86d 100644
---- a/ac3lipsync/src/AC3delay.py
-+++ b/ac3lipsync/src/AC3delay.py
+--- a/audiosync/src/AC3delay.py
++++ b/audiosync/src/AC3delay.py
 @@ -177,7 +177,7 @@ class AC3delay:
  
                  tlist.append((description, x))
