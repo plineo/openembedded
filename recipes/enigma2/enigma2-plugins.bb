@@ -10,6 +10,10 @@ BRANCH="master"
 PV = "experimental-git${SRCDATE}"
 
 PR = "r0"
+
+SRCDATE_bm750 = "20101112"
+SRCDATE_vusolo = "20101112"
+
 SRC_URI="git://schwerkraft.elitedvb.net/enigma2-plugins/enigma2-plugins.git;protocol=git;branch=${BRANCH};tag=${SRCREV}"
 
 EXTRA_OECONF = " \
@@ -19,9 +23,9 @@ EXTRA_OECONF = " \
         STAGING_LIBDIR=${STAGING_LIBDIR} \
 "
 
-SRC_URI_append_vuplus = " \
+SRC_URI_vuplus = "cvs://anonymous@cvs.schwerkraft.elitedvb.net/cvsroot/enigma2-plugins;module=enigma2-plugins;method=pserver;date=${SRCDATE} \
 	   file://enigma2_plugins_mytube_tpm.patch;patch=1;pnum=1 \
-	   file://enigma2_plugins_webinterface_tpm.patch;patch=1;pnum=1 \
+#	   file://enigma2_plugins_webinterface_tpm.patch;patch=1;pnum=1 \
 	   file://enigma2_plugins_ac3lipsync_dolby.patch;patch=1;pnum=1 \
            file://dreamboxweb.png \
            file://favicon.ico"
@@ -33,7 +37,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit autotools
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/enigma2-plugins"
 
 DEPENDS = "python-pyopenssl python-gdata streamripper python-mutagen python-daap"
 DEPENDS += "enigma2"

@@ -11,8 +11,8 @@ index cbf42f8..caebbb0 100644
  		l3k = None		
  		l3c = tpm.getCert(eTPM.TPMD_DT_LEVEL3_CERT)
  		
-@@ -550,7 +550,7 @@ def checkBonjour():
- def networkstart(reason, **kwargs):
+@@ -432,7 +432,7 @@ def checkBonjour():
+ def networkstart(reason, session):
  	l2r = False
  	l2k = None
 -	if hw.get_device_name().lower() != "dm7025":		
@@ -20,7 +20,7 @@ index cbf42f8..caebbb0 100644
  		l2c = tpm.getCert(eTPM.TPMD_DT_LEVEL2_CERT)
  		
  		if l2c is None:
-@@ -579,7 +579,7 @@ def openconfig(session, **kwargs):
+@@ -461,7 +461,7 @@ def openconfig(session, **kwargs):
  def configCB(result, session):
  	l2r = False
  	l2k = None
